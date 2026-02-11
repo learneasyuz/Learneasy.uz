@@ -1,0 +1,17 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "images"
+public_folder: "/images"
+
+collections:
+  - name: "blog"
+    label: "Postlar"
+    folder: "content/blog"
+    create: true
+    fields:
+      - {label: "Sarlavha", name: "title", widget: "string"}
+      - {label: "Sana", name: "date", widget: "datetime"}
+      - {label: "Rasm yoki Video link", name: "image", widget: "image"}
+      - {label: "Matn", name: "body", widget: "markdown"}
