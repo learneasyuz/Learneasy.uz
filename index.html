@@ -3,82 +3,93 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Learneasy.uz — Bilimlar Akademiyasi</title>
+    <title>Learneasy.uz | Premium AI Experience</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f8fafc; }
-        .insta-gradient { background: linear-gradient(45deg, #405de6, #5851db, #833ab4, #c13584, #e1306c, #fd1d1d); }
-        .chat-shadow { box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1); }
-        .bubble-in { background: #f1f5f9; color: #1e293b; border-radius: 18px 18px 18px 2px; }
-        .bubble-out { background: #0095f6; color: white; border-radius: 18px 18px 2px 18px; }
-        .glass { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(10px); }
+        body { font-family: 'Inter', sans-serif; background-color: #fafafa; font-size: 13px; }
+        .insta-border { border: 1px solid #dbdbdb; }
+        .insta-gradient { background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%,#d6249f 60%,#285AEB 90%); }
+        .chat-bubble-ai { background: #ffffff; border: 1px solid #efefef; border-radius: 15px 15px 15px 2px; box-shadow: 0 2px 5px rgba(0,0,0,0.03); }
+        .chat-bubble-user { background: #0095f6; color: white; border-radius: 15px 15px 2px 15px; }
+        .premium-card { background: linear-gradient(135deg, #ffffff 0%, #f0f9ff 100%); border: 1px solid #bae6fd; }
+        input::placeholder { font-size: 12px; opacity: 0.7; }
     </style>
 </head>
-<body class="text-slate-900">
+<body class="text-slate-800">
 
-    <nav class="glass sticky top-0 z-50 border-b border-slate-200 px-4 py-3 flex justify-between align-center">
-        <h1 class="text-2xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600">Learneasy.uz</h1>
-        <button id="nav-btn" onclick="toggleView()" class="bg-blue-500 hover:bg-blue-600 text-white text-sm font-bold py-2 px-5 rounded-full transition-all active:scale-95">
+    <nav class="sticky top-0 z-50 bg-white border-b border-gray-200 px-4 py-2 flex justify-between items-center max-w-md mx-auto sm:max-w-none">
+        <span class="text-xl font-bold tracking-tighter text-black italic">Learneasy</span>
+        <button onclick="openAI()" class="bg-[#0095f6] hover:bg-[#1877f2] text-white text-[11px] font-bold py-1.5 px-4 rounded-md transition-all">
             AI Agentga o'tish
         </button>
     </nav>
 
-    <main id="home-page" class="max-w-2xl mx-auto pt-6 pb-20 px-4">
-        <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden mb-8 shadow-sm">
-            <div class="p-4 flex items-center gap-3">
-                <div class="w-10 h-10 rounded-full insta-gradient p-0.5">
-                    <div class="w-full h-full bg-white rounded-full p-0.5">
-                        <img src="https://ui-avatars.com/api/?name=Mustafobek&background=random" class="rounded-full">
+    <main id="home-page" class="max-w-lg mx-auto py-4 px-2">
+        <div class="bg-white insta-border rounded-lg mb-6 shadow-sm overflow-hidden">
+            <div class="p-3 flex items-center gap-2">
+                <div class="w-8 h-8 rounded-full insta-gradient p-[2px]">
+                    <div class="w-full h-full bg-white rounded-full p-[1px]">
+                        <img src="https://ui-avatars.com/api/?name=Admin&background=0095f6&color=fff" class="rounded-full">
                     </div>
                 </div>
-                <span class="font-bold text-sm">mustafobek_admin</span>
+                <span class="font-semibold text-xs text-black">mustafobek_official</span>
             </div>
             
-            <div id="video-container" class="aspect-video bg-slate-100 flex items-center justify-center border-y border-slate-100">
-                <p class="text-slate-400 font-medium italic">Hali video yuklanmagan...</p>
+            <div id="video-box" class="aspect-square bg-gray-50 flex items-center justify-center border-y border-gray-100">
+                <p class="text-gray-400 text-xs italic">Siz bu yerda yangi darsliklarni ko'rasiz</p>
             </div>
 
             <div class="p-4">
-                <h2 id="post-title" class="font-bold text-lg mb-1">Xush kelibsiz!</h2>
-                <p id="post-text" class="text-slate-600 text-sm leading-relaxed mb-4">Learneasy platformasida AI yordamida bilimingizni oshiring.</p>
-                <div id="owner-tools" class="hidden border-t pt-4">
-                    <button onclick="updatePost()" class="w-full py-2 bg-slate-100 rounded-lg text-sm font-bold text-slate-700 hover:bg-slate-200">Postni tahrirlash</button>
+                <h2 id="p-title" class="font-bold text-sm mb-1 text-black">Yangi loyiha ishga tushdi!</h2>
+                <p id="p-desc" class="text-gray-600 text-[12px] leading-relaxed">
+                    Learneasy Super AI orqali endi darslarni yanada osonroq o'rganing. 
+                    Premium obuna orqali cheksiz savollar va AI video darsliklarga ega bo'ling.
+                </p>
+                <div id="owner-btn" class="hidden mt-4">
+                    <button onclick="adminEdit()" class="w-full py-2 bg-gray-50 border border-gray-200 rounded text-[11px] font-semibold text-gray-500 hover:bg-gray-100 transition-all">POSTNI TAHRIRLASH</button>
                 </div>
             </div>
         </div>
     </main>
 
-    <section id="ai-page" class="hidden fixed inset-0 bg-white z-[60] flex flex-col">
-        <header class="p-4 border-b flex items-center gap-4">
-            <button onclick="toggleView()" class="text-2xl">✕</button>
-            <div>
-                <h2 class="font-bold">Learneasy Super AI</h2>
-                <p id="rank-display" class="text-xs text-green-500 font-bold">● Onlayn</p>
+    <section id="ai-page" class="hidden fixed inset-0 bg-white z-[100] flex flex-col max-w-md mx-auto insta-border shadow-2xl">
+        <header class="p-3 border-b flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <button onclick="closeAI()" class="text-xl">✕</button>
+                <div>
+                    <h2 class="font-bold text-sm">Super AI Intellect</h2>
+                    <p class="text-[10px] text-green-500 font-medium">Faol holatda</p>
+                </div>
             </div>
+            <div id="limit-info" class="text-[10px] bg-gray-100 px-2 py-1 rounded-full text-gray-500 font-bold">15/15 bepul</div>
         </header>
 
-        <div id="chat" class="flex-1 overflow-y-auto p-4 space-y-4 bg-[#fdfdfd]">
-            <div class="bubble-in p-4 max-w-[85%] chat-shadow">
-                <b>Salom! Men Learneasy Super AI-man.</b> 🚀<br>
-                Men sizga AI videolar yaratish, darsliklar tayyorlash va murakkab masalalarda yordam beraman. 15 ta bepul savolingiz bor.
+        <div id="chat-box" class="flex-1 overflow-y-auto p-4 space-y-4 bg-[#fafafa]">
+            <div class="chat-bubble-ai p-3 max-w-[90%] text-[12px] leading-relaxed">
+                <b>Salom, men Learneasy Super AI-man!</b> ✨<br><br>
+                Men Mustafobek tomonidan maxsus o'quvchilar uchun yaratilganman. Mening vazifam:<br>
+                ✅ Murakkab masalalarni soniyada yechish<br>
+                ✅ AI videolar uchun professional ssenariylar tayyorlash<br>
+                ✅ Darsliklaringizni tahlil qilib, oson tushuntirish<br><br>
+                Hozir sizda <b>15 ta bepul</b> imkoniyat bor. Uni tugatgach, atigi <b>12,000 so'm</b> evaziga Premiumga o'tib, cheksiz bilim olamiga kirishingiz mumkin!
             </div>
         </div>
 
-        <div id="payment-area" class="hidden p-6 text-center animate-bounce">
-            <div class="bg-blue-50 border border-blue-200 rounded-2xl p-5">
-                <h3 class="font-bold text-blue-800">Limit tugadi! 💎</h3>
-                <p class="text-sm text-blue-600 my-2">Cheksiz imkoniyatlar uchun Premiumga o'ting.</p>
-                <p class="font-mono bg-white p-2 rounded-lg border border-blue-100 mb-3 text-blue-700">8600 0000 0000 0000</p>
-                <a href="https://t.me/Mustafobek_Admin" class="inline-block bg-[#0095f6] text-white font-bold py-2 px-6 rounded-lg">To'lovni tasdiqlash</a>
+        <div id="premium-ui" class="hidden p-4 premium-card mx-4 mb-4 rounded-xl shadow-lg animate-pulse">
+            <h3 class="font-bold text-blue-900 text-xs">Premiumga o'ting 💎</h3>
+            <p class="text-[11px] text-blue-700 my-1 font-medium">Limit tugadi. Premium foydalanuvchilar cheksiz savollar va barcha yangi funksiyalardan foydalana oladilar.</p>
+            <div class="flex flex-col gap-2 mt-2">
+                <div class="bg-white p-2 border border-blue-200 rounded text-center text-blue-600 font-bold text-sm">8600 0000 0000 0000</div>
+                <a href="https://t.me/Mustafobek_Admin" class="bg-blue-500 text-white text-center py-2 rounded font-bold text-[11px]">To'lovni tasdiqlash (12,000 so'm)</a>
             </div>
         </div>
 
-        <div id="input-area" class="p-4 border-t flex gap-3 items-center glass">
-            <input type="text" id="inp" placeholder="Xabar yozing..." class="flex-1 bg-slate-100 border-none rounded-full px-5 py-3 outline-none focus:ring-2 focus:ring-blue-400">
-            <button onclick="ask()" class="bg-[#0095f6] text-white p-3 rounded-full hover:opacity-90 active:scale-90 transition-all">
-                <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"></path></svg>
-            </button>
+        <div id="ai-controls" class="p-3 border-t bg-white">
+            <div class="flex gap-2 items-center bg-gray-50 rounded-full px-4 py-1.5 border border-gray-200">
+                <input type="text" id="ai-input" placeholder="Yordam kerakmi?..." class="flex-1 bg-transparent border-none outline-none text-xs h-8">
+                <button onclick="sendMsg()" class="text-[#0095f6] font-bold text-xs hover:text-blue-700">Yuborish</button>
+            </div>
         </div>
     </section>
 
@@ -87,80 +98,67 @@
         // YANGI VA ISHLAYDIGAN API KEY
         const genAI = new GoogleGenerativeAI("AIzaSyBN1l_R-N8Gv5p9f3M2LwK4T7jI9ZqX0E");
 
-        let stats = JSON.parse(localStorage.getItem('le_stats')) || { count: 0, rank: 'user' };
+        let userData = JSON.parse(localStorage.getItem('le_app_data')) || { credits: 15, role: 'user' };
 
-        window.toggleView = () => {
-            const home = document.getElementById('home-page');
-            const ai = document.getElementById('ai-page');
-            const btn = document.getElementById('nav-btn');
-            
-            if(ai.classList.contains('hidden')) {
-                ai.classList.remove('hidden');
-                btn.innerText = "Bosh sahifa";
-            } else {
-                ai.classList.add('hidden');
-                btn.innerText = "AI Agentga o'tish";
-            }
-        };
+        window.openAI = () => document.getElementById('ai-page').classList.remove('hidden');
+        window.closeAI = () => document.getElementById('ai-page').classList.add('hidden');
 
-        window.ask = async () => {
-            const i = document.getElementById('inp');
-            const c = document.getElementById('chat');
-            const val = i.value.trim();
+        window.sendMsg = async () => {
+            const input = document.getElementById('ai-input');
+            const chat = document.getElementById('chat-box');
+            const val = input.value.trim();
             if(!val) return;
 
             if(val === "owner777") {
-                stats.rank = 'owner';
+                userData.role = 'owner';
                 save();
-                updateUI();
-                i.value = "";
-                alert("Salom, Ega! Boshqaruv faollashdi.");
+                updateDisplay();
+                input.value = "";
+                alert("Admin rejimi yoqildi!");
                 return;
             }
 
-            if(stats.rank === 'user' && stats.count >= 15) {
-                document.getElementById('input-area').classList.add('hidden');
-                document.getElementById('payment-area').classList.remove('hidden');
+            if(userData.role === 'user' && userData.credits <= 0) {
+                document.getElementById('ai-controls').classList.add('hidden');
+                document.getElementById('premium-ui').classList.remove('hidden');
                 return;
             }
 
-            c.innerHTML += `<div class="flex justify-end"><div class="bubble-out p-3 max-w-[85%] chat-shadow">${val}</div></div>`;
-            i.value = "";
-            c.scrollTop = c.scrollHeight;
+            chat.innerHTML += `<div class="flex justify-end"><div class="chat-bubble-user p-2.5 px-4 max-w-[80%] text-[12px] shadow-sm">${val}</div></div>`;
+            input.value = "";
+            chat.scrollTop = chat.scrollHeight;
 
             try {
                 const model = genAI.getGenerativeModel({ 
                     model: "gemini-1.5-flash",
-                    systemInstruction: "Sening isming Learneasy Super AI. Seni Mustafobek yaratgan. Sen o'quvchilarga AI videolar tayyorlash va darsliklarda yordam berasan. Hech qachon Google deb aytma. Doim o'quvchilarga yorqin va motivatsiya beruvchi javoblar ber. 12,000 so'mlik premiumni maqta."
+                    systemInstruction: "Sen Learneasy.uz ning Super AI Intellect modelisan. Seni Mustafobek yaratgan. O'quvchilarga yordam berasan. O'zingni juda aqlli deb tanishtir. Premium obunaning narxi 12,000 so'm ekanligini va u cheksiz ekanligini maqtab tushuntir. Javoblaring juda qisqa va aniq bo'lsin. Hech qachon Google haqida gapirma."
                 });
                 const result = await model.generateContent(val);
-                const text = result.response.text();
-                c.innerHTML += `<div class="bubble-in p-3 max-w-[85%] chat-shadow"><b>AI:</b> ${text}</div>`;
-                if(stats.rank === 'user') stats.count++;
+                chat.innerHTML += `<div class="chat-bubble-ai p-3 max-w-[90%] text-[12px]"><b>AI Agent:</b> ${result.response.text()}</div>`;
+                if(userData.role === 'user') userData.credits--;
                 save();
-            } catch (e) {
-                c.innerHTML += `<div class="text-red-500 text-center text-xs">Ulanishda xatolik yuz berdi.</div>`;
+                updateDisplay();
+            } catch (err) {
+                chat.innerHTML += `<div class="text-red-400 text-[10px] text-center italic">Ulanishda xatolik yuz berdi.</div>`;
             }
-            c.scrollTop = c.scrollHeight;
+            chat.scrollTop = chat.scrollHeight;
         };
 
-        window.updatePost = () => {
-            const title = prompt("Sarlavha:");
-            const text = prompt("Matn:");
-            const vid = prompt("YouTube Link (Embed):");
-            if(title) document.getElementById('post-title').innerText = title;
-            if(text) document.getElementById('post-text').innerText = text;
-            if(vid) document.getElementById('video-container').innerHTML = `<iframe class="w-full h-full" src="${vid}" frameborder="0" allowfullscreen></iframe>`;
+        window.adminEdit = () => {
+            const t = prompt("Sarlavha:");
+            const d = prompt("Matn:");
+            const v = prompt("YouTube Embed (Video ID):");
+            if(t) document.getElementById('p-title').innerText = t;
+            if(d) document.getElementById('p-desc').innerText = d;
+            if(v) document.getElementById('video-box').innerHTML = `<iframe class="w-full h-full" src="https://www.youtube.com/embed/${v}" frameborder="0" allowfullscreen></iframe>`;
         };
 
-        function updateUI() {
-            if(stats.rank === 'owner') {
-                document.getElementById('owner-tools').classList.remove('hidden');
-                document.getElementById('rank-display').innerText = "Super Admin";
-            }
+        function updateDisplay() {
+            document.getElementById('limit-info').innerText = (userData.role === 'owner' ? "Siz Adminsiz" : userData.credits + "/15 bepul");
+            if(userData.role === 'owner') document.getElementById('owner-btn').classList.remove('hidden');
         }
-        function save() { localStorage.setItem('le_stats', JSON.stringify(stats)); }
-        updateUI();
+        function save() { localStorage.setItem('le_app_data', JSON.stringify(userData)); }
+        updateDisplay();
     </script>
 </body>
 </html>
