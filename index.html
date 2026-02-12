@@ -3,50 +3,80 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Learneasy AI | Ultra Premium</title>
+    <title>Learneasy AI | Premium</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #fafafa; }
-        .insta-bg { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); }
-        .chat-ai { background: #ffffff; border-radius: 22px 22px 22px 6px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); border: 1px solid #f1f5f9; }
-        .chat-user { background: #0095f6; color: white; border-radius: 22px 22px 6px 22px; box-shadow: 0 8px 20px rgba(0,149,246,0.3); }
-        .glass-nav { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(0,0,0,0.05); }
-        .plus-btn { width: 45px; height: 45px; border-radius: 15px; background: #fff; display: flex; align-items: center; justify-content: center; font-size: 28px; color: #ff3b30; box-shadow: 0 4px 12px rgba(0,0,0,0.1); border: none; cursor: pointer; transition: 0.3s; }
-        .plus-btn:active { transform: scale(0.9) rotate(90deg); }
-        #chat-flow::-webkit-scrollbar { width: 0; }
-        .loading-text { font-size: 10px; font-weight: 800; color: #bc1888; text-transform: uppercase; letter-spacing: 1px; animation: blink 0.8s infinite; }
-        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+        :root { --insta-gradient: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #fafafa; color: #1c1e21; }
+        .insta-border { padding: 3px; background: var(--insta-gradient); border-radius: 50%; }
+        .glass-header { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(25px); border-bottom: 1px solid rgba(0,0,0,0.08); }
+        .chat-ai { background: #ffffff; border: 1px solid #f0f0f0; border-radius: 24px 24px 24px 6px; box-shadow: 0 10px 30px rgba(0,0,0,0.04); }
+        .chat-user { background: #0095f6; color: white; border-radius: 24px 24px 6px 24px; box-shadow: 0 8px 25px rgba(0, 149, 246, 0.25); }
+        .premium-btn { background: var(--insta-gradient); color: white; border-radius: 18px; font-weight: 800; transition: 0.3s; cursor: pointer; }
+        .plus-action { width: 48px; height: 48px; border-radius: 16px; background: #fff; border: 2px solid #efefef; font-size: 28px; color: #ff3b30; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.2s; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .animate-msg { animation: slideUp 0.4s cubic-bezier(0.1, 0.7, 0.1, 1); }
+        #chat-engine::-webkit-scrollbar { width: 0; }
+        .loading-dot { width: 6px; height: 6px; background: #bc1888; border-radius: 50%; animation: bounce 1.4s infinite ease-in-out; }
+        @keyframes bounce { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1); } }
     </style>
 </head>
-<body class="text-slate-900 overflow-x-hidden">
+<body class="overflow-x-hidden">
 
-    <nav class="sticky top-0 z-[100] glass-nav px-6 py-4 flex justify-between items-center max-w-lg mx-auto">
+    <nav class="sticky top-0 z-[100] glass-header px-6 py-5 flex justify-between items-center max-w-lg mx-auto">
         <div class="flex flex-col">
-            <span class="text-2xl font-black italic tracking-tighter insta-bg bg-clip-text text-transparent uppercase leading-none">Learneasy</span>
-            <span id="rank-info" class="text-[9px] font-extrabold text-blue-500 uppercase mt-1 tracking-widest">Master AI Agent</span>
+            <h1 class="text-2xl font-black italic tracking-tighter text-black uppercase leading-none" style="background: var(--insta-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Learneasy</h1>
+            <div class="flex items-center gap-1.5 mt-1">
+                <span class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></span>
+                <span id="user-status" class="text-[9px] font-bold text-gray-400 uppercase tracking-widest">Master System Active</span>
+            </div>
         </div>
-        <button onclick="openAI()" class="insta-bg text-white text-[10px] font-black px-6 py-3 rounded-2xl uppercase shadow-lg active:scale-95 transition-all">Chatni Boshlash</button>
+        <button onclick="toggleAI()" class="premium-btn text-[10px] px-6 py-3 uppercase tracking-tighter shadow-lg active:scale-95">Chatni Ochish</button>
     </nav>
 
-    <main id="home" class="max-w-lg mx-auto p-5 space-y-6">
-        <div class="bg-white rounded-[45px] overflow-hidden shadow-2xl border border-gray-50">
-            <div class="p-5 flex items-center gap-4">
-                <div class="w-12 h-12 rounded-full insta-bg p-[2px]">
-                    <div class="w-full h-full bg-white rounded-full p-[2px]"><img src="https://ui-avatars.com/api/?name=AI&background=000&color=fff" class="rounded-full"></div>
-                </div>
-                <div class="flex flex-col">
-                    <span class="font-black text-sm italic">mustafobek_dev</span>
-                    <span class="text-[9px] text-gray-400 font-bold uppercase">Official System Creator</span>
+    <main id="main-view" class="max-w-lg mx-auto p-5">
+        <div class="bg-white rounded-[40px] shadow-2xl border border-gray-100 overflow-hidden">
+            <div class="p-5 flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="insta-border">
+                        <div class="bg-white rounded-full p-0.5"><img src="https://ui-avatars.com/api/?name=Mustafobek&background=000&color=fff" class="w-10 h-10 rounded-full"></div>
+                    </div>
+                    <div>
+                        <p class="font-black text-sm italic">mustafobek_dev</p>
+                        <p class="text-[9px] text-gray-400 font-bold uppercase tracking-tighter">System Architect</p>
+                    </div>
                 </div>
             </div>
-            <div id="media-hub" class="aspect-square bg-slate-50 flex items-center justify-center border-y border-gray-50">
-                <span class="text-gray-300 font-black italic text-xs uppercase tracking-[0.2em]">Visual Experience</span>
+            <div id="media-slot" class="aspect-square bg-slate-50 flex items-center justify-center border-y border-gray-50 relative text-slate-300 font-black italic text-xs uppercase tracking-[0.3em]">
+                Media Content
             </div>
             <div class="p-10">
-                <h2 id="st-t" class="font-black text-lg uppercase mb-4 leading-tight">Kelajak Ta'limi Hozir Shu Yerda!</h2>
-                <p id="st-d" class="text-gray-500 text-xs leading-relaxed font-semibold">Barcha fanlar, professional rasm va videolar yaratish — hammasi bitta AI tizimida.</p>
-                <div id="admin-area" class="hidden mt-8 pt-6 border-t"><button onclick="edit()" class="w-full py-5 bg-black text-white rounded-[25px] text-[10px] font-black uppercase tracking-widest">Tizimni Yangilash</button></div>
+                <h2 id="p-title" class="font-black text-xl uppercase mb-4 leading-tight text-slate-800 tracking-tighter italic">Kelajak ta'limi hozir shu yerda!</h2>
+                <p id="p-desc" class="text-gray-500 text-xs leading-relaxed font-semibold">Barcha fanlar, rasm va video generatsiyasi — Mustafobek tomonidan taqdim etilgan platformada.</p>
+                <div id="owner-panel" class="hidden mt-8 pt-6 border-t border-slate-50">
+                    <button onclick="editSystem()" class="w-full py-5 bg-black text-white rounded-[24px] text-[10px] font-black uppercase tracking-widest">Yangilash (Admin)</button>
+                </div>
             </div>
         </div>
     </main>
+
+    <section id="ai-chat" class="hidden fixed inset-0 bg-white z-[120] flex flex-col max-w-lg mx-auto">
+        <header class="px-6 py-6 border-b flex items-center justify-between shadow-sm">
+            <div class="flex items-center gap-4">
+                <button onclick="toggleAI()" class="text-3xl font-light">✕</button>
+                <div>
+                    <h2 class="font-black text-sm uppercase italic leading-none">Super AI Agent</h2>
+                    <p class="text-[9px] text-blue-500 font-black uppercase tracking-tighter mt-1 animate-pulse">● 10x Turbo processing</p>
+                </div>
+            </div>
+            <div id="limit-badge" class="text-[10px] font-black bg-blue-50 text-blue-600 px-5 py-2.5 rounded-full uppercase italic">15/15 Bepul</div>
+        </header>
+
+        <div id="chat-engine" class="flex-1 overflow-y-auto p-6 space-y-8 bg-[#fafafa]">
+            <div class="chat-ai p-7 text-[12px] leading-relaxed font-medium animate-msg">
+                <b>Salom! Men Learneasy-ning eng mukammal Super AI Agentiman. ✨</b><br><br>
+                Meni <b>Mustafobek</b> maxsus o'quvchilar uchun yaratgan. Men bilan:<br><br>
+                ✅ <b>Aniq javoblar:</b> Matematika va barcha fanlardan 100% aniq yechimlar.<br>
+                🖼️ <b>AI Rasmlar:</b> Istalgan tasvirni bir zumda yaratish.<br>
+                💎 <b>Premium:</b> Atigi <b>12,000 so'm</b> evaziga cheksiz imkoniyatlar, rasm va videolar yaratish huquqiga ega bo
