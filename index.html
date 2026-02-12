@@ -3,52 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Learneasy.uz — Media & AI</title>
+    <title>Learneasy.uz — Media & Super AI</title>
 </head>
 <body style="font-family: 'Segoe UI', sans-serif; background: #0f172a; color: white; margin: 0; overflow-x: hidden;">
 
     <nav style="display: flex; justify-content: space-between; align-items: center; padding: 15px 25px; background: #1e293b; border-bottom: 1px solid #334155; position: sticky; top: 0; z-index: 100;">
         <h2 style="margin: 0; color: #38bdf8; font-size: 20px;">Learneasy.uz</h2>
         <button id="toggle-btn" onclick="showAI()" style="background: #38bdf8; color: #0f172a; border: none; padding: 10px 18px; border-radius: 10px; font-weight: bold; cursor: pointer;">
-            AI Agentga o'tish →
+            Super AI Agentga o'tish →
         </button>
     </nav>
 
     <div id="home-page" style="padding: 20px; max-width: 800px; margin: auto;">
         <h3 style="color: #94a3b8;">Yangi videolar va postlar</h3>
-        
         <div style="background: #1e293b; border-radius: 20px; overflow: hidden; margin-bottom: 20px; border: 1px solid #334155;">
             <div style="padding: 15px;">
-                <h4 id="post-title" style="margin: 0 0 10px 0;">Darslik: AI bilan ishlash</h4>
-                <p id="post-text" style="font-size: 14px; color: #94a3b8;">Bu videoda siz Learneasy platformasidan foydalanishni o'rganasiz.</p>
+                <h4 id="post-title" style="margin: 0 0 10px 0;">Premium imkoniyatlar bilan tanishing!</h4>
+                <p id="post-text" style="font-size: 14px; color: #94a3b8;">AI Agentimiz sizga video ssenariylar, darsliklar va murakkab loyihalarda yordam beradi.</p>
             </div>
             <div id="video-container" style="width: 100%; aspect-ratio: 16/9; background: #000; display: flex; align-items: center; justify-content: center;">
-                <p style="color: #475569;">[Video joyi: Bu yerda video ko'rinadi]</p>
+                <p style="color: #475569;">[Admin panel orqali video qo'shing]</p>
             </div>
         </div>
 
-        <div id="owner-post-tools" style="display: none; background: #1e293b; padding: 15px; border-radius: 12px; border: 1px dashed #38bdf8;">
-            <button onclick="updatePost()" style="background: #475569; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer;">Post va Videoni o'zgartirish</button>
+        <div id="owner-post-tools" style="display: none; background: #1e293b; padding: 15px; border-radius: 12px; border: 1px dashed #38bdf8; text-align: center;">
+            <button onclick="updatePost()" style="background: #38bdf8; color: #0f172a; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: bold;">Asosiy sahifani tahrirlash (Ega)</button>
         </div>
     </div>
 
     <div id="ai-page" style="display: none; padding: 20px; max-width: 500px; margin: auto; animation: fadeIn 0.5s;">
         <div style="background: #1e293b; padding: 20px; border-radius: 24px; box-shadow: 0 20px 50px rgba(0,0,0,0.5);">
             <div style="text-align: center; margin-bottom: 15px;">
-                <h2 style="color: #38bdf8; margin: 0;">AI Agent</h2>
+                <h2 style="color: #38bdf8; margin: 0;">Learneasy Super AI</h2>
                 <p id="rank-display" style="font-size: 11px; color: #94a3b8;">Darajangiz: Foydalanuvchi</p>
             </div>
-            <div id="chat" style="height: 300px; overflow-y: auto; background: #0f172a; border-radius: 15px; padding: 15px; margin-bottom: 15px; border: 1px solid #334155; font-size: 14px;"></div>
-            <div id="input-area" style="display: flex; gap: 10px;">
-                <input type="text" id="inp" placeholder="Savol yo'llang..." style="flex: 1; padding: 12px; border: none; border-radius: 10px; background: #334155; color: white; outline: none;">
-                <button onclick="ask()" style="background: #38bdf8; border: none; padding: 12px; border-radius: 10px; cursor: pointer;">➤</button>
+            <div id="chat" style="height: 300px; overflow-y: auto; background: #0f172a; border-radius: 15px; padding: 15px; margin-bottom: 15px; border: 1px solid #334155; font-size: 14px; line-height: 1.6;">
+                <div style="color: #38bdf8; border: 1px solid #334155; padding: 10px; border-radius: 10px; background: rgba(56, 189, 248, 0.05);">
+                    <b>Salom! Men Learneasy Super AI-man.</b> 🚀<br>
+                    Men sizga AI videolar yaratish, ssenariylar yozish va murakkab topshiriqlarni bajarishda yordam beraman. 15 ta bepul savolingiz bor. Premium bilan imkoniyatlar cheksiz!
+                </div>
             </div>
-            <div id="payment-area" style="display: none; margin-top: 15px; padding: 15px; background: #450a0a; border-radius: 15px; text-align: center;">
-                <p style="font-size: 13px;">Limit tugadi. Premium: 12,000 so'm</p>
-                <code>8600 0000 0000 0000</code>
+            <div id="input-area" style="display: flex; gap: 10px;">
+                <input type="text" id="inp" placeholder="Super AI ga savol bering..." style="flex: 1; padding: 12px; border: none; border-radius: 10px; background: #334155; color: white; outline: none;">
+                <button onclick="ask()" style="background: #38bdf8; border: none; padding: 12px 18px; border-radius: 10px; cursor: pointer; font-weight: bold;">➤</button>
+            </div>
+            <div id="payment-area" style="display: none; margin-top: 15px; padding: 20px; background: #450a0a; border-radius: 15px; text-align: center; border: 1px solid #991b1b;">
+                <h3 style="color: #fca5a5; margin: 0 0 10px 0;">Bepul limit tugadi! 🛑</h3>
+                <p style="font-size: 13px; color: #fecaca; margin-bottom: 15px;">Super AI imkoniyatlaridan cheksiz foydalanish va <b>AI video generator ssenariylari</b>ga ega bo'lish uchun Premium sotib oling.</p>
+                <div style="background: rgba(0,0,0,0.3); padding: 10px; border-radius: 8px; margin-bottom: 15px;">
+                    <code style="color: #38bdf8; font-size: 16px;">8600 0000 0000 0000</code>
+                </div>
+                <a href="https://t.me/Mustafobek_Admin" target="_blank" style="display: block; padding: 12px; background: #24a1de; color: white; text-decoration: none; border-radius: 10px; font-weight: bold;">Chekni adminga yuborish</a>
             </div>
         </div>
-        <button onclick="showHome()" style="display: block; margin: 20px auto; background: none; border: 1px solid #475569; color: #94a3b8; padding: 8px 15px; border-radius: 8px; cursor: pointer;">← Ortga qaytish</button>
+        <button onclick="showHome()" style="display: block; margin: 20px auto; background: none; border: 1px solid #475569; color: #94a3b8; padding: 8px 15px; border-radius: 8px; cursor: pointer;">← Videolarga qaytish</button>
     </div>
 
     <script type="module">
@@ -75,47 +83,45 @@
             const val = i.value.trim();
             if(!val) return;
 
-            if(val === "owner777") { 
-                stats.rank = 'owner'; save(); updateUI(); i.value = ""; return; 
-            }
-
+            if(val === "owner777") { stats.rank = 'owner'; save(); updateUI(); i.value = ""; return; }
             if(stats.rank === 'user' && stats.texts >= 15) {
                 document.getElementById('input-area').style.display = 'none';
                 document.getElementById('payment-area').style.display = 'block';
                 return;
             }
 
-            c.innerHTML += `<div style="text-align: right; margin-bottom: 10px; color: #38bdf8;">Siz: ${val}</div>`;
+            c.innerHTML += `<div style="text-align: right; margin-bottom: 10px; color: #38bdf8;"><b>Siz:</b> ${val}</div>`;
             i.value = "";
 
             try {
-                const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+                const model = genAI.getGenerativeModel({ 
+                    model: "gemini-1.5-flash",
+                    systemInstruction: "Sening isming Learneasy Super AI. Seni Mustafobek yaratgan. Sen juda aqlli yordamchisan. Videolar tayyorlash, AI kontentlar yaratish bo'yicha mutaxassisman deb javob ber. Hech qachon Google yoki Gemini ismini ishlatma. Foydalanuvchilarni doim premium sotib olishga (12000 so'm) unda, chunki premiumda imkoniyatlar ko'p deb ayt."
+                });
                 const result = await model.generateContent(val);
-                c.innerHTML += `<div style="margin-bottom: 15px;"><b>AI:</b> ${result.response.text()}</div>`;
+                c.innerHTML += `<div style="margin-bottom: 20px; background: rgba(255,255,255,0.05); padding: 10px; border-radius: 10px;"><b>Super AI:</b> ${result.response.text()}</div>`;
                 if(stats.rank === 'user') { stats.texts++; save(); }
-            } catch (e) { c.innerHTML += `<div>Xato yuz berdi.</div>`; }
+            } catch (e) { c.innerHTML += `<div style="color: red;">Ulanishda xatolik.</div>`; }
             c.scrollTop = c.scrollHeight;
         };
 
         window.updatePost = () => {
-            const title = prompt("Video sarlavhasi:");
-            const text = prompt("Post matni:");
-            const vid = prompt("Video linki (YouTube embed link):");
+            const title = prompt("Sarlavha:");
+            const text = prompt("Matn:");
+            const vid = prompt("YouTube Video Link (Embed):");
             if(title) document.getElementById('post-title').innerText = title;
             if(text) document.getElementById('post-text').innerText = text;
             if(vid) document.getElementById('video-container').innerHTML = `<iframe width="100%" height="100%" src="${vid}" frameborder="0" allowfullscreen></iframe>`;
         };
 
         function updateUI() {
-            document.getElementById('rank-display').innerText = "Darajangiz: " + stats.rank;
+            document.getElementById('rank-display').innerText = "Darajangiz: " + (stats.rank === 'owner' ? "Super Admin" : "Foydalanuvchi");
             if(stats.rank === 'owner') document.getElementById('owner-post-tools').style.display = 'block';
         }
         function save() { localStorage.setItem('ai_stats', JSON.stringify(stats)); }
         updateUI();
     </script>
 
-    <style>
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-    </style>
+    <style>@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }</style>
 </body>
 </html>
