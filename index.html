@@ -2,33 +2,35 @@
 <html lang="uz">
 <head>
     <meta charset="UTF-8">
-    <title>Learneasy.uz AI — Premium</title>
+    <title>Learneasy.uz AI — Control Panel</title>
 </head>
-<body style="font-family: sans-serif; background: #f0f2f5; padding: 20px; text-align: center;">
+<body style="font-family: sans-serif; background: #0f172a; color: white; padding: 20px; text-align: center;">
 
-    <div style="max-width: 550px; margin: auto; background: white; padding: 25px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.15);">
-        <h2 style="color: #007bff;">Learneasy.uz AI</h2>
-        <div style="display: flex; justify-content: space-around; margin-bottom: 15px; font-size: 13px; color: #555;">
-            <span id="text-limit">Savollar: 15/15</span>
-            <span id="img-limit">Rasmlar: 3/3</span>
-        </div>
+    <div style="max-width: 600px; margin: auto; background: #1e293b; padding: 25px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+        <h2 style="color: #38bdf8; margin-bottom: 5px;">Learneasy.uz AI Control</h2>
+        <p id="rank-display" style="font-size: 14px; color: #94a3b8;">Darajangiz: Foydalanuvchi</p>
         
-        <div id="chat" style="height: 350px; overflow-y: auto; border: 1px solid #f0f0f0; padding: 15px; text-align: left; margin-bottom: 20px; background: #fcfcfc; border-radius: 12px;">
-            <div id="welcome-msg" style="background: #eef; padding: 10px; border-radius: 10px;">
-                Salom! Sizda 15 ta bepul savol bor. Limit tugasa, 8 soatdan keyin yangilanadi yoki Premium sotib oling.
-            </div>
+        <div id="news-board" style="background: #334155; padding: 10px; border-radius: 10px; margin-bottom: 15px; font-size: 13px; border-left: 4px solid #38bdf8; text-align: left;">
+            <b>Yangilik:</b> Sayt ishga tushdi! Premium narxi 12,000 so'm.
         </div>
+
+        <div id="chat" style="height: 300px; overflow-y: auto; border: 1px solid #334155; padding: 15px; text-align: left; margin-bottom: 20px; background: #0f172a; border-radius: 12px;"></div>
         
         <div id="input-area">
-            <input type="text" id="inp" placeholder="Savol yozing..." style="width: 70%; padding: 14px; border: 1px solid #ddd; border-radius: 10px;">
-            <button onclick="ask()" style="padding: 14px; background: #007bff; color: white; border: none; border-radius: 10px; cursor: pointer;">Yuborish</button>
+            <input type="text" id="inp" placeholder="Savol yoki maxfiy kod..." style="width: 70%; padding: 14px; border: none; border-radius: 10px; background: #334155; color: white; outline: none;">
+            <button onclick="ask()" style="padding: 14px; background: #38bdf8; color: #0f172a; border: none; border-radius: 10px; cursor: pointer; font-weight: bold;">Yuborish</button>
         </div>
 
-        <div id="payment-area" style="display: none; margin-top: 20px; padding: 20px; background: #fff3cd; border-radius: 15px;">
-            <h3 style="color: #856404;">Limit Tugadi! 🛑</h3>
-            <p>8 soat kutishni xohlamasangiz, <b>12,000 so'm</b> to'lang va cheksiz ishlating!</p>
+        <div id="owner-tools" style="display: none; margin-top: 20px; border-top: 1px dashed #475569; padding-top: 15px;">
+            <p style="color: #fbbf24;">🛠 Super Admin Paneli</p>
+            <button onclick="changeNews()" style="background: #475569; color: white; border: none; padding: 8px; border-radius: 5px; cursor: pointer;">Postni o'zgartirish</button>
+        </div>
+
+        <div id="payment-area" style="display: none; margin-top: 20px; padding: 20px; background: #450a0a; border-radius: 15px; border: 1px solid #991b1b;">
+            <h3 style="color: #fca5a5;">Limit Tugadi! 🛑</h3>
+            <p>Premium (12,000 so'm) sotib oling:</p>
             <p>Karta: <code>8600 0000 0000 0000</code></p>
-            <a href="https://t.me/SizningTelegramingiz" target="_blank" style="display: block; padding: 12px; background: #24a1de; color: white; text-decoration: none; border-radius: 10px;">Adminga chekni yuborish</a>
+            <a href="https://t.me/SizningTelegramingiz" style="color: #38bdf8; text-decoration: none;">Adminga chek yuborish</a>
         </div>
     </div>
 
@@ -38,76 +40,65 @@
         const API_KEY = "AIzaSyCPuL1daHvCl-XvMPkCzCbZg12yOYbFrMM"; 
         const genAI = new GoogleGenerativeAI(API_KEY);
 
-        // Limitlarni yuklash
-        let stats = JSON.parse(localStorage.getItem('ai_stats')) || { texts: 0, imgs: 0, lastTime: Date.now(), isPremium: false };
+        let stats = JSON.parse(localStorage.getItem('ai_stats')) || { texts: 0, lastTime: Date.now(), rank: 'user' };
 
-        // 8 soat o'tganini tekshirish (8 soat = 28800000 millisoniya)
-        if (!stats.isPremium && Date.now() - stats.lastTime > 28800000) {
-            stats.texts = 0;
-            stats.imgs = 0;
-            stats.lastTime = Date.now();
-            localStorage.setItem('ai_stats', JSON.stringify(stats));
+        // 8 soatlik reset
+        if (stats.rank === 'user' && Date.now() - stats.lastTime > 28800000) {
+            stats.texts = 0; stats.lastTime = Date.now();
         }
 
+        function updateUI() {
+            const rankText = stats.rank === 'owner' ? "Darajangiz: Super Admin (Ega)" : (stats.rank === 'admin' ? "Darajangiz: Admin" : "Darajangiz: Foydalanuvchi");
+            document.getElementById('rank-display').innerText = rankText;
+            if(stats.rank === 'owner') document.getElementById('owner-tools').style.display = 'block';
+        }
         updateUI();
 
         window.ask = async () => {
             const i = document.getElementById('inp');
             const c = document.getElementById('chat');
-            const text = i.value.trim();
-            if(!text) return;
+            const val = i.value.trim();
+            if(!val) return;
 
-            // Admin rejimi (Parol yozilganda premium yoqiladi)
-            if(text.toLowerCase() === "admin777") {
-                stats.isPremium = true;
-                saveStats();
-                updateUI();
-                c.innerHTML += `<div style="color: green;">✓ Premium rejimi faollashdi!</div>`;
+            // PAROLLAR TIZIMI
+            if(val === "owner777") { // FAQAT SIZ UCHUN
+                stats.rank = 'owner';
+                save(); updateUI();
+                c.innerHTML += `<div style="color: #fbbf24;">✓ Xush kelibsiz, Ega janoblari!</div>`;
+                i.value = ""; return;
+            }
+            if(val === "admin123") { // ADMINLAR UCHUN
+                stats.rank = 'admin';
+                save(); updateUI();
+                c.innerHTML += `<div style="color: #38bdf8;">✓ Admin rejimi yoqildi!</div>`;
                 i.value = ""; return;
             }
 
-            const isImg = text.toLowerCase().includes("rasm") || text.toLowerCase().includes("chiz");
-            
-            if(!stats.isPremium) {
-                if(!isImg && stats.texts >= 15) { showPay(); return; }
-                if(isImg && stats.imgs >= 3) { showPay(); return; }
+            // Limit tekshiruvi
+            if(stats.rank === 'user' && stats.texts >= 15) {
+                document.getElementById('input-area').style.display = 'none';
+                document.getElementById('payment-area').style.display = 'block';
+                return;
             }
 
-            c.innerHTML += `<div style="text-align: right;"><b>Siz:</b> ${text}</div>`;
+            c.innerHTML += `<div style="text-align: right; color: #94a3b8;">Siz: ${val}</div>`;
             i.value = "";
 
             try {
                 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-                const result = await model.generateContent(text);
-                c.innerHTML += `<div><b>AI:</b> ${result.response.text()}</div>`;
-                
-                if(!stats.isPremium) {
-                    if(isImg) stats.imgs++; else stats.texts++;
-                    saveStats();
-                    updateUI();
-                }
-            } catch (err) {
-                c.innerHTML += `<div style="color: red;">Xato: API ulanmadi.</div>`;
-            }
+                const result = await model.generateContent(val);
+                c.innerHTML += `<div style="margin-bottom: 15px;"><b>AI:</b> ${result.response.text()}</div>`;
+                if(stats.rank === 'user') { stats.texts++; save(); }
+            } catch (e) { c.innerHTML += `<div style="color: red;">Xatolik yuz berdi.</div>`; }
             c.scrollTop = c.scrollHeight;
         };
 
-        function saveStats() { localStorage.setItem('ai_stats', JSON.stringify(stats)); }
-        
-        function updateUI() {
-            if(stats.isPremium) {
-                document.getElementById('text-limit').innerText = "Savollar: Cheksiz";
-                document.getElementById('img-limit').innerText = "Rasmlar: Cheksiz";
-            } else {
-                document.getElementById('text-limit').innerText = `Savollar: ${15 - stats.texts}/15`;
-                document.getElementById('img-limit').innerText = `Rasmlar: ${3 - stats.imgs}/3`;
-            }
-        }
+        window.changeNews = () => {
+            const newNews = prompt("Yangi post matnini yozing:");
+            if(newNews) document.getElementById('news-board').innerHTML = `<b>Yangilik:</b> ${newNews}`;
+        };
 
-        function showPay() {
-            document.getElementById('input-area').style.display = 'none';
-            document.getElementById('payment-area').style.display = 'block';
-        }
+        function save() { localStorage.setItem('ai_stats', JSON.stringify(stats)); }
     </script>
 </body>
 </html>
