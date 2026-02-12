@@ -1,3 +1,4 @@
+Mustafobek, [2/13/2026 12:27 AM]
 <!DOCTYPE html>
 <html lang="uz">
 <head>
@@ -44,7 +45,8 @@
             <div class="text-[10px] font-black bg-blue-50 text-blue-600 px-4 py-2 rounded-full uppercase">15/15 Bepul</div>
         </header>
 
-        <div id="chat-engine" class="flex-1 overflow-y-auto p-6 space-y-6 bg-[#fafafa]">
+Mustafobek, [2/13/2026 12:27 AM]
+<div id="chat-engine" class="flex-1 overflow-y-auto p-6 space-y-6 bg-[#fafafa]">
             <div class="chat-ai p-8 animate-pop">
                 <h3 class="font-extrabold text-[15px] mb-4">Salom, men Learneasy Super AI-man! ✨</h3>
                 <div class="space-y-4 text-[13px] text-slate-700 leading-relaxed">
@@ -52,7 +54,7 @@
                     <p>📚 <b>Matematika & Fizika:</b> Eng murakkab masalalar va formulalarni yechishga yordam beraman va tushuntiraman.</p>
                     <p>🧪 <b>Kimyo & Biologiya:</b> Laboratoriya ishlari va darslarni sodda tushuntirish.</p>
                     <p>✍️ <b>Uyga vazifalar:</b> Har qanday fandan darslaringizni mukammal tayyorlash.</p>
-                    <p>🖼️ <b>AI Vizualizatsiya:</b> Professional darajadagi rasmlar tayyorlayman.</p>
+                    <p>🖼 <b>AI Vizualizatsiya:</b> Professional darajadagi rasmlar tayyorlayman.</p>
                     <div class="h-[1px] bg-gray-100 my-4"></div>
                     <p class="text-gray-500 font-semibold italic">Lekin faqat 15 dona savol so'rash va 3 dona professional darajada AI bilan rasm yaratishingiz mumkin, premium oling va hamma bilim va san'at olamiga sho'ng'ing.</p>
                     <p class="font-black text-blue-600">💎 Premium: Atigi 12,000 so'm.</p>
@@ -83,7 +85,7 @@
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        contents: [{ parts: [{ text: `Isming Learneasy AI. Mustafobek yaratgan. Matematika, Fizika, Kimyo mutaxassisisan. Uyga vazifalarga yordam berasan. Qisqa va aniq javob ber. User: ${userText}` }] }]
+                        contents: [{ parts: [{ text: Isming Learneasy AI. Mustafobek yaratgan. Matematika, Fizika, Kimyo mutaxassisisan. Uyga vazifalarga yordam berasan. Qisqa va aniq javob ber. User: ${userText} }] }]
                     })
                 });
 
@@ -105,20 +107,21 @@
             const val = inp.value.trim();
             if(!val) return;
 
-            box.innerHTML += `<div class="flex justify-end animate-pop"><div class="chat-user p-4 px-6 max-w-[85%] text-[13px] font-bold shadow-md">${val}</div></div>`;
+            box.innerHTML += <div class="flex justify-end animate-pop"><div class="chat-user p-4 px-6 max-w-[85%] text-[13px] font-bold shadow-md">${val}</div></div>;
             inp.value = "";
             box.scrollTop = box.scrollHeight;
 
-            const lid = "L" + Date.now();
-            box.innerHTML += `<div id="${lid}" class="text-[10px] font-black text-blue-500 animate-pulse py-2 uppercase text-center italic tracking-widest">Javob tayyorlanmoqda...</div>`;
+Mustafobek, [2/13/2026 12:27 AM]
+const lid = "L" + Date.now();
+            box.innerHTML += <div id="${lid}" class="text-[10px] font-black text-blue-500 animate-pulse py-2 uppercase text-center italic tracking-widest">Javob tayyorlanmoqda...</div>;
             box.scrollTop = box.scrollHeight;
 
             try {
                 const text = await getAIResponse(val);
                 document.getElementById(lid).remove();
-                box.innerHTML += `<div class="chat-ai p-6 max-w-[95%] text-[13px] font-medium animate-pop border border-gray-50"><b>AI:</b> ${text}</div>`;
+                box.innerHTML += <div class="chat-ai p-6 max-w-[95%] text-[13px] font-medium animate-pop border border-gray-50"><b>AI:</b> ${text}</div>;
             } catch (e) {
-                document.getElementById(lid).innerHTML = `<span class="text-orange-500 font-bold uppercase">Tarmoqda kutilmagan og'irlik. Birozdan so'ng qayta urinib ko'ring.</span>`;
+                document.getElementById(lid).innerHTML = <span class="text-orange-500 font-bold uppercase">Tarmoqda kutilmagan og'irlik. Birozdan so'ng qayta urinib ko'ring.</span>;
             }
             box.scrollTop = box.scrollHeight;
         };
@@ -147,5 +150,5 @@
                 body: JSON.stringify({
                     contents: [{
                         parts: [{
-                            text: `Sening isming Learneasy AI. Mustafobek yaratgan. Matematika, Fizika, Kimyo mutaxassisisan. Har doim do'stona va aqlli javob ber. Savol: ${prompt}`
+                            text: Sening isming Learneasy AI. Mustafobek yaratgan. Matematika, Fizika, Kimyo mutaxassisisan. Har doim do'stona va aqlli javob ber. Savol: ${prompt}
                         }]
