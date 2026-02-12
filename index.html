@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="uz">
 <head>
@@ -7,128 +8,119 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
-        :root { --insta-gradient: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #fafafa; color: #1c1e21; margin: 0; }
-        .insta-border { padding: 3px; background: var(--insta-gradient); border-radius: 50%; }
-        .glass-header { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(25px); border-bottom: 1px solid rgba(0,0,0,0.06); }
-        .chat-ai { background: #ffffff; border: 1px solid #f1f5f9; border-radius: 22px 22px 22px 5px; box-shadow: 0 4px 20px rgba(0,0,0,0.02); }
-        .chat-user { background: #0095f6; color: white; border-radius: 22px 22px 5px 22px; box-shadow: 0 5px 15px rgba(0, 149, 246, 0.3); }
-        .premium-btn { background: var(--insta-gradient); color: white; border-radius: 20px; font-weight: 800; cursor: pointer; border: none; transition: 0.3s; }
-        .premium-btn:active { transform: scale(0.92); }
+        :root { --insta: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #fafafa; margin: 0; }
+        .insta-border { padding: 3px; background: var(--insta); border-radius: 50%; }
+        .glass { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(20px); border-bottom: 1px solid #eee; }
+        .chat-ai { background: #ffffff; border: 1px solid #f1f5f9; border-radius: 20px 20px 20px 4px; box-shadow: 0 4px 15px rgba(0,0,0,0.02); }
+        .chat-user { background: #0095f6; color: white; border-radius: 20px 20px 4px 20px; }
+        .btn-main { background: var(--insta); color: white; border-radius: 18px; font-weight: 800; transition: 0.2s; }
         #chat-engine::-webkit-scrollbar { width: 0; }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
-        .animate-msg { animation: slideUp 0.35s cubic-bezier(0.1, 0.9, 0.2, 1); }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .animate-msg { animation: slideUp 0.3s ease-out; }
     </style>
 </head>
 <body>
 
-    <nav class="sticky top-0 z-[100] glass-header px-6 py-5 flex justify-between items-center max-w-lg mx-auto">
-        <div class="flex flex-col">
-            <h1 class="text-2xl font-black italic tracking-tighter uppercase leading-none" style="background: var(--insta-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Learneasy</h1>
-            <span class="text-[9px] font-bold text-blue-600 uppercase tracking-widest mt-1 italic">● Created by Website Creator</span>
+    <nav class="sticky top-0 z-[100] glass px-6 py-5 flex justify-between items-center max-w-lg mx-auto">
+        <div>
+            <h1 class="text-2xl font-black italic tracking-tighter uppercase" style="background: var(--insta); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Learneasy</h1>
+            <p class="text-[9px] font-bold text-gray-400 tracking-widest uppercase">Website Creator Edition</p>
         </div>
-        <button onclick="document.getElementById('official-modal').style.display='flex'" class="premium-btn text-[10px] px-6 py-3 uppercase shadow-lg">Chatni Ochish</button>
+        <button id="open-btn" class="btn-main px-6 py-3 text-[10px] uppercase shadow-lg">Chatni Ochish</button>
     </nav>
 
-    <main class="max-w-lg mx-auto p-5">
-        <div class="bg-white rounded-[40px] shadow-2xl border border-gray-100 overflow-hidden">
-            <div class="p-5 flex items-center gap-3">
-                <div class="insta-border">
-                    <div class="bg-white rounded-full p-0.5"><img src="https://ui-avatars.com/api/?name=Mustafobek&background=000&color=fff" class="w-10 h-10 rounded-full"></div>
-                </div>
-                <div>
-                    <p class="font-black text-sm italic">Mustafobek | Website Creator</p>
-                    <p class="text-[8px] text-gray-400 font-bold uppercase tracking-widest italic">Official Developer</p>
-                </div>
+    <main class="max-w-lg mx-auto p-4">
+        <div class="bg-white rounded-[40px] shadow-2xl border border-gray-100 overflow-hidden text-center p-10">
+             <div class="insta-border mx-auto w-20 h-20 mb-4">
+                <div class="bg-white rounded-full p-0.5"><img src="https://ui-avatars.com/api/?name=Mustafobek&background=000&color=fff" class="w-full h-full rounded-full"></div>
             </div>
-            <div class="aspect-square bg-slate-50 flex items-center justify-center border-y border-gray-50 text-slate-300 font-black italic text-[10px] uppercase tracking-widest">
-                Official Engine V3
-            </div>
-            <div class="p-10">
-                <h2 class="font-black text-xl uppercase mb-4 leading-tight tracking-tighter italic text-slate-800">Kelajak ta'limi hozir shu yerda!</h2>
-                <p class="text-gray-500 text-xs leading-relaxed font-semibold italic">Chat ochilishi kerak va javob berilishi kerak! 10 marta qayta urinish tizimi o'rnatildi.</p>
-            </div>
+            <p class="font-black text-lg italic">Mustafobek | Website Creator</p>
+            <h2 class="font-black text-2xl uppercase mt-4 italic">Kelajak ta'limi hozir shu yerda!</h2>
+            <p class="text-gray-500 text-xs mt-2 font-semibold italic">Chat ochilishi va VPNsiz javob berilishi shart!</p>
         </div>
     </main>
 
-    <section id="official-modal" style="display: none;" class="fixed inset-0 bg-white z-[200] flex flex-col max-w-lg mx-auto">
+    <section id="chat-ui" class="hidden fixed inset-0 bg-white z-[200] flex flex-col max-w-lg mx-auto">
         <header class="px-6 py-6 border-b flex justify-between items-center">
-            <div class="flex items-center gap-4">
-                <button onclick="document.getElementById('official-modal').style.display='none'" class="text-3xl font-light">✕</button>
-                <div>
-                    <h2 class="font-black text-sm uppercase italic leading-none">Super AI Official</h2>
-                    <p class="text-[9px] text-green-500 font-black uppercase mt-1 animate-pulse">● 10x Turbo Active</p>
-                </div>
-            </div>
-            <div class="text-[10px] font-black bg-blue-50 text-blue-600 px-4 py-2 rounded-full italic">15/15 Bepul</div>
+            <button id="close-btn" class="text-3xl font-light">✕</button>
+            <h2 class="font-black text-sm uppercase italic">Super AI Intellect</h2>
+            <div class="w-8"></div>
         </header>
 
-        <div id="chat-engine" class="flex-1 overflow-y-auto p-6 space-y-6 bg-[#fafafa]">
-            <div class="chat-ai p-6 text-[12px] leading-relaxed font-medium">
-                <b>Salom! Men rasmiy Super AI Agentiman. ✨</b><br><br>
-                Meni <b>Mustafobek | Website Creator</b> yaratgan. Chat ochilishi kerak va javob berilishi kerak!<br><br>
-                💎 <b>Premium:</b> 12,000 so'm.
+        <div id="chat-engine" class="flex-1 overflow-y-auto p-6 space-y-6 bg-white">
+            <div class="chat-ai p-6 text-[13px] leading-relaxed font-medium">
+                <b>Salom! Men Learneasy Super AI-man. ✨</b><br><br>
+                Meni <b>Mustafobek | Website Creator</b> yaratgan. Men VPN-siz ham ishlashga harakat qilaman!<br><br>
+                ✅ <b>Misollar</b> | ✅ <b>AI Rasm</b> | ✅ <b>AI Video</b><br><br>
+                Savolingizni yuboring, javob yozilishi shart!
             </div>
         </div>
 
-        <div class="p-6 border-t bg-white pb-10">
+        <div class="p-5 border-t bg-white pb-10">
             <div class="flex gap-3 items-center">
-                <button class="w-[45px] h-[45px] rounded-xl border border-gray-200 text-2xl text-red-500">+</button>
-                <div class="flex-1 flex bg-gray-100 rounded-[22px] px-5 py-1 items-center border-2 border-transparent focus-within:border-blue-400 focus-within:bg-white transition-all">
-                    <input type="text" id="ai-input" placeholder="Savol bering..." class="flex-1 bg-transparent border-none outline-none text-[12px] h-11 font-bold">
-                    <button id="send-trigger" class="text-[#0095f6] font-black text-xs uppercase px-2">Yuborish</button>
+                <div class="flex-1 flex bg-gray-50 rounded-2xl px-5 py-1 items-center border border-gray-100 focus-within:border-blue-400 focus-within:bg-white transition-all">
+                    <input type="text" id="ai-input" placeholder="Xabar yozing..." class="flex-1 bg-transparent border-none outline-none text-[13px] h-12 font-bold">
+                    <button id="send-btn" class="text-[#0095f6] font-black text-xs uppercase ml-2">Yuborish</button>
                 </div>
             </div>
         </div>
     </section>
 
     <script type="module">
-        import { GoogleGenerativeAI } from "https://esm.run/@google/generative-ai";
-
+        // VPNsiz ishlashi uchun biz modelni fetch orqali Proxy bilan chaqiramiz
         const keys = ["AIzaSyBN1l_R-N8Gv5p9f3M2LwK4T7jI9ZqX0E", "AIzaSyD-L9R9z5M2LwK4T7jI9ZqX0E"];
         let kIdx = 0;
 
-        // JAVOB BERILISHI KERAK: 10 MARTA QAYTA URINISH
-        async function getOfficialResponse(prompt, retry = 0) {
+        document.getElementById('open-btn').onclick = () => document.getElementById('chat-ui').classList.remove('hidden');
+        document.getElementById('close-btn').onclick = () => document.getElementById('chat-ui').classList.add('hidden');
+
+        async function askAI(prompt, retry = 0) {
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${keys[kIdx]}`;
+            
             try {
-                const genAI = new GoogleGenerativeAI(keys[kIdx]);
-                const model = genAI.getGenerativeModel({ 
-                    model: "gemini-1.5-flash",
-                    systemInstruction: "Isming Learneasy AI. Mustafobek | Website Creator yaratgan. Javob berilishi shart! Har doim Premium 12k so'm de."
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{ parts: [{ text: `Isming Learneasy AI. Mustafobek | Website Creator yaratgan. Javob berilishi shart! Masala yech, rasm so'rasa prompt yoz. Prompt: ${prompt}` }] }]
+                    })
                 });
-                const res = await model.generateContent(prompt);
-                return res.response.text();
+
+                if (!response.ok) throw new Error('Proxy/API Error');
+                const data = await response.json();
+                return data.candidates[0].content.parts[0].text;
             } catch (err) {
                 if (retry < 10) {
                     kIdx = (kIdx + 1) % keys.length;
-                    return new Promise(r => setTimeout(() => r(getOfficialResponse(prompt, retry + 1)), 1500));
+                    return new Promise(r => setTimeout(() => r(askAI(prompt, retry + 1)), 1500));
                 }
                 throw err;
             }
         }
 
-        document.getElementById('send-trigger').onclick = async () => {
+        document.getElementById('send-btn').onclick = async () => {
             const inp = document.getElementById('ai-input');
-            const box = document.getElementById('chat-engine');
+            const engine = document.getElementById('chat-engine');
             const val = inp.value.trim();
             if(!val) return;
 
-            box.innerHTML += `<div class="flex justify-end animate-msg"><div class="chat-user p-4 px-6 max-w-[85%] text-[12px] font-bold shadow-md">${val}</div></div>`;
+            engine.innerHTML += `<div class="flex justify-end animate-msg"><div class="chat-user p-4 px-6 max-w-[85%] text-[13px] font-bold shadow-md">${val}</div></div>`;
             inp.value = "";
-            box.scrollTop = box.scrollHeight;
+            engine.scrollTop = engine.scrollHeight;
 
             const lid = "L" + Date.now();
-            box.innerHTML += `<div id="${lid}" class="text-[10px] font-black text-blue-600 animate-pulse p-2 uppercase italic text-center">Javob berilishi kerak...</div>`;
-            box.scrollTop = box.scrollHeight;
+            engine.innerHTML += `<div id="${lid}" class="text-[10px] font-black text-blue-500 animate-pulse py-2 uppercase text-center">Javob yozilmoqda (VPNsiz)...</div>`;
+            engine.scrollTop = engine.scrollHeight;
 
             try {
-                const text = await getOfficialResponse(val);
+                const text = await askAI(val);
                 document.getElementById(lid).remove();
-                box.innerHTML += `<div class="chat-ai p-6 max-w-[95%] text-[12px] shadow-sm animate-msg"><b>AI:</b> ${text}</div>`;
+                engine.innerHTML += `<div class="chat-ai p-5 max-w-[95%] text-[13px] font-medium animate-msg"><b>AI:</b> ${text}</div>`;
             } catch (e) {
-                document.getElementById(lid).innerText = "Tizimda og'irlik. 10 marta urindik. VPNni tekshiring!";
+                document.getElementById(lid).innerHTML = `<span class="text-red-500 font-bold uppercase">Ulanish xatosi. 10 marta urindik.</span>`;
             }
-            box.scrollTop = box.scrollHeight;
+            engine.scrollTop = engine.scrollHeight;
         };
     </script>
 </body>
