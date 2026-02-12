@@ -4,35 +4,31 @@
     <meta charset="UTF-8">
     <title>Learneasy.uz AI — Premium</title>
 </head>
-<body style="font-family: 'Segoe UI', sans-serif; background: #f0f2f5; padding: 20px; text-align: center;">
+<body style="font-family: sans-serif; background: #f0f2f5; padding: 20px; text-align: center;">
 
     <div style="max-width: 550px; margin: auto; background: white; padding: 25px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.15);">
-        <h2 style="color: #007bff; margin-bottom: 5px;">Learneasy.uz AI</h2>
+        <h2 style="color: #007bff;">Learneasy.uz AI</h2>
         <div style="display: flex; justify-content: space-around; margin-bottom: 15px; font-size: 13px; color: #555;">
             <span id="text-limit">Savollar: 15/15</span>
             <span id="img-limit">Rasmlar: 3/3</span>
         </div>
         
         <div id="chat" style="height: 350px; overflow-y: auto; border: 1px solid #f0f0f0; padding: 15px; text-align: left; margin-bottom: 20px; background: #fcfcfc; border-radius: 12px;">
-            <div style="background: #eef; padding: 10px; border-radius: 10px; margin-bottom: 10px;">
-                Salom! Men sizga savollarga javob berishda va rasm yaratishda yordam beraman.
+            <div id="welcome-msg" style="background: #eef; padding: 10px; border-radius: 10px;">
+                Salom! Sizda 15 ta bepul savol bor. Limit tugasa, 8 soatdan keyin yangilanadi yoki Premium sotib oling.
             </div>
         </div>
         
         <div id="input-area">
-            <input type="text" id="inp" placeholder="Savol yoki rasm tavsifi..." style="width: 75%; padding: 14px; border: 1px solid #ddd; border-radius: 10px; outline: none;">
-            <button onclick="ask()" style="padding: 14px 20px; background: #007bff; color: white; border: none; border-radius: 10px; cursor: pointer; font-weight: bold;">Yuborish</button>
+            <input type="text" id="inp" placeholder="Savol yozing..." style="width: 70%; padding: 14px; border: 1px solid #ddd; border-radius: 10px;">
+            <button onclick="ask()" style="padding: 14px; background: #007bff; color: white; border: none; border-radius: 10px; cursor: pointer;">Yuborish</button>
         </div>
 
-        <div id="payment-area" style="display: none; margin-top: 20px; padding: 20px; background: #fff3cd; border: 1px solid #ffeeba; border-radius: 15px;">
-            <h3 style="color: #856404; margin-top: 0;">Limit Tugadi! 🛑</h3>
-            <p>Davom etish uchun <b>Premium</b> paketni faollashtiring:</p>
-            <div style="background: white; padding: 15px; border-radius: 10px; margin: 10px 0; border: 1px dashed #ffc107;">
-                <p style="margin: 5px 0;">💰 Narxi: <b>12,000 so'm</b> / kunlik</p>
-                <p style="margin: 5px 0;">💳 Karta: <code style="font-size: 16px; color: #d63384;">8600 0000 0000 0000</code></p>
-            </div>
-            <p style="font-size: 13px;">To'lov chekini quyidagi botga yoki adminga yuboring:</p>
-            <a href="https://t.me/SizningTelegramingiz" target="_blank" style="display: block; padding: 12px; background: #24a1de; color: white; text-decoration: none; border-radius: 10px; font-weight: bold;">Adminga chekni yuborish</a>
+        <div id="payment-area" style="display: none; margin-top: 20px; padding: 20px; background: #fff3cd; border-radius: 15px;">
+            <h3 style="color: #856404;">Limit Tugadi! 🛑</h3>
+            <p>8 soat kutishni xohlamasangiz, <b>12,000 so'm</b> to'lang va cheksiz ishlating!</p>
+            <p>Karta: <code>8600 0000 0000 0000</code></p>
+            <a href="https://t.me/SizningTelegramingiz" target="_blank" style="display: block; padding: 12px; background: #24a1de; color: white; text-decoration: none; border-radius: 10px;">Adminga chekni yuborish</a>
         </div>
     </div>
 
@@ -42,9 +38,18 @@
         const API_KEY = "AIzaSyCPuL1daHvCl-XvMPkCzCbZg12yOYbFrMM"; 
         const genAI = new GoogleGenerativeAI(API_KEY);
 
-        let textCount = 0;
-        let imgCount = 0;
-        let isAdmin = false;
+        // Limitlarni yuklash
+        let stats = JSON.parse(localStorage.getItem('ai_stats')) || { texts: 0, imgs: 0, lastTime: Date.now(), isPremium: false };
+
+        // 8 soat o'tganini tekshirish (8 soat = 28800000 millisoniya)
+        if (!stats.isPremium && Date.now() - stats.lastTime > 28800000) {
+            stats.texts = 0;
+            stats.imgs = 0;
+            stats.lastTime = Date.now();
+            localStorage.setItem('ai_stats', JSON.stringify(stats));
+        }
+
+        updateUI();
 
         window.ask = async () => {
             const i = document.getElementById('inp');
@@ -52,49 +57,54 @@
             const text = i.value.trim();
             if(!text) return;
 
-            // Admin tekshiruvi
+            // Admin rejimi (Parol yozilganda premium yoqiladi)
             if(text.toLowerCase() === "admin777") {
-                isAdmin = true;
-                document.getElementById('text-limit').innerText = "Savollar: Cheksiz";
-                document.getElementById('img-limit').innerText = "Rasmlar: Cheksiz";
-                c.innerHTML += `<div style="color: #28a745; text-align: center; font-weight: bold;">✓ Admin tizimga kirdi!</div>`;
+                stats.isPremium = true;
+                saveStats();
+                updateUI();
+                c.innerHTML += `<div style="color: green;">✓ Premium rejimi faollashdi!</div>`;
                 i.value = ""; return;
             }
 
-            // Umumiy limit tekshiruvi (Savol 15 ta yoki Rasm 3 ta)
-            const isImageRequest = text.toLowerCase().includes("rasm") || text.toLowerCase().includes("chiz");
+            const isImg = text.toLowerCase().includes("rasm") || text.toLowerCase().includes("chiz");
             
-            if(!isAdmin) {
-                if(!isImageRequest && textCount >= 15) { showPayment(); return; }
-                if(isImageRequest && imgCount >= 3) { showPayment(); return; }
+            if(!stats.isPremium) {
+                if(!isImg && stats.texts >= 15) { showPay(); return; }
+                if(isImg && stats.imgs >= 3) { showPay(); return; }
             }
 
-            c.innerHTML += `<div style="text-align: right; margin-bottom: 10px;"><span style="background: #007bff; color: white; padding: 8px 15px; border-radius: 15px; display: inline-block;">${text}</span></div>`;
+            c.innerHTML += `<div style="text-align: right;"><b>Siz:</b> ${text}</div>`;
             i.value = "";
 
             try {
                 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
                 const result = await model.generateContent(text);
-                const response = result.response.text();
+                c.innerHTML += `<div><b>AI:</b> ${result.response.text()}</div>`;
                 
-                c.innerHTML += `<div style="margin-bottom: 10px;"><b>AI:</b> ${response}</div>`;
-                
-                if(!isAdmin) {
-                    if(isImageRequest) {
-                        imgCount++;
-                        document.getElementById('img-limit').innerText = `Rasmlar: ${3 - imgCount}/3`;
-                    } else {
-                        textCount++;
-                        document.getElementById('text-limit').innerText = `Savollar: ${15 - textCount}/15`;
-                    }
+                if(!stats.isPremium) {
+                    if(isImg) stats.imgs++; else stats.texts++;
+                    saveStats();
+                    updateUI();
                 }
             } catch (err) {
-                c.innerHTML += `<div style="color: red;">Xatolik: API ulanmadi.</div>`;
+                c.innerHTML += `<div style="color: red;">Xato: API ulanmadi.</div>`;
             }
             c.scrollTop = c.scrollHeight;
         };
 
-        function showPayment() {
+        function saveStats() { localStorage.setItem('ai_stats', JSON.stringify(stats)); }
+        
+        function updateUI() {
+            if(stats.isPremium) {
+                document.getElementById('text-limit').innerText = "Savollar: Cheksiz";
+                document.getElementById('img-limit').innerText = "Rasmlar: Cheksiz";
+            } else {
+                document.getElementById('text-limit').innerText = `Savollar: ${15 - stats.texts}/15`;
+                document.getElementById('img-limit').innerText = `Rasmlar: ${3 - stats.imgs}/3`;
+            }
+        }
+
+        function showPay() {
             document.getElementById('input-area').style.display = 'none';
             document.getElementById('payment-area').style.display = 'block';
         }
