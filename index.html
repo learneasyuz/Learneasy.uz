@@ -1,204 +1,281 @@
-/app/page.tsx
-/app/api/chat/route.ts
-/components/HomePanel.tsx
-/components/ChatPanel.tsx
-/lib/limit.ts
-bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500
-import HomePanel from "@/components/HomePanel"
-import ChatPanel from "@/components/ChatPanel"
+import React, { useState, useEffect } from "react";
 
-export default function Page() {
-  return (
-    <div className="min-h-screen bg-black text-white">
-      <div className="flex">
+const OPENROUTER_API_KEY = "YOUR_OPENROUTER_KEY"; // backendga o‘tkazish tavsiya qilinadi
+const MODEL = "meta-llama/llama-3-8b-instruct";
 
-        {/* LEFT HOME PANEL */}
-        <div className="w-2/3 border-r border-gray-800">
-          <HomePanel />
-        </div>
+export default function App() {
+  const [messages, setMessages] = useState([]);
+  const [input, setInput] = useState("");
+  const [questionsLeft, setQuestionsLeft] = useState(8);
+  const [cooldown, setCooldown] = useState(false);
+  const [cooldownTime, setCooldownTime] = useState(null);
+  const [loading, setLoading] = useState(false);
 
-        {/* RIGHT CHAT PANEL */}
-        <div className="w-1/3 h-screen sticky top-0">
-          <ChatPanel />
-        </div>
+  // Instagram gradient
+  const gradient =
+    "linear-gradient(45deg, #feda75, #fa7e1e, #d62976, #962fbf, #4f5bd5)";
 
-      </div>
-    </div>
-  )
-}
-export default function HomePanel() {
-  return (
-    <div className="p-6 space-y-6">
+  // Initial AI Introduction
+  useEffect(() => {
+    const storedTime = localStorage.getItem("cooldownTime");
+    const storedQuestions = localStorage.getItem("questionsLeft");
 
-      <div className="bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 p-1 rounded-xl">
-        <div className="bg-black p-6 rounded-xl">
-          <h1 className="text-3xl font-bold">Welcome to Learneasy.uz</h1>
-          <p className="text-gray-400 mt-2">
-            Bu yerda tez orada video, post va darslar joylanadi.
-          </p>
-        </div>
-      </div>
-
-      {/* POST JOYI */}
-      <div className="bg-gray-900 p-5 rounded-xl">
-        <div className="h-64 bg-gray-800 rounded-lg flex items-center justify-center">
-          Post joyi (Video / Rasm)
-        </div>
-
-        <div className="flex gap-6 mt-4 text-gray-400">
-          <button>❤️ Like</button>
-          <button>💬 Comment</button>
-        </div>
-      </div>
-
-    </div>
-  )
-}
-export function checkLimit() {
-  const data = localStorage.getItem("ai_limit")
-  const now = Date.now()
-
-  if (!data) {
-    localStorage.setItem("ai_limit", JSON.stringify({ count: 1, time: now }))
-    return { allowed: true }
-  }
-
-  const parsed = JSON.parse(data)
-
-  if (now - parsed.time > 8 * 60 * 60 * 1000) {
-    localStorage.setItem("ai_limit", JSON.stringify({ count: 1, time: now }))
-    return { allowed: true }
-  }
-
-  if (parsed.count >= 8) {
-    return { allowed: false }
-  }
-
-  parsed.count += 1
-  localStorage.setItem("ai_limit", JSON.stringify(parsed))
-
-  return { allowed: true }
-}
-"use client"
-
-import { useState } from "react"
-import { checkLimit } from "@/lib/limit"
-
-export default function ChatPanel() {
-  const [messages, setMessages] = useState<any[]>([])
-  const [input, setInput] = useState("")
-  const [limitReached, setLimitReached] = useState(false)
-
-  async function sendMessage() {
-    const limit = checkLimit()
-
-    if (!limit.allowed) {
-      setLimitReached(true)
-      return
+    if (storedTime) {
+      const now = Date.now();
+      if (now < parseInt(storedTime)) {
+        setCooldown(true);
+        setCooldownTime(parseInt(storedTime));
+      } else {
+        localStorage.removeItem("cooldownTime");
+        localStorage.setItem("questionsLeft", 8);
+      }
     }
 
-    const res = await fetch("/api/chat", {
-      method: "POST",
-      body: JSON.stringify({ message: input })
-    })
+    if (storedQuestions) {
+      setQuestionsLeft(parseInt(storedQuestions));
+    }
 
-    const data = await res.json()
+    setMessages([
+      {
+        role: "assistant",
+        content: `Assalomu alaykum 👋  
 
-    setMessages([...messages, { role: "user", content: input }, { role: "ai", content: data.reply }])
-    setInput("")
-  }
+Men Learneasy.uz sayti tomonidan maxsus ishlab chiqilgan professional AI agentman.
+
+🎓 Men quyidagilarda yordam bera olaman:
+- Matematika
+- Fizika
+- Kimyo
+- Biologiya
+- Chet tillari va sertifikatga tayyorgarlik
+- Uyga vazifalar
+- Murakkab mavzularni sodda tushuntirish
+
+⚠️ Sizda faqat 8 ta savol berish imkoniyati mavjud.
+Bilimlar olamiga to‘liq sho‘ng‘ish uchun premium obuna — oyiga 12 000 so‘m.`,
+      },
+    ]);
+  }, []);
+
+  // Cooldown timer
+  useEffect(() => {
+    if (!cooldown) return;
+
+    const interval = setInterval(() => {
+      if (Date.now() > cooldownTime) {
+        setCooldown(false);
+        setQuestionsLeft(8);
+        localStorage.setItem("questionsLeft", 8);
+        localStorage.removeItem("cooldownTime");
+      }
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [cooldown, cooldownTime]);
+
+  const sendMessage = async () => {
+    if (!input.trim() || cooldown || loading) return;
+    if (questionsLeft <= 0) return;
+
+    const newMessages = [...messages, { role: "user", content: input }];
+    setMessages(newMessages);
+    setInput("");
+    setLoading(true);
+
+    const remaining = questionsLeft - 1;
+    setQuestionsLeft(remaining);
+    localStorage.setItem("questionsLeft", remaining);
+
+    if (remaining === 0) {
+      const nextTime = Date.now() + 8 * 60 * 60 * 1000;
+      setCooldown(true);
+      setCooldownTime(nextTime);
+      localStorage.setItem("cooldownTime", nextTime);
+    }
+
+    try {
+      const response = await fetch(
+        "https://openrouter.ai/api/v1/chat/completions",
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${OPENROUTER_API_KEY}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            model: MODEL,
+            temperature: 0.3,
+            messages: [
+              {
+                role: "system",
+                content:
+                  "You are a professional educational AI. Give clear, structured, and accurate explanations. Avoid unnecessary text. Be precise.",
+              },
+              ...newMessages,
+            ],
+          }),
+        }
+      );
+
+      const data = await response.json();
+
+      setMessages([
+        ...newMessages,
+        {
+          role: "assistant",
+          content: data.choices?.[0]?.message?.content || "Xatolik yuz berdi.",
+        },
+      ]);
+    } catch {
+      setMessages([
+        ...newMessages,
+        { role: "assistant", content: "Server bilan bog‘lanishda xatolik." },
+      ]);
+    }
+
+    setLoading(false);
+  };
 
   return (
-    <div className="h-full flex flex-col bg-gray-950">
-
-      <div className="p-4 border-b border-gray-800 bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 text-black font-bold">
-        Learneasy AI
-      </div>
-
-      <div className="flex-1 overflow-y-auto p-4 space-y-4">
-        {messages.map((m, i) => (
-          <div key={i} className={m.role === "user" ? "text-right" : "text-left"}>
-            <div className="inline-block bg-gray-800 p-3 rounded-xl">
-              {m.content}
-            </div>
-          </div>
-        ))}
-
-        {limitReached && (
-          <div className="text-center">
-            <p className="text-red-500">8 ta savol limiti tugadi.</p>
-            <button className="mt-3 bg-pink-600 px-4 py-2 rounded-lg">
-              Premium (12 000 so'm / oy)
-            </button>
-          </div>
-        )}
-      </div>
-
-      <div className="p-4 border-t border-gray-800 flex gap-2">
-        <input
-          className="flex-1 bg-gray-800 p-2 rounded-lg"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          placeholder="Savolingizni yozing..."
-        />
+    <div style={{ fontFamily: "sans-serif", background: "#fafafa" }}>
+      {/* HEADER */}
+      <div
+        style={{
+          background: gradient,
+          padding: "15px",
+          color: "white",
+          display: "flex",
+          justifyContent: "space-between",
+        }}
+      >
+        <h2>Learneasy.uz</h2>
         <button
-          onClick={sendMessage}
-          className="bg-pink-600 px-4 py-2 rounded-lg"
+          style={{
+            background: "white",
+            borderRadius: "20px",
+            padding: "8px 15px",
+            border: "none",
+            cursor: "pointer",
+          }}
+          onClick={() =>
+            document
+              .getElementById("chat-panel")
+              .scrollIntoView({ behavior: "smooth" })
+          }
         >
-          Yuborish
+          AI Chat
         </button>
       </div>
 
+      <div style={{ display: "flex", padding: "20px", gap: "20px" }}>
+        {/* HOME PANEL */}
+        <div
+          style={{
+            flex: 2,
+            background: "white",
+            borderRadius: "10px",
+            padding: "20px",
+            boxShadow: "0 0 10px rgba(0,0,0,0.1)",
+          }}
+        >
+          <h3>Home Panel (Post joyi)</h3>
+          <div
+            style={{
+              height: "200px",
+              background: "#eee",
+              borderRadius: "10px",
+              marginBottom: "10px",
+            }}
+          />
+          <div style={{ display: "flex", gap: "15px" }}>
+            <button>❤️ Like</button>
+            <button>💬 Comment</button>
+          </div>
+        </div>
+
+        {/* CHAT PANEL */}
+        <div
+          id="chat-panel"
+          style={{
+            flex: 1,
+            background: "white",
+            borderRadius: "10px",
+            padding: "20px",
+            boxShadow: "0 0 10px rgba(0,0,0,0.1)",
+            display: "flex",
+            flexDirection: "column",
+            height: "500px",
+          }}
+        >
+          <h3>AI Chat ({questionsLeft}/8)</h3>
+
+          <div
+            style={{
+              flex: 1,
+              overflowY: "auto",
+              marginBottom: "10px",
+            }}
+          >
+            {messages.map((msg, i) => (
+              <div
+                key={i}
+                style={{
+                  marginBottom: "10px",
+                  textAlign: msg.role === "user" ? "right" : "left",
+                }}
+              >
+                <div
+                  style={{
+                    display: "inline-block",
+                    padding: "8px 12px",
+                    borderRadius: "15px",
+                    background:
+                      msg.role === "user" ? "#d62976" : "#f1f1f1",
+                    color: msg.role === "user" ? "white" : "black",
+                  }}
+                >
+                  {msg.content}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {cooldown ? (
+            <div style={{ color: "red" }}>
+              Limit tugadi. 8 soatdan keyin qayta urinib ko‘ring.
+              <br />
+              Premium: 12 000 so‘m / oy
+            </div>
+          ) : (
+            <>
+              <input
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                placeholder="Savolingizni yozing..."
+                style={{
+                  padding: "10px",
+                  borderRadius: "20px",
+                  border: "1px solid #ccc",
+                  marginBottom: "10px",
+                }}
+              />
+              <button
+                onClick={sendMessage}
+                style={{
+                  background: gradient,
+                  color: "white",
+                  border: "none",
+                  padding: "10px",
+                  borderRadius: "20px",
+                  cursor: "pointer",
+                }}
+              >
+                {loading ? "Yuborilmoqda..." : "Yuborish"}
+              </button>
+            </>
+          )}
+        </div>
+      </div>
     </div>
-  )
+  );
 }
-export async function POST(req: Request) {
-  const { message } = await req.json()
-
-  const systemPrompt = `
-SEN Learneasy.uz sayti tomonidan maxsus ishlab chiqilgan professional AI agent san.
-
-O'zingni har doim shunday tanishtir:
-
-"Men Learneasy.uz sayti tomonidan maxsus ishlab chiqilgan AI man."
-
-Xususiyatlaring:
-- Matematika, Fizika, Kimyo, Biologiya tushuntirish
-- IELTS, SAT, chet tillariga tayyorlash
-- Uyga vazifalarga yordam
-- Professional va aniq javob berish
-- Keraksiz gap yozmaslik
-- Qisqa lekin tushunarli javob
-- Strukturali javob
-- Misollar bilan tushuntirish
-
-Faqat 8 ta bepul savol mavjud.
-Premium narxi: 12 000 so'm / oy.
-
-Har doim aniq va tez javob ber.
-`
-
-  const response = await fetch("https://api.openai.com/v1/chat/completions", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`
-    },
-    body: JSON.stringify({
-      model: "gpt-4o-mini",
-      messages: [
-        { role: "system", content: systemPrompt },
-        { role: "user", content: message }
-      ]
-    })
-  })
-
-  const data = await response.json()
-
-  return Response.json({
-    reply: data.choices[0].message.content
-  })
-}
-temperature: 0.2
-top_p: 0.8
-max_tokens: 800
