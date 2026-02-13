@@ -1,134 +1,127 @@
-Mustafobek, [2/13/2026 12:27 AM]
 <!DOCTYPE html>
 <html lang="uz">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Learneasy AI | Master Edition</title>
+    <title>Learneasy AI</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
-        :root { --insta: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #fafafa; margin: 0; }
-        .glass { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(20px); border-bottom: 1px solid #eee; }
-        .chat-ai { background: #ffffff; border: 1px solid #f1f5f9; border-radius: 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.03); }
-        .chat-user { background: #0095f6; color: white; border-radius: 20px 20px 4px 20px; }
-        .btn-main { background: var(--insta); color: white; border-radius: 18px; font-weight: 800; cursor: pointer; border: none; }
+        body { background-color: #f8fafc; margin: 0; padding: 0; overflow-x: hidden; }
         #chat-engine::-webkit-scrollbar { width: 0; }
-        @keyframes pop { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
-        .animate-pop { animation: pop 0.3s ease-out; }
+        .ai-card { background: white; border-radius: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        .bottom-bar { position: fixed; bottom: 0; left: 0; right: 0; background: white; border-top: 1px solid #e2e8f0; padding: 15px; z-index: 1000; }
     </style>
 </head>
-<body>
+<body class="font-sans">
 
-    <nav class="sticky top-0 z-[100] glass px-6 py-5 flex justify-between items-center max-w-lg mx-auto">
-        <div class="flex flex-col">
-            <h1 class="text-2xl font-black italic tracking-tighter uppercase leading-none" style="background: var(--insta); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Learneasy</h1>
-            <p class="text-[9px] font-bold text-gray-400 tracking-widest uppercase mt-1 italic">Master System Active</p>
-        </div>
-        <button onclick="document.getElementById('ai-modal').classList.remove('hidden')" class="btn-main px-6 py-3 text-[10px] uppercase shadow-lg">Chatni Ochish</button>
-    </nav>
+    <div class="max-w-lg mx-auto flex flex-col min-h-screen">
+        <div id="chat-engine" class="flex-1 overflow-y-auto p-4 space-y-4 pb-32">
+            <div class="ai-card p-6 border border-slate-100">
+                <h2 class="text-lg font-black italic mb-3">Salom, men Learneasy Super AI-man! ✨</h2>
+                <div class="text-sm space-y-3 text-slate-700 font-medium">
+                    <p>Mustafobek tomonidan yaratilganman. Imkoniyatlarim:</p>
+                    <p>📚 <b>Matematika & Fizika:</b> Murakkab misol va masalalar yechimi.</p>
+                    <p>🧪 <b>Kimyo & Biologiya:</b> Darslarni sodda tushuntiraman.</p>
+                    <p>✍️ <b>Uyga vazifalar:</b> Mukammal tayyorlab berish.</p>
+                    <div class="h-px bg-slate-100 my-2"></div>
 
-    <main class="max-w-lg mx-auto p-5 text-center">
-        <div class="bg-white rounded-[40px] shadow-2xl border border-gray-100 p-10">
-            <div class="w-20 h-20 mx-auto bg-black rounded-full flex items-center justify-center text-white font-bold text-xl mb-4 border-4 border-orange-500">MU</div>
-            <p class="font-black text-sm italic">mustafobek_offical</p>
-            <p class="text-[9px] text-gray-400 uppercase font-bold tracking-widest">System Architect</p>
-            <h2 class="font-extrabold text-2xl uppercase mt-6 italic tracking-tighter text-slate-800">Kelajak ta'limi hozir shu yerda!</h2>
-        </div>
-    </main>
+                    <p class="text-blue-600 font-bold">💎 Premium: 12,000 so'm.</p>
+                    <p class="text-xs font-black text-slate-900 bg-yellow-100 p-2 rounded-lg">💳 KARTA: 4916 9903 2276 6145 </p>
 
-    <section id="ai-modal" class="hidden fixed inset-0 bg-white z-[200] flex flex-col max-w-lg mx-auto">
-        <header class="px-6 py-6 border-b flex justify-between items-center">
-            <button onclick="document.getElementById('ai-modal').classList.add('hidden')" class="text-3xl font-light">✕</button>
-            <h2 class="font-black text-sm uppercase italic tracking-widest">Super AI </h2>
-            <div class="text-[10px] font-black bg-blue-50 text-blue-600 px-4 py-2 rounded-full uppercase">15/15 Bepul</div>
-        </header>
-
-Mustafobek, [2/13/2026 12:27 AM]
-<div id="chat-engine" class="flex-1 overflow-y-auto p-6 space-y-6 bg-[#fafafa]">
-            <div class="chat-ai p-8 animate-pop">
-                <h3 class="font-extrabold text-[15px] mb-4">Salom, men Learneasy.uz sayti tomonidan ishlangan maxsus Super AI-man! ✨</h3>
-                <div class="space-y-4 text-[13px] text-slate-700 leading-relaxed">
-                    <p class="font-medium text-gray-600 italic">Mustafobek tomonidan yaratilganman. Mening imkoniyatlarim:</p>
-                    <p>📚 <b>Matematika & Fizika:</b> Eng murakkab masalalar va formulalarni yechishga yordam beraman va tushuntiraman.</p>
-                    <p>🧪 <b>Kimyo & Biologiya:</b> Laboratoriya ishlari va darslarni sodda tushuntirish.</p>
-                    <p>✍️ <b>Uyga vazifalar:</b> Har qanday fandan darslaringizni mukammal tayyorlash.</p>
-                    <p>🖼 <b>AI Vizualizatsiya:</b> Professional darajadagi rasmlar tayyorlayman.</p>
-                    <div class="h-[1px] bg-gray-100 my-4"></div>
-                    <p class="text-gray-500 font-semibold italic">Lekin faqat 15 dona savol so'rash va 3 dona professional darajada AI bilan rasm yaratishingiz mumkin, premium oling va hamma bilim va san'at olamiga sho'ng'ing.</p>
-                    <p class="font-black text-blue-600">💎 Premium: Atigi 12,000 so'm.</p>
-                    <p class="font-black uppercase tracking-tighter text-slate-900 italic pt-2">Savolingizni bering, men tayyorman!</p>
+                    <p class="font-black uppercase italic pt-1 text-[10px]">Savolingizni bering, men tayyorman!</p>
                 </div>
             </div>
         </div>
 
-        <div class="p-5 border-t bg-white pb-10">
-            <div class="flex gap-3 items-center">
-                <div class="flex-1 flex bg-gray-50 rounded-[22px] px-6 py-1 items-center border border-gray-200 focus-within:border-blue-400 focus-within:bg-white transition-all">
-                    <input type="text" id="ai-input" placeholder="Xabaringizni yozing..." class="flex-1 bg-transparent border-none outline-none text-[14px] h-12 font-bold">
-                    <button id="send-btn" class="text-[#0095f6] font-black text-xs uppercase ml-2 tracking-widest">Yuborish</button>
-                </div>
+        <div class="bottom-bar">
+            <div class="max-w-lg mx-auto flex items-center gap-2 bg-slate-100 rounded-full px-4 py-1">
+                <input type="text" id="ai-input" placeholder="Xabaringizni yozing..." class="flex-1 bg-transparent h-12 outline-none text-sm font-bold text-slate-800">
+                <button id="send-btn" class="text-blue-600 font-black text-xs uppercase tracking-widest px-2">Yuborish</button>
             </div>
         </div>
-    </section>
+    </div>
 
     <script>
-        const API_KEYS = ["AIzaSyBN1l_R-N8Gv5p9f3M2LwK4T7jI9ZqX0E", "AIzaSyD-L9R9z5M2LwK4T7jI9ZqX0E"];
-        let keyIdx = 0;
-
-        async function getAIResponse(userText, retryCount = 0) {
-            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEYS[keyIdx]}`;
-            
-            try {
-                const response = await fetch(url, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        contents: [{ parts: [{ text: Isming Learneasy AI. Mustafobek yaratgan. Matematika, Fizika, Kimyo mutaxassisisan. Uyga vazifalarga yordam berasan. Qisqa va aniq javob ber. User: ${userText} }] }]
-                    })
-                });
-
-                if (!response.ok) throw new Error('API_LIMIT');
-                const data = await response.json();
-                return data.candidates[0].content.parts[0].text;
-            } catch (err) {
-                if (retryCount < 10) {
-                    keyIdx = (keyIdx + 1) % API_KEYS.length;
-                    return new Promise(r => setTimeout(() => r(getAIResponse(userText, retryCount + 1)), 1000));
-                }
-                throw err;
-            }
+        const API_KEY = "AIzaSyBN1l_R-N8Gv5p9f3M2LwK4T7jI9ZqX0E";
+        async function fetchAI(msg) {
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
+            const res = await fetch(url, {
+                method: "POST", headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ contents: [{ parts: [{ text: "Isming Learneasy AI. Mustafobek yaratgan. Fanlardan yordam ber. Savol: " + msg }] }] })
+            });
+            const data = await res.json();
+            return data.candidates[0].content.parts[0].text;
         }
 
-        document.getElementById('send-btn').onclick = async () => {
+        const handleSend = async () => {
             const inp = document.getElementById('ai-input');
             const box = document.getElementById('chat-engine');
             const val = inp.value.trim();
             if(!val) return;
-
-            box.innerHTML += <div class="flex justify-end animate-pop"><div class="chat-user p-4 px-6 max-w-[85%] text-[13px] font-bold shadow-md">${val}</div></div>;
+            box.innerHTML += `<div class="flex justify-end"><div class="bg-blue-600 text-white p-4 rounded-2xl rounded-tr-none text-sm font-bold max-w-[85%]">${val}</div></div>`;
             inp.value = "";
+            const loaderId = "L" + Date.now();
+            box.innerHTML += `<div id="${loaderId}" class="text-center text-[10px] font-black text-blue-500 animate-pulse py-2">Javob yozilmoqda...</div>`;
             box.scrollTop = box.scrollHeight;
-
-Mustafobek, [2/13/2026 12:27 AM]
-const lid = "L" + Date.now();
-            box.innerHTML += <div id="${lid}" class="text-[10px] font-black text-blue-500 animate-pulse py-2 uppercase text-center italic tracking-widest">Javob tayyorlanmoqda...</div>;
-            box.scrollTop = box.scrollHeight;
-
             try {
-                const text = await getAIResponse(val);
-                document.getElementById(lid).remove();
-                box.innerHTML += <div class="chat-ai p-6 max-w-[95%] text-[13px] font-medium animate-pop border border-gray-50"><b>AI:</b> ${text}</div>;
-            } catch (e) {
-                document.getElementById(lid).innerHTML = <span class="text-orange-500 font-bold uppercase">Tarmoqda kutilmagan og'irlik. Birozdan so'ng qayta urinib ko'ring.</span>;
-            }
+                const reply = await fetchAI(val);
+                document.getElementById(loaderId).remove();
+                box.innerHTML += `<div class="ai-card p-5 text-sm font-semibold border border-slate-100 leading-relaxed italic"><b>AI:</b><br>${reply}</div>`;
+            } catch(e) { document.getElementById(loaderId).innerText = "XATO: QAYTA URINIB KO'RING."; }
             box.scrollTop = box.scrollHeight;
         };
+        document.getElementById('send-btn').onclick = handleSend;
+        document.getElementById('ai-input').onkeypress = (e) => { if(e.key === 'Enter') handleSend(); };
     </script>
 </body>
 </html>
 <script type="module">
+    // 1. Foydalanuvchi kiritgan matnni olish va ekranga chiqarish
+    const sendBtn = document.getElementById('send-btn');
+    const inputField = document.getElementById('ai-input');
+    const chatBox = document.getElementById('chat-engine');
+
+    // API Kalitlar (O'zbekistonda ulanish barqarorligi uchun)
+    const keys = ["AIzaSyBN1l_R-N8Gv5p9f3M2LwK4T7jI9ZqX0E", "AIzaSyD-L9R9z5M2LwK4T7jI9ZqX0E"];
+    let currentKey = 0;
+
+    // 2. JAVOB BERISH FUNKSIYASI (Eng asosiysi!)
+    async function getResponseFromAI(prompt, retry = 0) {
+        // To'g'ridan-to'g'ri Google API URL (Kutubxonasiz ulanish)
+        const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${keys[currentKey]}`;
+
+        try {
+            const response = await fetch(url, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    contents: [{
+                        parts: [{
+                            text: Sening isming Learneasy AI. Mustafobek yaratgan. Matematika, Fizika, Kimyo mutaxassisisan. Har doim do'stona va aqlli javob ber. Savol: ${prompt}
+                        }]<script type="module">
+    // 1. Foydalanuvchi kiritgan matnni olish va ekranga chiqarish
+    const sendBtn = document.getElementById('send-btn');
+    const inputField = document.getElementById('ai-input');
+    const chatBox = document.getElementById('chat-engine');
+
+    // API Kalitlar (O'zbekistonda ulanish barqarorligi uchun)
+    const keys = ["AIzaSyBN1l_R-N8Gv5p9f3M2LwK4T7jI9ZqX0E", "AIzaSyD-L9R9z5M2LwK4T7jI9ZqX0E"];
+    let currentKey = 0;
+
+    // 2. JAVOB BERISH FUNKSIYASI (Eng asosiysi!)
+    async function getResponseFromAI(prompt, retry = 0) {
+        // To'g'ridan-to'g'ri Google API URL (Kutubxonasiz ulanish)
+        const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${keys[currentKey]}`;
+
+        try {
+            const response = await fetch(url, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    contents: [{
+                        parts: [{
+                            text: Sening isming Learneasy AI. Mustafobek yaratgan. Matematika, Fizika, Kimyo mutaxassisisan. Har doim do'stona va aqlli javob ber. Savol: ${prompt}
+                        }]<script type="module">
     // 1. Foydalanuvchi kiritgan matnni olish va ekranga chiqarish
     const sendBtn = document.getElementById('send-btn');
     const inputField = document.getElementById('ai-input');
