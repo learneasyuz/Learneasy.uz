@@ -1,138 +1,194 @@
-<!DOCTYPE html>
-<html lang="uz">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Learneasy</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        body { background: #fafafa; font-family: -apple-system, sans-serif; }
-        .nav-bottom { position: fixed; bottom: 0; left: 0; right: 0; background: white; border-top: 1px solid #dbdbdb; display: flex; justify-content: space-around; padding: 12px; z-index: 1000; }
-        #ai-section { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: white; z-index: 2000; flex-direction: column; }
-        .post-img { background: #efefef; aspect-ratio: 1/1; display: flex; items-center; justify-content: center; }
-        #chat-messages::-webkit-scrollbar { width: 0; }
-    </style>
-</head>
-<body>
+// App.jsx
+import { useState, useEffect, useRef } from 'react';
 
-    <div id="home-panel" class="max-w-lg mx-auto pb-20">
-        <header class="p-4 border-b bg-white sticky top-0 z-50 flex justify-between items-center">
-            <h1 class="text-2xl font-bold italic tracking-tighter">Instagram</h1>
-            <button onclick="toggleAI(true)" class="text-blue-500 text-2xl">
-                <i class="fa-brands fa-rocketchat"></i>
+function App() {
+  const [messages, setMessages] = useState([]);
+  const [input, setInput] = useState('');
+  const [questionCount, setQuestionCount] = useState(0);
+  const [lastReset, setLastReset] = useState(null);
+  const messagesEndRef = useRef(null);
+
+  const MAX_QUESTIONS = 8;
+  const RESET_HOURS = 8;
+
+  // localStorage dan o'qish
+  useEffect(() => {
+    const savedCount = localStorage.getItem('questionCount');
+    const savedTime = localStorage.getItem('lastReset');
+
+    if (savedCount) {
+      setQuestionCount(parseInt(savedCount, 10));
+    }
+    if (savedTime) {
+      setLastReset(new Date(savedTime));
+    }
+
+    // Birinchi xabar - AI tanishtiruvi
+    if (messages.length === 0) {
+      const intro = `Salom! Men Learneasy.uz sayti tomonidan maxsus ishlab chiqilgan AI agentman.
+
+Men quyidagi yo'nalishlarda yordam beraman:
+• Matematika, fizika, kimyo, biologiya fanlarini sodda va aniq tushuntirish
+• Chet tillari (ingliz, rus va boshqalar) bo'yicha sertifikatlarga tayyorlash
+• Uy vazifalari, testlar, masalalar yechishda yordam
+• Har qanday mavzuni professional va batafsil tahlil qilish
+
+Eslatma: Bu yerda sizga **faqat 8 ta savol** berish imkoniyati mavjud (bepul versiya uchun). 
+Savollar tugagach, imkoniyat 8 soatdan keyin yangilanadi yoki Premium obuna orqali cheksiz foydalanishingiz mumkin.
+
+Premium (bir oy – 12 000 so'm):
+• Cheksiz savol-javob
+• Tezroq va yanada chuqurroq javoblar
+
+To'lov qilish uchun saytga o'ting: https://learneasy-uz.vercel.app (karta orqali to'lov bor)
+
+Savolingizni yozing, men professional tarzda javob beraman! 🚀`;
+
+      setMessages([{ role: 'ai', content: intro }]);
+    }
+  }, []);
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages]);
+
+  const checkReset = () => {
+    if (lastReset) {
+      const now = new Date();
+      const diffHours = (now - lastReset) / (1000 * 60 * 60);
+      if (diffHours >= RESET_HOURS) {
+        setQuestionCount(0);
+        localStorage.setItem('questionCount', '0');
+        localStorage.setItem('lastReset', now.toISOString());
+        setLastReset(now);
+        alert("8 soat o'tdi! Yangi 8 ta savol imkoniyati ochildi.");
+      }
+    }
+  };
+
+  const handleSend = () => {
+    if (!input.trim()) return;
+
+    checkReset();
+
+    if (questionCount >= MAX_QUESTIONS) {
+      setMessages(prev => [...prev, 
+        { role: 'user', content: input },
+        { role: 'ai', content: `Sizning bepul imkoniyatingiz (8 ta savol) tugadi. Yana 8 soat kuting yoki Premium obuna bo'ling!\n\nPremium: 12 000 so'm / oy – cheksiz savol, tez javoblar.\nTo'lov → https://learneasy-uz.vercel.app` }
+      ]);
+      setInput('');
+      return;
+    }
+
+    const userMsg = { role: 'user', content: input };
+    setMessages(prev => [...prev, userMsg]);
+
+    // Bu yerda real AI (masalan Grok/OpenAI API) chaqiriladi
+    // Hozircha oddiy echo qilib qo'yamiz, real loyihada API qo'ying
+    setTimeout(() => {
+      const aiReply = `Bu sizning ${questionCount + 1}-savolingizga javob (real AI integratsiyasi kerak).\nSiz yozgan: "${input}"\n\nJavob: Bu yerda LLM dan kelgan aniq, professional javob bo'lardi. Masalan, matematika masalasi bo'lsa – bosqichma-bosqich yechim, formula LaTeX bilan va h.k.`;
+
+      setMessages(prev => [...prev, { role: 'ai', content: aiReply }]);
+    }, 800);
+
+    // Limitni yangilash
+    const newCount = questionCount + 1;
+    setQuestionCount(newCount);
+    localStorage.setItem('questionCount', newCount.toString());
+    if (newCount === 1) {
+      localStorage.setItem('lastReset', new Date().toISOString());
+      setLastReset(new Date());
+    }
+
+    setInput('');
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-[#feda75] via-[#fa7e1e] via-[#d62976] via-[#962fbf] to-[#4f5bd5] text-white">
+      <div className="container mx-auto flex h-screen">
+        
+        {/* Chap panel - Home / Postlar */}
+        <div className="w-1/2 bg-black/40 backdrop-blur-md border-r border-white/20 p-6 overflow-y-auto">
+          <h1 className="text-3xl font-bold mb-6 text-center bg-gradient-to-r from-[#feda75] to-[#d62976] bg-clip-text text-transparent">
+            Learneasy Social
+          </h1>
+          
+          <div className="space-y-6">
+            {/* Placeholder post */}
+            <div className="bg-white/10 rounded-xl p-4">
+              <p className="text-lg mb-3">Hozircha postlar yo'q. Tez orada video, rasm, like va commentlar qo'shiladi!</p>
+              <div className="flex gap-4 mt-4">
+                <button className="flex items-center gap-2 bg-white/20 px-4 py-2 rounded-full hover:bg-white/30">
+                  ❤️ Like (0)
+                </button>
+                <button className="flex items-center gap-2 bg-white/20 px-4 py-2 rounded-full hover:bg-white/30">
+                  💬 Comment
+                </button>
+              </div>
+            </div>
+
+            {/* Yangi post joyi */}
+            <div className="bg-white/5 p-4 rounded-xl">
+              <textarea 
+                placeholder="Yangi post yozing (video/rasm hali qo'shilmagan)..."
+                className="w-full bg-transparent border-b border-white/30 focus:outline-none text-white placeholder-white/60 resize-none h-24"
+              />
+              <button className="mt-3 bg-gradient-to-r from-[#833AB4] to-[#C13584] px-6 py-2 rounded-full font-semibold">
+                Post joylash
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* O'ng panel - AI Chat */}
+        <div className="w-1/2 flex flex-col bg-black/50 backdrop-blur-lg">
+          <div className="p-4 border-b border-white/20 bg-gradient-to-r from-[#833AB4]/80 to-[#C13584]/80">
+            <h2 className="text-xl font-bold">Learneasy AI yordamchi</h2>
+            <p className="text-sm opacity-80">Qolgan savollar: {MAX_QUESTIONS - questionCount}</p>
+          </div>
+
+          <div className="flex-1 p-6 overflow-y-auto space-y-4">
+            {messages.map((msg, i) => (
+              <div 
+                key={i} 
+                className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
+              >
+                <div 
+                  className={`max-w-[80%] p-4 rounded-2xl ${
+                    msg.role === 'user' 
+                      ? 'bg-gradient-to-r from-[#4f5bd5] to-[#833AB4] text-white' 
+                      : 'bg-white/15 text-white'
+                  }`}
+                >
+                  {msg.content}
+                </div>
+              </div>
+            ))}
+            <div ref={messagesEndRef} />
+          </div>
+
+          <div className="p-4 border-t border-white/20 flex gap-3 bg-black/40">
+            <input
+              type="text"
+              value={input}
+              onChange={e => setInput(e.target.value)}
+              onKeyDown={e => e.key === 'Enter' && handleSend()}
+              placeholder="Savolingizni yozing..."
+              disabled={questionCount >= MAX_QUESTIONS}
+              className="flex-1 bg-white/10 border border-white/30 rounded-full px-6 py-3 focus:outline-none focus:border-[#d62976] text-white placeholder-white/60 disabled:opacity-50"
+            />
+            <button 
+              onClick={handleSend}
+              disabled={questionCount >= MAX_QUESTIONS || !input.trim()}
+              className="bg-gradient-to-r from-[#d62976] to-[#962fbf] px-8 py-3 rounded-full font-bold hover:opacity-90 disabled:opacity-50"
+            >
+              Yuborish
             </button>
-        </header>
-
-        <div class="flex gap-4 p-4 overflow-x-auto bg-white border-b mb-2">
-            <div class="flex flex-col items-center gap-1 min-w-[70px]">
-                <div class="w-16 h-16 rounded-full border-2 border-pink-500 p-0.5"><img src="https://ui-avatars.com/api/?name=Mustafobek&background=0D8ABC&color=fff" class="rounded-full"></div>
-                <span class="text-[10px]">Mustafobek</span>
-            </div>
+          </div>
         </div>
-
-        <div class="bg-white border-b mb-4">
-            <div class="p-3 flex items-center gap-2">
-                <div class="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-white text-[10px]">AD</div>
-                <span class="font-bold text-xs">Learneasy_Official</span>
-            </div>
-            <div class="post-img">
-                <i class="fa-solid fa-play text-4xl text-slate-400"></i> </div>
-            <div class="p-3">
-                <div class="flex gap-4 mb-2 text-xl">
-                    <i class="fa-regular fa-heart cursor-pointer" onclick="this.classList.toggle('fa-solid'); this.classList.toggle('text-red-500')"></i>
-                    <i class="fa-regular fa-comment"></i>
-                </div>
-                <p class="text-sm font-bold">2,456 likes</p>
-                <p class="text-sm"><span class="font-bold">Learneasy_Official</span> Bugungi dars: Kvadrat tenglamalar! 🎥</p>
-            </div>
-        </div>
+      </div>
     </div>
+  );
+}
 
-    <div id="ai-section">
-        <header class="p-4 border-b flex items-center justify-between">
-            <i class="fa-solid fa-chevron-left text-xl" onclick="toggleAI(false)"></i>
-            <h2 class="font-bold uppercase text-sm tracking-widest">Learneasy AI</h2>
-            <div class="w-5"></div>
-        </header>
-
-        <div id="chat-messages" class="flex-1 overflow-y-auto p-4 space-y-4">
-            <div class="bg-slate-50 p-5 rounded-3xl border border-slate-200">
-                <h3 class="font-black text-blue-600 mb-2">Salom, men Learneasy Super AI-man! ✨</h3>
-                <p class="text-xs text-slate-600 leading-relaxed">Mustafobek tomonidan yaratilganman. Matematika, Fizika va Tillardan yordam beraman.</p>
-                
-                <div class="mt-4 p-4 bg-blue-600 text-white rounded-2xl">
-                    <p class="text-[10px] font-bold uppercase opacity-80">Premium a'zolik:</p>
-                    <p class="text-sm font-bold">💎 Oyiga 8 ta savol berish imkoniyati</p>
-                    <p class="text-xs mt-1">To'lov: 12,000 so'm / oyiga</p>
-                    <p class="text-[11px] mt-2 font-mono bg-blue-700 p-2 rounded-lg">💳 4916 9903 2276 6145</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="p-4 border-t bg-white">
-            <div class="flex gap-2 bg-slate-100 rounded-full px-4 items-center border focus-within:border-blue-500">
-                <input type="text" id="ai-input" placeholder="Savol bering..." class="flex-1 h-12 bg-transparent outline-none text-sm font-medium">
-                <button id="send-btn" class="text-blue-600 font-bold text-xs uppercase">Yuborish</button>
-            </div>
-        </div>
-    </div>
-
-    <nav class="nav-bottom">
-        <button onclick="toggleAI(false)" class="text-xl"><i class="fa-solid fa-house"></i></button>
-        <button class="text-xl text-slate-300"><i class="fa-solid fa-magnifying-glass"></i></button>
-        <button onclick="toggleAI(true)" class="text-xl text-slate-300"><i class="fa-solid fa-robot"></i></button>
-        <button class="text-xl text-slate-300"><i class="fa-solid fa-user"></i></button>
-    </nav>
-
-    <script>
-        const API_KEY = "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";
-
-        function toggleAI(show) {
-            document.getElementById('ai-section').style.display = show ? 'flex' : 'none';
-        }
-
-        async function fetchAI(msg) {
-            try {
-                const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
-                    method: "POST",
-                    headers: { "Authorization": `Bearer ${API_KEY}`, "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        "model": "meta-llama/llama-3-8b-instruct:free",
-                        "messages": [{"role": "user", "content": "Sen Learneasy AI-san. O'zbek tilida savolga aniq javob ber: " + msg}]
-                    })
-                });
-                const data = await res.json();
-                return data.choices[0].message.content;
-            } catch(e) {
-                return "Tarmoq xatosi. Iltimos, keyinroq urinib ko'ring.";
-            }
-        }
-
-        async function handleSend() {
-            const inp = document.getElementById('ai-input');
-            const box = document.getElementById('chat-messages');
-            const val = inp.value.trim();
-            if(!val) return;
-
-            // User xabari
-            box.innerHTML += `<div class="flex justify-end"><div class="bg-blue-600 text-white p-3 rounded-2xl rounded-tr-none text-xs font-bold max-w-[80%]">${val}</div></div>`;
-            inp.value = "";
-            box.scrollTop = box.scrollHeight;
-
-            const loader = document.createElement('div');
-            loader.className = "text-[10px] text-blue-500 font-bold animate-pulse";
-            loader.innerText = "Yozmoqda...";
-            box.appendChild(loader);
-
-            const reply = await fetchAI(val);
-            loader.remove();
-            box.innerHTML += `<div class="bg-slate-100 p-3 rounded-2xl rounded-tl-none text-xs font-medium border"><b>AI:</b><br>${reply}</div>`;
-            box.scrollTop = box.scrollHeight;
-        }
-
-        document.getElementById('send-btn').onclick = handleSend;
-        document.getElementById('ai-input').onkeypress = (e) => { if(e.key === 'Enter') handleSend(); };
-    </script>
-</body>
-</html>
+export default App;
