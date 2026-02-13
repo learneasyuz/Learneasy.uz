@@ -1,191 +1,92 @@
-// App.jsx
-import { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from "react";
+import "./App.css";
 
 function App() {
-  const [messages, setMessages] = useState([]);
-  const [input, setInput] = useState('');
+  const [messages, setMessages] = useState([
+    {
+      from: "ai",
+      text: `Salom! Men Learneasy.uz sayti tomonidan maxsus ishlab chiqilgan AI man. 
+      Xususiyatlarim: matematika, fizika, kimyo, biologiyani tushuntirish, chet tillaridan sertifikatga tayyorlash, uyga vazifalarga yordam berish. 
+      Saytda faqat 8 ta savol berish imkoniyati bor. Javoblar professional tarzda beriladi. 
+      Agar bilim olamiga to‘liq sho‘ng‘ishni istasangiz, premium obuna bo‘ling (oyiga 12 000 so‘m).`
+    }
+  ]);
+  const [input, setInput] = useState("");
   const [questionCount, setQuestionCount] = useState(0);
-  const [lastReset, setLastReset] = useState(null);
-  const messagesEndRef = useRef(null);
-
-  const MAX_QUESTIONS = 8;
-  const RESET_HOURS = 8;
-
-  // localStorage dan o'qish
-  useEffect(() => {
-    const savedCount = localStorage.getItem('questionCount');
-    const savedTime = localStorage.getItem('lastReset');
-
-    if (savedCount) {
-      setQuestionCount(parseInt(savedCount, 10));
-    }
-    if (savedTime) {
-      setLastReset(new Date(savedTime));
-    }
-
-    // Birinchi xabar - AI tanishtiruvi
-    if (messages.length === 0) {
-      const intro = `Salom! Men Learneasy.uz sayti tomonidan maxsus ishlab chiqilgan AI agentman.
-
-Men quyidagi yo'nalishlarda yordam beraman:
-• Matematika, fizika, kimyo, biologiya fanlarini sodda va aniq tushuntirish
-• Chet tillari (ingliz, rus va boshqalar) bo'yicha sertifikatlarga tayyorlash
-• Uy vazifalari, testlar, masalalar yechishda yordam
-• Har qanday mavzuni professional va batafsil tahlil qilish
-
-Eslatma: Bu yerda sizga **faqat 8 ta savol** berish imkoniyati mavjud (bepul versiya uchun). 
-Savollar tugagach, imkoniyat 8 soatdan keyin yangilanadi yoki Premium obuna orqali cheksiz foydalanishingiz mumkin.
-
-Premium (bir oy – 12 000 so'm):
-• Cheksiz savol-javob
-• Tezroq va yanada chuqurroq javoblar
-
-To'lov qilish uchun saytga o'ting: https://learneasy-uz.vercel.app (karta orqali to'lov bor)
-
-Savolingizni yozing, men professional tarzda javob beraman! 🚀`;
-
-      setMessages([{ role: 'ai', content: intro }]);
-    }
-  }, []);
+  const [blocked, setBlocked] = useState(false);
 
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages]);
-
-  const checkReset = () => {
-    if (lastReset) {
-      const now = new Date();
-      const diffHours = (now - lastReset) / (1000 * 60 * 60);
-      if (diffHours >= RESET_HOURS) {
+    if (questionCount >= 8) {
+      setBlocked(true);
+      setTimeout(() => {
         setQuestionCount(0);
-        localStorage.setItem('questionCount', '0');
-        localStorage.setItem('lastReset', now.toISOString());
-        setLastReset(now);
-        alert("8 soat o'tdi! Yangi 8 ta savol imkoniyati ochildi.");
-      }
+        setBlocked(false);
+      }, 8 * 60 * 60 * 1000); // 8 soat
     }
-  };
+  }, [questionCount]);
 
-  const handleSend = () => {
+  const sendMessage = () => {
     if (!input.trim()) return;
-
-    checkReset();
-
-    if (questionCount >= MAX_QUESTIONS) {
-      setMessages(prev => [...prev, 
-        { role: 'user', content: input },
-        { role: 'ai', content: `Sizning bepul imkoniyatingiz (8 ta savol) tugadi. Yana 8 soat kuting yoki Premium obuna bo'ling!\n\nPremium: 12 000 so'm / oy – cheksiz savol, tez javoblar.\nTo'lov → https://learneasy-uz.vercel.app` }
+    if (blocked) {
+      setMessages([
+        ...messages,
+        { from: "ai", text: "Savol limiti tugagan. 8 soatdan keyin yana urinib ko‘ring yoki premium obuna bo‘ling." }
       ]);
-      setInput('');
+      setInput("");
       return;
     }
-
-    const userMsg = { role: 'user', content: input };
-    setMessages(prev => [...prev, userMsg]);
-
-    // Bu yerda real AI (masalan Grok/OpenAI API) chaqiriladi
-    // Hozircha oddiy echo qilib qo'yamiz, real loyihada API qo'ying
-    setTimeout(() => {
-      const aiReply = `Bu sizning ${questionCount + 1}-savolingizga javob (real AI integratsiyasi kerak).\nSiz yozgan: "${input}"\n\nJavob: Bu yerda LLM dan kelgan aniq, professional javob bo'lardi. Masalan, matematika masalasi bo'lsa – bosqichma-bosqich yechim, formula LaTeX bilan va h.k.`;
-
-      setMessages(prev => [...prev, { role: 'ai', content: aiReply }]);
-    }, 800);
-
-    // Limitni yangilash
-    const newCount = questionCount + 1;
-    setQuestionCount(newCount);
-    localStorage.setItem('questionCount', newCount.toString());
-    if (newCount === 1) {
-      localStorage.setItem('lastReset', new Date().toISOString());
-      setLastReset(new Date());
-    }
-
-    setInput('');
+    setMessages([...messages, { from: "user", text: input }, { from: "ai", text: "AI javobi shu yerda chiqadi..." }]);
+    setInput("");
+    setQuestionCount(questionCount + 1);
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#feda75] via-[#fa7e1e] via-[#d62976] via-[#962fbf] to-[#4f5bd5] text-white">
-      <div className="container mx-auto flex h-screen">
-        
-        {/* Chap panel - Home / Postlar */}
-        <div className="w-1/2 bg-black/40 backdrop-blur-md border-r border-white/20 p-6 overflow-y-auto">
-          <h1 className="text-3xl font-bold mb-6 text-center bg-gradient-to-r from-[#feda75] to-[#d62976] bg-clip-text text-transparent">
-            Learneasy Social
-          </h1>
-          
-          <div className="space-y-6">
-            {/* Placeholder post */}
-            <div className="bg-white/10 rounded-xl p-4">
-              <p className="text-lg mb-3">Hozircha postlar yo'q. Tez orada video, rasm, like va commentlar qo'shiladi!</p>
-              <div className="flex gap-4 mt-4">
-                <button className="flex items-center gap-2 bg-white/20 px-4 py-2 rounded-full hover:bg-white/30">
-                  ❤️ Like (0)
-                </button>
-                <button className="flex items-center gap-2 bg-white/20 px-4 py-2 rounded-full hover:bg-white/30">
-                  💬 Comment
-                </button>
-              </div>
-            </div>
-
-            {/* Yangi post joyi */}
-            <div className="bg-white/5 p-4 rounded-xl">
-              <textarea 
-                placeholder="Yangi post yozing (video/rasm hali qo'shilmagan)..."
-                className="w-full bg-transparent border-b border-white/30 focus:outline-none text-white placeholder-white/60 resize-none h-24"
-              />
-              <button className="mt-3 bg-gradient-to-r from-[#833AB4] to-[#C13584] px-6 py-2 rounded-full font-semibold">
-                Post joylash
-              </button>
-            </div>
+    <div className="flex h-screen bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500">
+      {/* Home Panel */}
+      <div className="w-2/3 p-6 bg-white rounded-r-3xl shadow-lg overflow-y-auto">
+        <h1 className="text-2xl font-bold mb-4">🏠 Home Panel</h1>
+        <div className="border rounded-lg p-4 mb-4">
+          <p className="text-gray-600">Post joylash uchun joy (hali post qo‘yilmagan)</p>
+          <div className="flex space-x-4 mt-2">
+            <button className="text-blue-500">👍 Like</button>
+            <button className="text-green-500">💬 Comment</button>
           </div>
         </div>
+      </div>
 
-        {/* O'ng panel - AI Chat */}
-        <div className="w-1/2 flex flex-col bg-black/50 backdrop-blur-lg">
-          <div className="p-4 border-b border-white/20 bg-gradient-to-r from-[#833AB4]/80 to-[#C13584]/80">
-            <h2 className="text-xl font-bold">Learneasy AI yordamchi</h2>
-            <p className="text-sm opacity-80">Qolgan savollar: {MAX_QUESTIONS - questionCount}</p>
-          </div>
-
-          <div className="flex-1 p-6 overflow-y-auto space-y-4">
-            {messages.map((msg, i) => (
-              <div 
-                key={i} 
-                className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
-              >
-                <div 
-                  className={`max-w-[80%] p-4 rounded-2xl ${
-                    msg.role === 'user' 
-                      ? 'bg-gradient-to-r from-[#4f5bd5] to-[#833AB4] text-white' 
-                      : 'bg-white/15 text-white'
-                  }`}
-                >
-                  {msg.content}
-                </div>
-              </div>
-            ))}
-            <div ref={messagesEndRef} />
-          </div>
-
-          <div className="p-4 border-t border-white/20 flex gap-3 bg-black/40">
-            <input
-              type="text"
-              value={input}
-              onChange={e => setInput(e.target.value)}
-              onKeyDown={e => e.key === 'Enter' && handleSend()}
-              placeholder="Savolingizni yozing..."
-              disabled={questionCount >= MAX_QUESTIONS}
-              className="flex-1 bg-white/10 border border-white/30 rounded-full px-6 py-3 focus:outline-none focus:border-[#d62976] text-white placeholder-white/60 disabled:opacity-50"
-            />
-            <button 
-              onClick={handleSend}
-              disabled={questionCount >= MAX_QUESTIONS || !input.trim()}
-              className="bg-gradient-to-r from-[#d62976] to-[#962fbf] px-8 py-3 rounded-full font-bold hover:opacity-90 disabled:opacity-50"
-            >
-              Yuborish
+      {/* AI Chat Panel */}
+      <div className="w-1/3 p-6 bg-gray-100 rounded-l-3xl shadow-lg flex flex-col">
+        <h1 className="text-xl font-bold mb-4 text-center">🤖 OpenAI Chat</h1>
+        <div className="flex-1 overflow-y-auto border p-4 rounded-lg bg-white">
+          {messages.map((msg, i) => (
+            <div key={i} className={`mb-2 ${msg.from === "ai" ? "text-purple-600" : "text-black"}`}>
+              <b>{msg.from === "ai" ? "AI:" : "Siz:"}</b> {msg.text}
+            </div>
+          ))}
+        </div>
+        <div className="mt-4 flex">
+          <input
+            type="text"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            className="flex-1 border rounded-l-lg p-2"
+            placeholder="Savolingizni yozing..."
+          />
+          <button
+            onClick={sendMessage}
+            className="bg-pink-500 text-white px-4 rounded-r-lg"
+          >
+            Yuborish
+          </button>
+        </div>
+        {blocked && (
+          <div className="mt-4 text-center">
+            <p className="text-red-600 font-bold">❌ Limit tugadi! 8 soatdan keyin yana urinib ko‘ring.</p>
+            <button className="bg-yellow-500 text-white px-4 py-2 rounded-lg mt-2">
+              Premium obuna (12 000 so‘m/oy)
             </button>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );
