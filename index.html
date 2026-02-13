@@ -3,146 +3,228 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Learneasy AI</title>
+    <title>Learneasy AI | Super Edition</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body { background-color: #f8fafc; margin: 0; padding: 0; overflow-x: hidden; }
+        body { background: #f8fafc; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+        .chat-card { border-radius: 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.03); border: 1px solid #f1f5f9; }
         #chat-engine::-webkit-scrollbar { width: 0; }
-        .ai-card { background: white; border-radius: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
-        .bottom-bar { position: fixed; bottom: 0; left: 0; right: 0; background: white; border-top: 1px solid #e2e8f0; padding: 15px; z-index: 1000; }
+        .user-msg { background: #2563eb; color: white; border-radius: 20px 20px 0 20px; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2); }
+        .ai-msg { background: white; border-radius: 0 20px 20px 20px; border: 1px solid #e2e8f0; }
     </style>
 </head>
-<body class="font-sans">
+<body class="text-slate-900">
 
-    <div class="max-w-lg mx-auto flex flex-col min-h-screen">
-        <div id="chat-engine" class="flex-1 overflow-y-auto p-4 space-y-4 pb-32">
-            <div class="ai-card p-6 border border-slate-100">
-                <h2 class="text-lg font-black italic mb-3">Salom, men Learneasy Super AI-man! ✨</h2>
-                <div class="text-sm space-y-3 text-slate-700 font-medium">
-                    <p>Mustafobek tomonidan yaratilganman. Imkoniyatlarim:</p>
-                    <p>📚 <b>Matematika & Fizika:</b> Murakkab misol va masalalar yechimi.</p>
-                    <p>🧪 <b>Kimyo & Biologiya:</b> Darslarni sodda tushuntiraman.</p>
-                    <p>✍️ <b>Uyga vazifalar:</b> Mukammal tayyorlab berish.</p>
-                    <p>Undan tashqari ona tili, rus tili va ingliz tilidan 0 dan eng baland darajagacha o'rgatish yoki berilgan mashqlarni bajara olaman</p>
-                    <div class="h-px bg-slate-100 my-2"></div>
+    <div class="max-w-lg mx-auto min-h-screen flex flex-col relative bg-white md:shadow-2xl">
+        <header class="sticky top-0 z-50 bg-white/80 backdrop-blur-md p-4 border-b flex justify-between items-center">
+            <div>
+                <h1 class="font-black text-2xl tracking-tighter text-blue-600 italic">LEARNEASY AI</h1>
+                <p class="text-[9px] font-bold text-slate-400 uppercase tracking-[0.2em]">Developed by Mustafobek</p>
+            </div>
+            <div class="flex items-center gap-2">
+                <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                <span class="text-[10px] font-black text-slate-500 uppercase">System Active</span>
+            </div>
+        </header>
 
-                    <p class="text-blue-600 font-bold">💎 Premium: 12,000 so'm.</p>
-                    <p class="text-xs font-black text-slate-900 bg-yellow-100 p-2 rounded-lg">💳 KARTA: 4916 9903 2276 6145 </p>
-
-                    <p class="font-black uppercase italic pt-1 text-[10px]">Savolingizni bering, men tayyorman!</p>
+        <div id="chat-engine" class="flex-1 p-4 space-y-6 overflow-y-auto pb-32">
+            <div class="bg-blue-50 p-6 chat-card border-blue-100">
+                <h2 class="text-lg font-black text-blue-800 mb-2 italic text-center underline">Super AI Xizmati ✨</h2>
+                <div class="text-sm text-blue-700 space-y-3 font-medium">
+                    <p>✅ <b>Fanlar:</b> Matematika, Fizika va Ingliz tili mutaxassisi.</p>
+                    <p>✅ <b>Imkoniyat:</b> Murakkab misollarni 1 soniyada yechish.</p>
+                    <p>✅ <b>Status:</b> Premium (15 ta bepul imkoniyat).</p>
+                    
+                    <div class="mt-4 p-4 bg-white rounded-2xl border-2 border-blue-200 shadow-inner">
+                        <p class="text-[10px] text-slate-400 font-bold uppercase mb-1">Obuna uchun to'lov (12,000 so'm):</p>
+                        <p class="text-sm font-mono font-black text-blue-900 tracking-wider">💳 4916 9903 2276 6145</p>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="bottom-bar">
-            <div class="max-w-lg mx-auto flex items-center gap-2 bg-slate-100 rounded-full px-4 py-1">
-                <input type="text" id="ai-input" placeholder="Xabaringizni yozing..." class="flex-1 bg-transparent h-12 outline-none text-sm font-bold text-slate-800">
-                <button id="send-btn" class="text-blue-600 font-black text-xs uppercase tracking-widest px-2">Yuborish</button>
+        <div class="fixed bottom-0 left-0 right-0 p-4 bg-white/90 backdrop-blur-lg border-t">
+            <div class="max-w-lg mx-auto flex gap-2 items-center bg-slate-100 rounded-2xl p-1.5 focus-within:ring-2 ring-blue-500 transition-all">
+                <input type="text" id="ai-input" placeholder="Savolingizni bering..." class="flex-1 px-4 h-12 outline-none font-bold text-sm bg-transparent">
+                <button id="send-btn" class="bg-blue-600 text-white h-12 px-6 rounded-xl font-black text-xs uppercase tracking-widest hover:bg-blue-700 active:scale-95 transition-all">
+                    Yuborish
+                </button>
             </div>
         </div>
     </div>
 
     <script>
-        const API_KEY = "AIzaSyBN1l_R-N8Gv5p9f3M2LwK4T7jI9ZqX0E";
-        async function fetchAI(msg) {
-            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
-            const res = await fetch(url, {
-                method: "POST", headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ contents: [{ parts: [{ text: "Isming Learneasy AI. Mustafobek yaratgan. Fanlardan yordam ber. Savol: " + msg }] }] })
+        // SENING SHAXSIY OPENROUTER KALITING
+        const API_KEY = "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";
+
+        async function askAI(message) {
+            const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+                method: "POST",
+                headers: {
+                    "Authorization": `Bearer ${API_KEY}`,
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    "model": "google/gemini-2.0-flash-exp:free",
+                    "messages": [
+                        {"role": "system", "content": "Sen Learneasy AI-san. Mustafobek tomonidan yaratilgansan. Maktab fanlaridan daho darajasida yordam berasan. Javoblaring aniq va aqlli bo'lsin."},
+                        {"role": "user", "content": message}
+                    ]
+                })
             });
-            const data = await res.json();
-            return data.candidates[0].content.parts[0].text;
+
+            if (!response.ok) throw new Error("API Error");
+            const data = await response.json();
+            return data.choices[0].message.content;
         }
 
-        const handleSend = async () => {
-            const inp = document.getElementById('ai-input');
-            const box = document.getElementById('chat-engine');
+        const btn = document.getElementById('send-btn');
+        const inp = document.getElementById('ai-input');
+        const chat = document.getElementById('chat-engine');
+
+        const handleChat = async () => {
             const val = inp.value.trim();
             if(!val) return;
-            box.innerHTML += `<div class="flex justify-end"><div class="bg-blue-600 text-white p-4 rounded-2xl rounded-tr-none text-sm font-bold max-w-[85%]">${val}</div></div>`;
+
+            // Foydalanuvchi xabari
+            chat.innerHTML += `<div class="flex justify-end"><div class="user-msg p-4 text-sm font-bold max-w-[85%]">${val}</div></div>`;
             inp.value = "";
-            const loaderId = "L" + Date.now();
-            box.innerHTML += `<div id="${loaderId}" class="text-center text-[10px] font-black text-blue-500 animate-pulse py-2">Javob yozilmoqda...</div>`;
-            box.scrollTop = box.scrollHeight;
+            chat.scrollTop = chat.scrollHeight;
+
+            // Kutish effekti
+            const loader = document.createElement('div');
+            loader.className = "text-[10px] font-black text-blue-500 animate-pulse text-center py-2";
+            loader.innerText = "LEARNEASY AI JAVOB YOZMOQDA...";
+            chat.appendChild(loader);
+
             try {
-                const reply = await fetchAI(val);
-                document.getElementById(loaderId).remove();
-                box.innerHTML += `<div class="ai-card p-5 text-sm font-semibold border border-slate-100 leading-relaxed italic"><b>AI:</b><br>${reply}</div>`;
-            } catch(e) { document.getElementById(loaderId).innerText = "XATO: QAYTA URINIB KO'RING."; }
-            box.scrollTop = box.scrollHeight;
+                const reply = await askAI(val);
+                loader.remove();
+                chat.innerHTML += `<div class="ai-msg p-5 text-sm font-semibold leading-relaxed shadow-sm"><b>AI:</b><br>${reply}</div>`;
+            } catch(e) {
+                loader.innerText = "TARMOQDA XATO! VPN YOQING YOKI QAYTA URINIB KO'RING.";
+                loader.classList.add('text-red-600');
+            }
+            chat.scrollTop = chat.scrollHeight;
         };
-        document.getElementById('send-btn').onclick = handleSend;
-        document.getElementById('ai-input').onkeypress = (e) => { if(e.key === 'Enter') handleSend(); };
+
+        btn.onclick = handleChat;
+        inp.onkeypress = (e) => { if(e.key === 'Enter') handleChat(); };
     </script>
 </body>
 </html>
-<script type="module">
-    // 1. Foydalanuvchi kiritgan matnni olish va ekranga chiqarish
-    const sendBtn = document.getElementById('send-btn');
-    const inputField = document.getElementById('ai-input');
-    const chatBox = document.getElementById('chat-engine');
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Learneasy AI | Super Edition</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { background: #f8fafc; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+        .chat-card { border-radius: 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.03); border: 1px solid #f1f5f9; }
+        #chat-engine::-webkit-scrollbar { width: 0; }
+        .user-msg { background: #2563eb; color: white; border-radius: 20px 20px 0 20px; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2); }
+        .ai-msg { background: white; border-radius: 0 20px 20px 20px; border: 1px solid #e2e8f0; }
+    </style>
+</head>
+<body class="text-slate-900">
 
-    // API Kalitlar (O'zbekistonda ulanish barqarorligi uchun)
-    const keys = ["AIzaSyBN1l_R-N8Gv5p9f3M2LwK4T7jI9ZqX0E", "AIzaSyD-L9R9z5M2LwK4T7jI9ZqX0E"];
-    let currentKey = 0;
+    <div class="max-w-lg mx-auto min-h-screen flex flex-col relative bg-white md:shadow-2xl">
+        <header class="sticky top-0 z-50 bg-white/80 backdrop-blur-md p-4 border-b flex justify-between items-center">
+            <div>
+                <h1 class="font-black text-2xl tracking-tighter text-blue-600 italic">LEARNEASY AI</h1>
+                <p class="text-[9px] font-bold text-slate-400 uppercase tracking-[0.2em]">Developed by Mustafobek</p>
+            </div>
+            <div class="flex items-center gap-2">
+                <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                <span class="text-[10px] font-black text-slate-500 uppercase">System Active</span>
+            </div>
+        </header>
 
-    // 2. JAVOB BERISH FUNKSIYASI (Eng asosiysi!)
-    async function getResponseFromAI(prompt, retry = 0) {
-        // To'g'ridan-to'g'ri Google API URL (Kutubxonasiz ulanish)
-        const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${keys[currentKey]}`;
+        <div id="chat-engine" class="flex-1 p-4 space-y-6 overflow-y-auto pb-32">
+            <div class="bg-blue-50 p-6 chat-card border-blue-100">
+                <h2 class="text-lg font-black text-blue-800 mb-2 italic text-center underline">Super AI Xizmati ✨</h2>
+                <div class="text-sm text-blue-700 space-y-3 font-medium">
+                    <p>✅ <b>Fanlar:</b> Matematika, Fizika va Ingliz tili mutaxassisi.</p>
+                    <p>✅ <b>Imkoniyat:</b> Murakkab misollarni 1 soniyada yechish.</p>
+                    <p>✅ <b>Status:</b> Premium (15 ta bepul imkoniyat).</p>
+                    
+                    <div class="mt-4 p-4 bg-white rounded-2xl border-2 border-blue-200 shadow-inner">
+                        <p class="text-[10px] text-slate-400 font-bold uppercase mb-1">Obuna uchun to'lov (12,000 so'm):</p>
+                        <p class="text-sm font-mono font-black text-blue-900 tracking-wider">💳 4916 9903 2276 6145</p>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-        try {
-            const response = await fetch(url, {
+        <div class="fixed bottom-0 left-0 right-0 p-4 bg-white/90 backdrop-blur-lg border-t">
+            <div class="max-w-lg mx-auto flex gap-2 items-center bg-slate-100 rounded-2xl p-1.5 focus-within:ring-2 ring-blue-500 transition-all">
+                <input type="text" id="ai-input" placeholder="Savolingizni bering..." class="flex-1 px-4 h-12 outline-none font-bold text-sm bg-transparent">
+                <button id="send-btn" class="bg-blue-600 text-white h-12 px-6 rounded-xl font-black text-xs uppercase tracking-widest hover:bg-blue-700 active:scale-95 transition-all">
+                    Yuborish
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // SENING SHAXSIY OPENROUTER KALITING
+        const API_KEY = "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";
+
+        async function askAI(message) {
+            const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
+                headers: {
+                    "Authorization": `Bearer ${API_KEY}`,
+                    "Content-Type": "application/json"
+                },
                 body: JSON.stringify({
-                    contents: [{
-                        parts: [{
-                            text: Sening isming Learneasy AI. Mustafobek yaratgan. Matematika, Fizika, Kimyo mutaxassisisan. Har doim do'stona va aqlli javob ber. Savol: ${prompt}
-                        }]<script type="module">
-    // 1. Foydalanuvchi kiritgan matnni olish va ekranga chiqarish
-    const sendBtn = document.getElementById('send-btn');
-    const inputField = document.getElementById('ai-input');
-    const chatBox = document.getElementById('chat-engine');
+                    "model": "google/gemini-2.0-flash-exp:free",
+                    "messages": [
+                        {"role": "system", "content": "Sen Learneasy AI-san. Mustafobek tomonidan yaratilgansan. Maktab fanlaridan daho darajasida yordam berasan. Javoblaring aniq va aqlli bo'lsin."},
+                        {"role": "user", "content": message}
+                    ]
+                })
+            });
 
-    // API Kalitlar (O'zbekistonda ulanish barqarorligi uchun)
-    const keys = ["AIzaSyBN1l_R-N8Gv5p9f3M2LwK4T7jI9ZqX0E", "AIzaSyD-L9R9z5M2LwK4T7jI9ZqX0E"];
-    let currentKey = 0;
+            if (!response.ok) throw new Error("API Error");
+            const data = await response.json();
+            return data.choices[0].message.content;
+        }
 
-    // 2. JAVOB BERISH FUNKSIYASI (Eng asosiysi!)
-    async function getResponseFromAI(prompt, retry = 0) {
-        // To'g'ridan-to'g'ri Google API URL (Kutubxonasiz ulanish)
-        const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${keys[currentKey]}`;
+        const btn = document.getElementById('send-btn');
+        const inp = document.getElementById('ai-input');
+        const chat = document.getElementById('chat-engine');
 
-        try {
-            const response = await fetch(url, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    contents: [{
-                        parts: [{
-                            text: Sening isming Learneasy AI. Mustafobek yaratgan. Matematika, Fizika, Kimyo mutaxassisisan. Har doim do'stona va aqlli javob ber. Savol: ${prompt}
-                        }]<script type="module">
-    // 1. Foydalanuvchi kiritgan matnni olish va ekranga chiqarish
-    const sendBtn = document.getElementById('send-btn');
-    const inputField = document.getElementById('ai-input');
-    const chatBox = document.getElementById('chat-engine');
+        const handleChat = async () => {
+            const val = inp.value.trim();
+            if(!val) return;
 
-    // API Kalitlar (O'zbekistonda ulanish barqarorligi uchun)
-    const keys = ["AIzaSyBN1l_R-N8Gv5p9f3M2LwK4T7jI9ZqX0E", "AIzaSyD-L9R9z5M2LwK4T7jI9ZqX0E"];
-    let currentKey = 0;
+            // Foydalanuvchi xabari
+            chat.innerHTML += `<div class="flex justify-end"><div class="user-msg p-4 text-sm font-bold max-w-[85%]">${val}</div></div>`;
+            inp.value = "";
+            chat.scrollTop = chat.scrollHeight;
 
-    // 2. JAVOB BERISH FUNKSIYASI (Eng asosiysi!)
-    async function getResponseFromAI(prompt, retry = 0) {
-        // To'g'ridan-to'g'ri Google API URL (Kutubxonasiz ulanish)
-        const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${keys[currentKey]}`;
+            // Kutish effekti
+            const loader = document.createElement('div');
+            loader.className = "text-[10px] font-black text-blue-500 animate-pulse text-center py-2";
+            loader.innerText = "LEARNEASY AI JAVOB YOZMOQDA...";
+            chat.appendChild(loader);
 
-        try {
-            const response = await fetch(url, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    contents: [{
-                        parts: [{
-                            text: Sening isming Learneasy AI. Mustafobek yaratgan. Matematika, Fizika, Kimyo mutaxassisisan. Har doim do'stona va aqlli javob ber. Savol: ${prompt}
-                        }]
+            try {
+                const reply = await askAI(val);
+                loader.remove();
+                chat.innerHTML += `<div class="ai-msg p-5 text-sm font-semibold leading-relaxed shadow-sm"><b>AI:</b><br>${reply}</div>`;
+            } catch(e) {
+                loader.innerText = "TARMOQDA XATO! VPN YOQING YOKI QAYTA URINIB KO'RING.";
+                loader.classList.add('text-red-600');
+            }
+            chat.scrollTop = chat.scrollHeight;
+        };
+
+        btn.onclick = handleChat;
+        inp.onkeypress = (e) => { if(e.key === 'Enter') handleChat(); };
+    </script>
+</body>
+</html>
