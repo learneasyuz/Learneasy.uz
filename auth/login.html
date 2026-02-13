@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learneasy - Kirish</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .insta-gradient { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
+        input::placeholder { font-weight: 500; color: #8e8e8e; }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen flex items-center justify-center p-6">
+
+    <div class="w-full max-w-sm flex flex-col gap-3">
+        <div class="bg-white border border-slate-300 p-10 flex flex-col items-center">
+            <h1 class="text-4xl font-black italic mb-10 tracking-tighter text-slate-800">Learneasy</h1>
+            
+            <div id="login-form" class="w-full space-y-3">
+                <input type="text" id="user-input" placeholder="Foydalanuvchi nomi" class="w-full bg-slate-50 border border-slate-200 rounded-sm p-3 text-xs outline-none focus:border-slate-400">
+                <input type="password" id="pass-input" placeholder="Parol" class="w-full bg-slate-50 border border-slate-200 rounded-sm p-3 text-xs outline-none focus:border-slate-400">
+                <button onclick="authAction('login')" class="w-full bg-blue-500 text-white py-2 rounded-md font-bold text-sm mt-2 active:scale-95 transition-all">Kirish</button>
+                
+                <div class="py-4 flex items-center gap-2">
+                    <div class="h-px bg-slate-200 flex-1"></div>
+                    <span class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Yoki</span>
+                    <div class="h-px bg-slate-200 flex-1"></div>
+                </div>
+
+                <div class="flex justify-center items-center gap-2 text-blue-900 cursor-pointer mb-4">
+                    <i class="fa-brands fa-square-facebook text-xl"></i>
+                    <span class="text-xs font-bold">Facebook orqali kirish</span>
+                </div>
+            </div>
+
+            <div id="signup-form" class="w-full space-y-3 hidden">
+                <p class="text-[10px] text-slate-400 font-bold text-center mb-4 uppercase">Yangi hisob yaratish</p>
+                <input type="text" id="new-user" placeholder="Yangi login (masalan: mustafo)" class="w-full bg-slate-50 border border-slate-200 rounded-sm p-3 text-xs outline-none focus:border-slate-400">
+                <input type="password" id="new-pass" placeholder="Yangi parol" class="w-full bg-slate-50 border border-slate-200 rounded-sm p-3 text-xs outline-none focus:border-slate-400">
+                <button onclick="authAction('signup')" class="w-full bg-blue-500 text-white py-2 rounded-md font-bold text-sm active:scale-95 transition-all">Ro'yxatdan o'tish</button>
+            </div>
+        </div>
+
+        <div class="bg-white border border-slate-300 p-6 text-center">
+            <p id="toggle-text" class="text-sm text-slate-700">
+                Hisobingiz yo'qmi? <button onclick="toggleForm()" class="text-blue-500 font-bold ml-1">Ro'yxatdan o'ting</button>
+            </p>
+        </div>
+    </div>
+
+    <script>
+        function toggleForm() {
+            const loginF = document.getElementById('login-form');
+            const signupF = document.getElementById('signup-form');
+            const toggleT = document.getElementById('toggle-text');
+
+            if(loginF.classList.contains('hidden')) {
+                loginF.classList.remove('hidden');
+                signupF.classList.add('hidden');
+                toggleT.innerHTML = 'Hisobingiz yo\'qmi? <button onclick="toggleForm()" class="text-blue-500 font-bold ml-1">Ro\'yxatdan o\'ting</button>';
+            } else {
+                loginF.classList.add('hidden');
+                signupF.classList.remove('hidden');
+                toggleT.innerHTML = 'Hisobingiz bormi? <button onclick="toggleForm()" class="text-blue-500 font-bold ml-1">Kirish</button>';
+            }
+        }
+
+        function authAction(type) {
+            // Brauzer xotirasidagi foydalanuvchilar ro'yxati
+            let users = JSON.parse(localStorage.getItem('learneasy_users') || '{}');
+            
+            if(type === 'signup') {
+                const u = document.getElementById('new-user').value.trim();
+                const p = document.getElementById('new-pass').value.trim();
+                
+                if(!u || !p) { alert("Ma'lumotlarni to'liq kiriting!"); return; }
+                if(users[u]) { alert("Bu foydalanuvchi nomi band!"); return; }
+
+                // Yangi user yaratish
+                users[u] = { 
+                    password: p, 
+                    isPremium: false, 
+                    limit: 8,
+                    lastReset: new Date().getTime()
+                };
+                
+                localStorage.setItem('learneasy_users', JSON.stringify(users));
+                alert("Muvaffaqiyatli! Endi o'z parolingiz bilan kiring.");
+                toggleForm();
+            } else {
+                const u = document.getElementById('user-input').value.trim();
+                const p = document.getElementById('pass-input').value.trim();
+                
+                if(users[u] && users[u].password === p) {
+                    localStorage.setItem('learneasy_session', u); // Sessiyani saqlash
+                    window.location.href = "../index.html"; // Asosiy sahifaga o'tish
+                } else {
+                    alert("Login yoki parol noto'g'ri!");
+                }
+            }
+        }
+    </script>
+</body>
+</html>
