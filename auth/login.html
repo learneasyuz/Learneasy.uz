@@ -21,7 +21,7 @@
                 <input type="text" id="user-input" placeholder="Foydalanuvchi nomi" class="w-full bg-slate-50 border border-slate-200 rounded-sm p-3 text-xs outline-none focus:border-slate-400">
                 <input type="password" id="pass-input" placeholder="Parol" class="w-full bg-slate-50 border border-slate-200 rounded-sm p-3 text-xs outline-none focus:border-slate-400">
                 <button onclick="authAction('login')" class="w-full bg-blue-500 text-white py-2 rounded-md font-bold text-sm mt-2 active:scale-95 transition-all">Kirish</button>
-                
+                <button onclick="authAction('signup')" class="w-full bg-green-500 text-white py-2 rounded-md font-bold text-sm mt-2 active:scale-95 transition-all">Ro'yxatdan o'tish</button>s
                 <div class="py-4 flex items-center gap-2">
                     <div class="h-px bg-slate-200 flex-1"></div>
                     <span class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Yoki</span>
@@ -104,9 +104,9 @@
 </body>
 </html>
 <script type="module">
-  // 1. Firebase kutubxonalarini chaqiramiz
+ // 1. Firebase kutubxonalarini chaqiramiz (Ro'yxatdan o'tish bilan birga)
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-  import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+  import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
   // 2. Sening Firebase loyihang sozlamalari
   const firebaseConfig = {
@@ -118,28 +118,35 @@
     appId: "1:409211768065:web:6a35c2e9a5a8ded0e05f00"
   };
 
-  // 3. Firebase-ni ishga tushiramiz
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
 
-  // 4. Kirish tugmasi funksiyasi
+  // 3. Kirish va Ro'yxatdan o'tish funksiyasi
   window.authAction = (action) => {
     const email = document.getElementById('user-input').value.trim();
     const pass = document.getElementById('pass-input').value.trim();
 
-    if (email && pass) {
-      // Firebase orqali tekshirish
+    if (!email || !pass) {
+      alert("Iltimos, email va parolni to'ldiring!");
+      return;
+    }
+
+    if (action === 'login') {
+      // KIRISH
       signInWithEmailAndPassword(auth, email, pass)
         .then(() => {
-          alert("Xush kelibsiz! Saytga kirdingiz.");
+          alert("Xush kelibsiz!");
           window.location.href = "../index.html";
         })
-        .catch((error) => {
-          alert("Xato: Email yoki parol noto'g'ri!");
-          console.error(error.message);
-        });
+        .catch((error) => alert("Xato: Email yoki parol noto'g'ri!"));
     } else {
-      alert("Iltimos, hamma qatorlarni to'ldiring!");
+      // MUSTAQIL RO'YXATDAN O'TISH (Instagram kabi)
+      createUserWithEmailAndPassword(auth, email, pass)
+        .then(() => {
+          alert("Akkaunt yaratildi! Endi siz ham a'zosiz.");
+          window.location.href = "../index.html";
+        })
+        .catch((error) => alert("Xato: " + error.message));
     }
   };
 </script>
