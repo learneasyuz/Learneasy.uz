@@ -78,64 +78,33 @@
     </div>
 
     <script>
-        const API_KEY = "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";
-        let count = 8;
+        <script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
-        async function talkToAI() {
-            const input = document.getElementById('msg-input');
-            const flow = document.getElementById('chat-flow');
-            const text = input.value.trim();
+  // Sening Firebase sozlamalaring
+  const firebaseConfig = {
+    apiKey: "AIzaSyCWEmiUblBJSk4_oY4EkPDWh1wtMRXyfo4",
+    authDomain: "learneasy-social.firebaseapp.com",
+    projectId: "learneasy-social",
+    storageBucket: "learneasy-social.firebasestorage.app",
+    messagingSenderId: "409211768065",
+    appId: "1:409211768065:web:6a35c2e9a5a8ded0e05f00"
+  };
 
-            if (!text || count <= 0) return;
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
 
-            // User xabari
-            flow.innerHTML += `<div class="flex justify-end"><div class="user-bubble p-3 text-sm max-w-[85%]">${text}</div></div>`;
-            input.value = "";
-            count--;
-            document.getElementById('limit-text').innerText = `${count}/8 savol qoldi`;
-
-            if (count === 0) {
-                document.getElementById('input-container').classList.add('hidden');
-                document.getElementById('premium-ui').classList.remove('hidden');
-            }
-
-            // Loader
-            const loader = document.createElement('div');
-            loader.className = "text-[10px] text-blue-500 animate-pulse font-bold p-2";
-            loader.innerText = "Learneasy AI javob bermoqda...";
-            flow.appendChild(loader);
-            flow.scrollTop = flow.scrollHeight;
-
-            try {
-                const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
-                    method: "POST",
-                    headers: {
-                        "Authorization": "Bearer " + API_KEY,
-                        "Content-Type": "application/json",
-                        "HTTP-Referer": "http://localhost",
-                        "X-Title": "Learneasy"
-                    },
-                    body: JSON.stringify({
-                        model: "meta-llama/llama-3.2-3b-instruct:free",
-                        messages: [
-                            {role: "system", content: "Sen Learneasy.uz AI agentsan. Matematika va fizika bo'yicha mutaxassis o'qituvchi kabi javob ber. O'zbek tilida gapir."},
-                            {role: "user", content: text}
-                        ]
-                    })
-                });
-
-                const data = await response.json();
-                loader.remove();
-                const reply = data.choices[0].message.content;
-                flow.innerHTML += `<div class="ai-bubble p-3 text-sm max-w-[90%]"><b>AI:</b><br>${reply}</div>`;
-            } catch (e) {
-                loader.innerText = "Xatolik! VPN tekshiring.";
-            }
-            flow.scrollTop = flow.scrollHeight;
-        }
-
-        document.getElementById('send-btn').onclick = talkToAI;
-        document.getElementById('msg-input').onkeypress = (e) => { if(e.key === 'Enter') talkToAI(); };
-    </script>
+  // TEKSHIRUV: Foydalanuvchi kirmagan bo'lsa, haydab yuboradi
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      console.log("Xush kelibsiz:", user.email);
+      // AI agenting endi shu yerda ishlashi mumkin
+    } else {
+      // Agar kirmagan bo'lsa, login sahifasiga o'tkazadi
+      window.location.href = "auth/login.html";
+    }
+  });
+</script>
 </body>
 </html>
