@@ -103,3 +103,45 @@
     </script>
 </body>
 </html>
+<script type="module">
+  // 1. Firebase kutubxonalarini chaqiramiz
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+  import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+  // 2. Sening Firebase loyihang sozlamalari
+  const firebaseConfig = {
+    apiKey: "AIzaSyCWEmiUblBJSk4_oY4EkPDWh1wtMRXyfo4",
+    authDomain: "learneasy-social.firebaseapp.com",
+    projectId: "learneasy-social",
+    storageBucket: "learneasy-social.firebasestorage.app",
+    messagingSenderId: "409211768065",
+    appId: "1:409211768065:web:6a35c2e9a5a8ded0e05f00"
+  };
+
+  // 3. Firebase-ni ishga tushiramiz
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  // 4. Kirish tugmasi funksiyasi
+  window.authAction = (action) => {
+    const email = document.getElementById('user-input').value.trim();
+    const pass = document.getElementById('pass-input').value.trim();
+
+    if (email && pass) {
+      // Firebase orqali tekshirish
+      signInWithEmailAndPassword(auth, email, pass)
+        .then(() => {
+          alert("Xush kelibsiz! Saytga kirdingiz.");
+          window.location.href = "../index.html";
+        })
+        .catch((error) => {
+          alert("Xato: Email yoki parol noto'g'ri!");
+          console.error(error.message);
+        });
+    } else {
+      alert("Iltimos, hamma qatorlarni to'ldiring!");
+    }
+  };
+</script>
+</body>
+</html>
