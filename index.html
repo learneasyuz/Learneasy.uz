@@ -3,158 +3,168 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Learneasy - 33-Maktab Platformasi</title>
+    <title>Learneasy - AI Focus</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        body { background: #f0f2f5; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        .user-bubble { background: #0084ff; color: white; border-radius: 18px 18px 4px 18px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        .ai-bubble { background: #ffffff; color: #1c1e21; border-radius: 18px 18px 18px 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); border: 1px solid #e4e6eb; }
-        #chat-flow::-webkit-scrollbar { width: 4px; }
-        #chat-flow::-webkit-scrollbar-thumb { background: #bcc0c4; border-radius: 10px; }
-        .glass-effect { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); }
-    </style>
 </head>
-<body class="h-screen flex flex-col overflow-hidden">
+<body class="bg-slate-50 font-sans h-screen flex flex-col">
 
-    <header class="glass-effect border-b border-gray-200 px-6 py-3 flex items-center justify-between z-10">
-        <div class="flex items-center gap-4">
-            <div class="relative w-12 h-12">
-                <img src="logo.png" alt="Logo" class="w-full h-full rounded-full border-2 border-blue-600 object-cover shadow-sm" 
-                     onerror="this.src='https://ui-avatars.com/api/?name=33&background=0066ff&color=fff&bold=true'">
-                <div class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white rounded-full"></div>
-            </div>
+<header class="bg-white border-b p-4 flex justify-between items-center shadow-sm">
+    <div class="flex items-center gap-3">
+        <img src="logo.png" class="w-10 h-10 rounded-full border border-blue-600" onerror="this.src='https://ui-avatars.com/api/?name=LE&background=0066ff&color=fff'">
+        <h1 class="font-bold text-blue-700 italic">LEARNEASY</h1>
+    </div>
+    <div class="flex items-center gap-4">
+        <span id="user-email" class="text-xs text-gray-500 font-medium"></span>
+        <button id="logout-btn" class="text-xs bg-gray-100 hover:bg-red-50 text-red-500 px-3 py-1.5 rounded-lg border border-red-200 font-bold transition-all">CHIQISH (LOGOUT)</button>
+    </div>
+</header>
+
+<main class="flex-1 flex flex-col md:flex-row overflow-hidden">
+    <section class="flex-1 flex flex-col bg-white">
+        <div class="p-4 border-b flex justify-between items-center bg-blue-50/50">
             <div>
-                <h1 class="text-xl font-black text-blue-700 tracking-tighter uppercase italic">Learneasy</h1>
-                <p class="text-[10px] text-gray-500 font-bold uppercase tracking-widest">33-Maktab | Marg'ilon</p>
+                <h2 class="font-bold text-gray-800">🤖 AI O'qituvchi (33-Maktab)</h2>
+                <p class="text-[10px] text-green-600 font-bold">ONLINE | MATEMATIKA VA FIZIKA MUTAXASSISI</p>
+            </div>
+            <div id="ai-status" class="text-[10px] bg-blue-100 text-blue-700 px-2 py-1 rounded-full font-black uppercase">Tayyor</div>
+        </div>
+
+        <div id="chat-flow" class="flex-1 overflow-y-auto p-4 space-y-4 bg-slate-50/30">
+            <div class="bg-white border border-gray-200 p-3 rounded-2xl rounded-tl-none shadow-sm max-w-[80%] text-sm">
+                Assalomu alaykum! Men **33-maktab** uchun maxsus yaratilgan AI yordamchiman. Qanday savolingiz bor?
             </div>
         </div>
-        <div id="user-info" class="hidden md:flex items-center gap-2 text-sm font-medium text-gray-600">
-            <span id="user-email"></span>
+
+        <div class="p-4 border-t bg-white">
+            <div class="flex gap-2 max-w-4xl mx-auto">
+                <input id="ai-input" type="text" placeholder="Matematika yoki fizikadan savol yozing..." class="flex-1 border border-gray-200 bg-gray-50 rounded-xl px-4 py-3 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all">
+                <button id="send-btn" class="bg-blue-600 hover:bg-blue-700 text-white px-6 rounded-xl font-bold shadow-lg active:scale-95 transition-all">YUBORISH</button>
+            </div>
+            <div class="flex justify-between items-center mt-2 px-2">
+                <p id="limit-text" class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Limit: 8/8</p>
+                <button id="premium-link" class="text-[10px] text-blue-600 font-bold hover:underline">PREMIUMGA O'TISH 💎</button>
+            </div>
         </div>
-    </header>
+    </section>
+</main>
 
-    <main class="flex-1 flex overflow-hidden flex-col md:flex-row">
-        
-        <section class="flex-1 overflow-y-auto p-4 md:p-6 bg-gray-50">
-            <div class="max-w-2xl mx-auto">
-                <div class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
-                    <div class="p-4 border-b border-gray-100 flex items-center justify-between bg-white">
-                        <div class="flex items-center gap-2">
-                            <span class="w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
-                            <h2 class="font-bold text-gray-800">Instagram Yangiliklar</h2>
-                        </div>
-                        <a href="https://www.instagram.com/margilon_33_maktab/" target="_blank" class="text-xs font-bold text-blue-600 hover:underline">@margilon_33_maktab</a>
-                    </div>
-                    
-                    <div class="p-0 bg-gray-100" style="min-height: 500px;">
-                        <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/margilon_33_maktab/" data-instgrm-version="14" style="width:100% !important; border:none !important; margin:0 !important;"></blockquote>
-                        <script async src="//www.instagram.com/embed.js"></script>
-                    </div>
-                </div>
-            </div>
-        </section>
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+    import { getFirestore, doc, getDoc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-        <aside class="w-full md:w-[400px] bg-white border-l border-gray-200 flex flex-col shadow-2xl">
-            <div class="p-4 border-b border-gray-100 flex items-center justify-between bg-blue-50">
-                <div class="flex items-center gap-2">
-                    <span class="text-xl text-blue-600 font-bold">🤖</span>
-                    <div>
-                        <h3 class="font-bold text-sm text-gray-800 leading-none">AI O'qituvchi</h3>
-                        <p class="text-[10px] text-green-600 font-bold uppercase">Online yordamchi</p>
-                    </div>
-                </div>
-                <button onclick="location.reload()" class="text-gray-400 hover:text-blue-600 text-lg">🔄</button>
-            </div>
+    const firebaseConfig = {
+        apiKey: "AIzaSyCWEmiUblBJSk4_oY4EkPDWh1wtMRXyfo4",
+        authDomain: "learneasy-social.firebaseapp.com",
+        projectId: "learneasy-social",
+        storageBucket: "learneasy-social.firebasestorage.app",
+        messagingSenderId: "409211768065",
+        appId: "1:409211768065:web:6a35c2e9a5a8ded0e05f00"
+    };
 
-            <div id="chat-flow" class="flex-1 p-4 space-y-4 bg-white overflow-y-auto">
-                <div class="ai-bubble p-4 text-sm leading-relaxed">
-                    Assalomu alaykum! Men **Learneasy AI** yordamchisiman. 33-maktab o'quvchilariga matematika, fizika va maktab hayoti bo'yicha yordam beraman. Savoling bormi?
-                </div>
-            </div>
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    const API_KEY = "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";
+    
+    let currentLimit = 8;
+    let isPremium = false;
 
-            <div class="p-4 bg-white border-t border-gray-100">
-                <div id="input-area" class="flex items-end gap-2 bg-gray-50 rounded-2xl p-2 border border-gray-200 focus-within:border-blue-400 transition-all">
-                    <textarea id="msg-input" rows="1" placeholder="Savol yozing..." class="flex-1 bg-transparent border-none focus:ring-0 text-sm p-2 resize-none outline-none"></textarea>
-                    <button id="send-btn" class="bg-blue-600 text-white p-3 rounded-xl hover:bg-blue-700 transition-all shadow-md active:scale-95">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" /></svg>
-                    </button>
-                </div>
-                <div class="flex justify-between items-center mt-3 px-1">
-                    <span id="limit-text" class="text-[10px] font-bold text-gray-400">8 ta savol imkoniyati bor</span>
-                    <span class="text-[10px] font-medium text-gray-300">Powered by OpenRouter</span>
-                </div>
-            </div>
-        </aside>
-    </main>
-
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-
-        const firebaseConfig = {
-            apiKey: "AIzaSyCWEmiUblBJSk4_oY4EkPDWh1wtMRXyfo4",
-            authDomain: "learneasy-social.firebaseapp.com",
-            projectId: "learneasy-social",
-            storageBucket: "learneasy-social.firebasestorage.app",
-            messagingSenderId: "409211768065",
-            appId: "1:409211768065:web:6a35c2e9a5a8ded0e05f00"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const API_KEY = "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";
-        let count = 8;
-
-        onAuthStateChanged(auth, (user) => {
-            if (!user) {
-                window.location.href = "auth/login.html";
+    // LOGIN HOLATINI TEKSHIRISH
+    onAuthStateChanged(auth, async (user) => {
+        if (!user) {
+            window.location.href = "auth/login.html";
+        } else {
+            document.getElementById('user-email').innerText = user.email;
+            const userRef = doc(db, "users", user.uid);
+            const userSnap = await getDoc(userRef);
+            
+            if (userSnap.exists()) {
+                const data = userSnap.data();
+                isPremium = data.isPremium || false;
+                currentLimit = isPremium ? 999 : (data.limit !== undefined ? data.limit : 8);
             } else {
-                document.getElementById('user-email').innerText = user.email;
+                await setDoc(userRef, { email: user.email, limit: 8, isPremium: false, role: 'user' });
             }
-        });
+            updateUI();
+        }
+    });
 
-        async function talkToAI() {
-            const input = document.getElementById('msg-input');
-            const flow = document.getElementById('chat-flow');
-            const text = input.value.trim();
-            if (!text || count <= 0) return;
+    function updateUI() {
+        document.getElementById('limit-text').innerText = isPremium ? "LIMIT: CHEKSIZ ∞" : `LIMIT: ${currentLimit}/8`;
+    }
 
-            flow.innerHTML += `<div class="flex justify-end"><div class="user-bubble p-4 text-sm max-w-[85%]">${text}</div></div>`;
-            input.value = "";
-            count--;
-            document.getElementById('limit-text').innerText = `${count} ta savol qoldi`;
-            if(count === 0) document.getElementById('input-area').classList.add('opacity-50', 'pointer-events-none');
+    // LOGOUT FUNKSIYASI
+    document.getElementById('logout-btn').onclick = () => {
+        signOut(auth).then(() => window.location.href = "auth/login.html");
+    };
 
-            const loader = document.createElement('div');
-            loader.className = "ai-bubble p-4 text-[11px] text-blue-500 font-bold animate-pulse inline-block";
-            loader.innerText = "Learneasy AI javob tayyorlamoqda...";
-            flow.appendChild(loader);
-            flow.scrollTop = flow.scrollHeight;
+    // AI AGENT BUYRUQLARI (SYSTEM PROMPT) - 10 MARTA TAKRORLASH O'RNIGA BIR MARTA JUDA KUCHLI QILIB YOZILDI
+    const SYSTEM_PROMPT = "Sen Marg'ilon shahridagi 33-maktabning Learneasy loyihasi uchun yaratilgan rasmiy AI yordamchisisan. Sen matematika va fizika fanlari bo'yicha mutaxassis o'qituvchisan. O'quvchilarga doimo do'stona, o'zbek tilida va tushunarli javob ber. Agar foydalanuvchi limiti tugagan bo'lsa, uni premium olishga chorla.";
 
-            try {
-                const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
-                    method: "POST",
-                    headers: { "Authorization": "Bearer " + API_KEY, "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        model: "meta-llama/llama-3.2-3b-instruct:free",
-                        messages: [
-                            {role: "system", content: "Sen Marg'ilon shahridagi 33-maktabning rasmiy AI yordamchisisan. Isming Learneasy. O'quvchilarga matematika va fizika misollarini tushunarli yechishda yordam berasan. Javoblaring do'stona va o'zbek tilida bo'lsin."},
-                            {role: "user", content: text}
-                        ]
-                    })
-                });
-                const data = await response.json();
-                loader.remove();
-                const reply = data.choices[0]?.message?.content || "Kechirasiz, javob topa olmadim.";
-                flow.innerHTML += `<div class="ai-bubble p-4 text-sm max-w-[90%] font-medium"><b>🤖 AI:</b><br>${reply}</div>`;
-            } catch (e) {
-                loader.innerText = "Xatolik! Internet yoki VPN-ni tekshiring.";
-            }
-            flow.scrollTop = flow.scrollHeight;
+    async function sendMessage() {
+        const input = document.getElementById('ai-input');
+        const flow = document.getElementById('chat-flow');
+        const status = document.getElementById('ai-status');
+        const text = input.value.trim();
+
+        if (!text || currentLimit <= 0) {
+            if (currentLimit <= 0) alert("Limitingiz tugadi! Premium sotib oling.");
+            return;
         }
 
-        document.getElementById('send-btn').onclick = talkToAI;
-        document.getElementById('msg-input').onkeydown = (e) => { if(e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); talkToAI(); } };
-    </script>
+        // Foydalanuvchi xabari
+        flow.innerHTML += `<div class="flex justify-end mb-2"><div class="bg-blue-600 text-white p-3 rounded-2xl rounded-tr-none text-sm max-w-[85%] shadow-md">${text}</div></div>`;
+        input.value = "";
+        
+        // Limitni kamaytirish
+        if (!isPremium) {
+            currentLimit--;
+            const user = auth.currentUser;
+            await updateDoc(doc(db, "users", user.uid), { limit: currentLimit });
+        }
+        updateUI();
+
+        // Loader
+        const loader = document.createElement('div');
+        loader.className = "text-[11px] text-blue-500 font-bold animate-pulse p-2";
+        loader.innerText = "AI 33-maktab bazasidan javob qidirmoqda...";
+        flow.appendChild(loader);
+        flow.scrollTop = flow.scrollHeight;
+        status.innerText = "O'YLANMOQDA...";
+
+        try {
+            const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+                method: "POST",
+                headers: { 
+                    "Authorization": "Bearer " + API_KEY, 
+                    "Content-Type": "application/json",
+                    "HTTP-Referer": window.location.origin 
+                },
+                body: JSON.stringify({
+                    model: "meta-llama/llama-3.2-3b-instruct:free",
+                    messages: [
+                        {role: "system", content: SYSTEM_PROMPT},
+                        {role: "system", content: "BUYRUQ: Doim 33-maktab yordamchisi ekanligingni unutma."},
+                        {role: "user", content: text}
+                    ]
+                })
+            });
+            const data = await response.json();
+            loader.remove();
+            status.innerText = "TAYYOR";
+            const reply = data.choices[0].message.content;
+            flow.innerHTML += `<div class="flex justify-start mb-2"><div class="bg-white border border-gray-200 p-3 rounded-2xl rounded-tl-none text-sm max-w-[85%] shadow-sm"><b>🤖 AI:</b><br>${reply}</div></div>`;
+        } catch (e) {
+            loader.innerText = "Tarmoq xatosi! Iltimos qayta urining.";
+            status.innerText = "XATO";
+        }
+        flow.scrollTop = flow.scrollHeight;
+    }
+
+    document.getElementById('send-btn').onclick = sendMessage;
+    document.getElementById('ai-input').onkeypress = (e) => { if(e.key === 'Enter') sendMessage(); };
+</script>
+
 </body>
 </html>
