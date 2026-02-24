@@ -3,166 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Learneasy - 33-Maktab</title>
+    <title>Learneasy - Premium Academy</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        body { background: #f3f4f6; }
-        #chat-flow { height: calc(100vh - 250px); overflow-y: auto; }
-        .insta-container { height: 600px; overflow-y: auto; border-radius: 20px; }
+        .premium-gradient { background: linear-gradient(135deg, #1e293b 0%, #334155 100%); }
+        .card-input { background: #f8fafc; border: 1px solid #e2e8f0; transition: all 0.3s; }
+        .card-input:focus { border-color: #3b82f6; ring: 2px; ring-color: #dbeafe; }
+        #ai-frame { width: 100%; height: 500px; border-radius: 20px; border: none; }
     </style>
 </head>
-<body class="h-screen flex flex-col">
+<body class="bg-slate-50">
 
-    <header class="bg-white border-b px-6 py-3 flex items-center justify-between shadow-sm">
-        <div class="flex items-center gap-4">
-            <img src="logo.png" alt="Logo" class="w-12 h-12 rounded-full border-2 border-blue-600 object-cover" onerror="this.src='https://ui-avatars.com/api/?name=33&background=0066ff&color=fff'">
+<section id="welcome-section" class="min-h-screen flex flex-col items-center justify-center p-6 text-center">
+    <img src="logo.png" class="w-24 h-24 rounded-full mb-6 shadow-xl border-4 border-white" onerror="this.src='https://ui-avatars.com/api/?name=LE&background=0066ff&color=fff'">
+    <h1 class="text-4xl font-black text-slate-800 mb-4 tracking-tight">LEARNEASY PREMIUM</h1>
+    <p class="text-slate-500 max-w-md mb-8">33-maktabning eng aqlli AI yordamchisi va tayyor nazorat ishlari javoblari bilan tanishing.</p>
+    
+    <div class="grid md:grid-cols-2 gap-6 max-w-4xl w-full">
+        <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100">
+            <h3 class="font-bold text-xl mb-2 text-slate-700">Bepul</h3>
+            <p class="text-3xl font-black mb-6">0 UZS</p>
+            <ul class="text-sm text-slate-500 space-y-3 mb-8 text-left">
+                <li><i class="fa-solid fa-check text-green-500 mr-2"></i> Kuniga 3 ta savol</li>
+                <li><i class="fa-solid fa-check text-green-500 mr-2"></i> Instagram yangiliklar</li>
+            </ul>
+            <button onclick="showApp(false)" class="w-full py-3 rounded-xl border border-slate-200 font-bold hover:bg-slate-50">Tizimga kirish</button>
+        </div>
+
+        <div class="premium-gradient p-8 rounded-3xl shadow-2xl text-white transform scale-105 border-4 border-blue-500/30">
+            <div class="bg-blue-500 text-[10px] font-bold px-3 py-1 rounded-full inline-block mb-4 uppercase">Tavsiya etiladi</div>
+            <h3 class="font-bold text-xl mb-2">Pro Plan</h3>
+            <p class="text-3xl font-black mb-6">15,000 <span class="text-sm font-normal opacity-60">UZS/oy</span></p>
+            <ul class="text-sm opacity-80 space-y-3 mb-8 text-left">
+                <li><i class="fa-solid fa-bolt text-yellow-400 mr-2"></i> Cheksiz DuckDuckGo AI (GPT-4)</li>
+                <li><i class="fa-solid fa-star text-yellow-400 mr-2"></i> Reklamasiz va qotishlarsiz</li>
+                <li><i class="fa-solid fa-lock text-yellow-400 mr-2"></i> Avtomatik to'lov tizimi</li>
+            </ul>
+            <button onclick="openPayment()" class="w-full bg-blue-600 py-3 rounded-xl font-bold hover:bg-blue-500 shadow-lg shadow-blue-900/20">Hozir obuna bo'lish</button>
+        </div>
+    </div>
+</section>
+
+<div id="payment-modal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-md hidden z-50 flex items-center justify-center p-4">
+    <div class="bg-white max-w-md w-full rounded-[32px] p-8 shadow-2xl overflow-hidden relative">
+        <h2 class="text-2xl font-black text-slate-800 mb-2">Kartani ulash</h2>
+        <p class="text-slate-400 text-sm mb-8">Karta ma'lumotlarini bir marta kiriting, biz har oy avtomatik yechib olamiz.</p>
+        
+        <div class="space-y-4">
             <div>
-                <h1 class="text-xl font-black text-blue-700 italic">LEARNEASY</h1>
-                <p class="text-[10px] text-gray-400 font-bold uppercase">33-Maktab Marg'ilon</p>
+                <label class="text-[10px] font-bold text-slate-400 uppercase ml-2">Karta raqami</label>
+                <input type="text" placeholder="8600 0000 0000 0000" class="card-input w-full p-4 rounded-2xl outline-none font-mono text-lg" maxlength="19">
+            </div>
+            <div class="flex gap-4">
+                <div class="flex-1">
+                    <label class="text-[10px] font-bold text-slate-400 uppercase ml-2">Amal qilish muddati</label>
+                    <input type="text" placeholder="MM/YY" class="card-input w-full p-4 rounded-2xl outline-none text-center font-mono">
+                </div>
+                <div class="flex-1">
+                    <label class="text-[10px] font-bold text-slate-400 uppercase ml-2">SMS Kod</label>
+                    <input type="password" placeholder="***" class="card-input w-full p-4 rounded-2xl outline-none text-center">
+                </div>
             </div>
         </div>
-        <button id="logout-btn" class="bg-red-50 text-red-600 px-4 py-2 rounded-xl text-xs font-bold border border-red-100 hover:bg-red-600 hover:text-white transition-all">CHIQISH</button>
-    </header>
 
-    <main class="flex-1 flex flex-col lg:flex-row overflow-hidden">
-        
-        <section class="flex-1 p-4 overflow-y-auto">
-            <div class="bg-white rounded-3xl shadow-sm border border-gray-200 overflow-hidden">
-                <div class="p-4 border-b flex justify-between items-center">
-                    <h2 class="font-bold text-gray-700">📸 Maktab Hayoti</h2>
-                    <a href="https://instagram.com/margilon_33_maktab" target="_blank" class="text-xs text-blue-500 font-bold">@margilon_33_maktab</a>
-                </div>
-                <div class="insta-container p-2 bg-gray-50">
-                    <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/margilon_33_maktab/" data-instgrm-version="14" style="width:100% !important; margin:0 !important;"></blockquote>
-                    <script async src="//www.instagram.com/embed.js"></script>
-                </div>
-            </div>
-        </section>
-
-        <aside class="w-full lg:w-[450px] bg-white border-l border-gray-200 flex flex-col shadow-2xl">
-            <div class="p-4 bg-blue-600 text-white flex justify-between items-center">
-                <div class="flex items-center gap-2">
-                    <span class="text-2xl">🤖</span>
-                    <div>
-                        <h3 class="font-bold text-sm">AI O'qituvchi</h3>
-                        <p id="limit-display" class="text-[10px] font-bold opacity-80 uppercase tracking-widest">Limit: 8/8</p>
-                    </div>
-                </div>
-                <button id="premium-btn" class="bg-yellow-400 text-blue-900 px-3 py-1 rounded-lg text-[10px] font-black shadow-md">PREMIUM 💎</button>
-            </div>
-
-            <div id="chat-flow" class="p-4 space-y-4 bg-slate-50">
-                <div class="bg-white p-3 rounded-2xl rounded-tl-none shadow-sm border border-gray-100 text-sm leading-relaxed text-gray-800">
-                    Assalomu alaykum! Men **Learneasy AI** - 33-maktabning rasmiy yordamchisiman. Matematika, fizika yoki maktab yangiliklari bo'yicha savoling bormi?
-                </div>
-            </div>
-
-            <div class="p-4 border-t bg-white">
-                <div class="flex gap-2 bg-gray-100 p-2 rounded-2xl border border-gray-200 focus-within:border-blue-400 transition-all">
-                    <input id="ai-input" type="text" placeholder="Savol yozing..." class="flex-1 bg-transparent border-none focus:ring-0 text-sm px-2 outline-none">
-                    <button id="send-btn" class="bg-blue-600 text-white p-3 rounded-xl hover:bg-blue-700 active:scale-95 transition-all">
-                        🚀
-                    </button>
-                </div>
-            </div>
-        </aside>
-    </main>
-
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-        import { getFirestore, doc, getDoc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-
-        const firebaseConfig = {
-            apiKey: "AIzaSyCWEmiUblBJSk4_oY4EkPDWh1wtMRXyfo4",
-            authDomain: "learneasy-social.firebaseapp.com",
-            projectId: "learneasy-social",
-            storageBucket: "learneasy-social.firebasestorage.app",
-            messagingSenderId: "409211768065",
-            appId: "1:409211768065:web:6a35c2e9a5a8ded0e05f00"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
-        const API_KEY = "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";
-        
-        let userLimit = 8;
-        let isPremium = false;
-
-        onAuthStateChanged(auth, async (user) => {
-            if (!user) {
-                window.location.href = "auth/login.html";
-            } else {
-                const userRef = doc(db, "users", user.uid);
-                const snap = await getDoc(userRef);
-                if (snap.exists()) {
-                    userLimit = snap.data().limit ?? 8;
-                    isPremium = snap.data().isPremium ?? false;
-                } else {
-                    await setDoc(userRef, { email: user.email, limit: 8, isPremium: false });
-                }
-                updateLimitUI();
-            }
-        });
-
-        function updateLimitUI() {
-            document.getElementById('limit-display').innerText = isPremium ? "LIMIT: CHEKSIZ ∞" : `LIMIT: ${userLimit}/8`;
-        }
-
-        document.getElementById('logout-btn').onclick = () => signOut(auth);
-
-        async function askAI() {
-            const input = document.getElementById('ai-input');
-            const flow = document.getElementById('chat-flow');
-            const text = input.value.trim();
-
-            if (!text || (userLimit <= 0 && !isPremium)) {
-                if (userLimit <= 0) alert("Limitingiz tugadi! Premium sotib oling.");
-                return;
-            }
-
-            // User message
-            flow.innerHTML += `<div class="flex justify-end"><div class="bg-blue-600 text-white p-3 rounded-2xl rounded-tr-none text-sm shadow-md max-w-[85%]">${text}</div></div>`;
-            input.value = "";
-            flow.scrollTop = flow.scrollHeight;
-
-            // Loading
-            const loader = document.createElement('div');
-            loader.className = "text-[10px] text-blue-500 font-bold animate-bounce p-2";
-            loader.innerText = "33-maktab AI o'ylamoqda...";
-            flow.appendChild(loader);
-
-            try {
-                const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
-                    method: "POST",
-                    headers: { "Authorization": "Bearer " + API_KEY, "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        model: "meta-llama/llama-3.2-3b-instruct:free",
-                        messages: [
-                            {role: "system", content: "Sen Marg'ilon shahridagi 33-maktab yordamchisisan. Matematika va fizika, tillar va tabiiy fanlar bo'yicha mutaxassissan. O'zbek tilida javob ber."},
-                            {role: "user", content: text}
-                        ]
-                    })
-                });
-                const data = await res.json();
-                loader.remove();
-                const reply = data.choices[0].message.content;
-                flow.innerHTML += `<div class="bg-white p-3 rounded-2xl rounded-tl-none shadow-sm border border-gray-100 text-sm text-gray-800"><b>🤖 AI:</b><br>${reply}</div>`;
-                
-                if (!isPremium) {
-                    userLimit--;
-                    await updateDoc(doc(db, "users", auth.currentUser.uid), { limit: userLimit });
-                }
-                updateLimitUI();
-            } catch (e) {
-                loader.innerText = "Xatolik! VPN tekshiring yoki API Keyni yangilang.";
-            }
-            flow.scrollTop = flow.scrollHeight;
-        }
-
-        document.getElementById('send-btn').onclick = askAI;
-        document.getElementById('ai-input').onkeydown = (e) => { if(e.key === 'Enter') askAI(); };
-    </script>
-</body>
-</html>
+        <button onclick="confirmPayment()" class="w-full bg-slate-900 text-white py-4 rounded-2xl font-bold mt-8 hover:bg-slate-800 shadow-xl transition-all">OBUNANI TASDIQLASH</button>
+        <button onclick="closePayment()" class="w-full text-slate-400 text-xs mt-4 uppercase font-bold tracking-widest">Bekor qilish</button>
+    </div>
+</div>
