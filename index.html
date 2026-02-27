@@ -1,24 +1,4 @@
-// Karta ma'lumotlarini saqlash va obunani faollashtirish
-async function activateAutoSubscription(cardData) {
-    const user = auth.currentUser;
-    if (!user) return alert("Avval tizimga kiring!");
 
-    // 1. Kartani "Tokenizatsiya" qilish (Simulyatsiya)
-    console.log("Karta bog'lanmoqda:", cardData.number.substring(0,4) + " ****");
-
-    // 2. Firebase'da foydalanuvchini PRO holatiga o'tkazish
-    const userRef = doc(db, "users", user.uid);
-    await updateDoc(userRef, {
-        isPremium: true,
-        subscriptionDate: new Date().toISOString(),
-        cardLastFour: cardData.number.slice(-4),
-        autoRenew: true // Mana shu joyi har oy avtomat yechish buyrug'i
-    });
-
-    // 3. UI-ni yangilash
-    alert("Tabriklaymiz! Kartangiz bog'landi. Har oy 15,000 so'm avtomat yechiladi.");
-    location.reload(); 
-}
 
 <!DOCTYPE html>
 <html lang="uz">
