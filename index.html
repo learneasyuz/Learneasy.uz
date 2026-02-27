@@ -19,3 +19,159 @@ async function activateAutoSubscription(cardData) {
     alert("Tabriklaymiz! Kartangiz bog'landi. Har oy 15,000 so'm avtomat yechiladi.");
     location.reload(); 
 }
+
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learneasy - Premium Edition</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .premium-bg { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); }
+        .glass-effect { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); }
+        #ai-container { height: calc(100vh - 180px); }
+    </style>
+</head>
+<body class="bg-gray-100 font-sans h-screen overflow-hidden">
+
+<header class="bg-white border-b p-4 flex justify-between items-center shadow-sm relative z-10">
+    <div class="flex items-center gap-3">
+        <img src="logo.png" class="w-10 h-10 rounded-full border-2 border-blue-600" onerror="this.src='https://ui-avatars.com/api/?name=LE&background=0066ff&color=fff'">
+        <h1 class="font-black italic text-blue-800 text-xl tracking-tighter">LEARNEASY</h1>
+    </div>
+    <div class="flex items-center gap-4">
+        <div id="status-badge" class="bg-gray-100 text-[10px] px-3 py-1 rounded-full font-bold text-gray-500 uppercase">Tekshirilmoqda...</div>
+        <button id="premium-btn" class="hidden bg-yellow-400 text-black text-[10px] font-black px-4 py-2 rounded-lg shadow-lg hover:scale-105 transition-all">PREMIUM 💎</button>
+        <button id="logout-btn" class="text-gray-400 hover:text-red-500 transition-colors"><i class="fa-solid fa-right-from-bracket"></i></button>
+    </div>
+</header>
+
+<main class="flex flex-col lg:flex-row h-full">
+    <section class="lg:w-1/2 p-4 overflow-y-auto bg-gray-50 border-r">
+        <div class="bg-white rounded-[24px] shadow-sm border overflow-hidden">
+            <div class="p-4 border-b flex justify-between items-center">
+                <span class="font-bold text-gray-700"><i class="fa-brands fa-instagram text-pink-500 mr-2"></i>33-Maktab Hayoti</span>
+            </div>
+            <div class="p-2 min-h-[500px]">
+                <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/margilon_33_maktab/" data-instgrm-version="14"></blockquote>
+                <script async src="//www.instagram.com/embed.js"></script>
+            </div>
+        </div>
+    </section>
+
+    <section class="lg:w-1/2 flex flex-col bg-white">
+        <div id="ai-container" class="flex-1 overflow-y-auto p-4 space-y-4">
+            <div class="bg-blue-50 p-4 rounded-2xl rounded-tl-none text-sm text-blue-800 border border-blue-100">
+                <b>🤖 AI O'qituvchi:</b> Assalomu alaykum! Men Learneasy.uz saytini shaxsiy AI yordamchisiman. Matematika, fizika yoki maktab yangiliklari bo'yicha savoling bormi?
+            </div>
+        </div>
+        
+        <div class="p-4 border-t bg-white">
+            <div class="flex gap-2 bg-gray-100 p-2 rounded-2xl border border-gray-200 focus-within:border-blue-500 transition-all">
+                <input id="chat-input" type="text" placeholder="Savol yozing..." class="flex-1 bg-transparent border-none px-3 outline-none text-sm">
+                <button id="send-btn" class="bg-blue-600 text-white p-3 rounded-xl hover:bg-blue-700 active:scale-95 transition-all">
+                    <i class="fa-solid fa-paper-plane"></i>
+                </button>
+            </div>
+            <p id="limit-info" class="text-[9px] text-gray-400 mt-2 font-bold uppercase text-center">Limit: 8/8</p>
+        </div>
+    </section>
+</main>
+
+<div id="payment-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden z-50 flex items-center justify-center p-4">
+    <div class="bg-white max-w-sm w-full rounded-[32px] p-8 shadow-2xl relative">
+        <div class="text-center mb-6">
+            <div class="w-16 h-16 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl">
+                <i class="fa-solid fa-credit-card"></i>
+            </div>
+            <h2 class="text-2xl font-black text-gray-800">Obuna bo'lish</h2>
+            <p class="text-gray-400 text-xs mt-2 uppercase font-bold tracking-widest">15,000 UZS / OY</p>
+        </div>
+
+        <div class="space-y-4">
+            <div class="relative">
+                <input id="card-num" type="text" placeholder="8600 0000 0000 0000" class="w-full p-4 bg-gray-50 border border-gray-100 rounded-2xl outline-none focus:border-blue-500 font-mono text-lg" maxlength="19">
+            </div>
+            <div class="flex gap-4">
+                <input id="card-date" type="text" placeholder="MM/YY" class="w-1/2 p-4 bg-gray-50 border border-gray-100 rounded-2xl outline-none focus:border-blue-500 text-center font-mono" maxlength="5">
+                <input id="card-cvv" type="password" placeholder="***" class="w-1/2 p-4 bg-gray-50 border border-gray-100 rounded-2xl outline-none focus:border-blue-500 text-center" maxlength="3">
+            </div>
+        </div>
+
+        <div class="mt-6 p-4 bg-blue-50 rounded-xl">
+            <p class="text-[10px] text-blue-700 leading-tight">
+                <i class="fa-solid fa-circle-info mr-1"></i> Kartangiz xavfsiz bog'lanadi. Har oy avtomatik ravishda obuna uchun to'lov yechiladi.
+            </p>
+        </div>
+
+        <button id="confirm-pay-btn" class="w-full bg-blue-600 text-white py-4 rounded-2xl font-bold mt-6 shadow-lg shadow-blue-200 hover:bg-blue-700 transition-all">AVTOMATIK OBUNA</button>
+        <button onclick="closeModal()" class="w-full text-gray-400 text-[10px] mt-4 font-bold uppercase tracking-widest">Bekor qilish</button>
+    </div>
+</div>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+    import { getFirestore, doc, getDoc, updateDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyCWEmiUblBJSk4_oY4EkPDWh1wtMRXyfo4",
+        authDomain: "learneasy-social.firebaseapp.com",
+        projectId: "learneasy-social",
+        storageBucket: "learneasy-social.firebasestorage.app",
+        messagingSenderId: "409211768065",
+        appId: "1:409211768065:web:6a35c2e9a5a8ded0e05f00"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    let isPremium = false;
+    let limit = 8;
+
+    // LOGIN HOLATI VA STATUS
+    onAuthStateChanged(auth, async (user) => {
+        if (!user) {
+            window.location.href = "auth/login.html";
+        } else {
+            const userRef = doc(db, "users", user.uid);
+            const snap = await getDoc(userRef);
+            
+            if (snap.exists()) {
+                const data = snap.data();
+                isPremium = data.isPremium || false;
+                limit = isPremium ? 9999 : (data.limit ?? 8);
+            } else {
+                await setDoc(userRef, { email: user.email, isPremium: false, limit: 8 });
+            }
+            updateUI();
+        }
+    });
+
+    function updateUI() {
+        const badge = document.getElementById('status-badge');
+        const pBtn = document.getElementById('premium-btn');
+        const lText = document.getElementById('limit-info');
+
+        if (isPremium) {
+            badge.innerText = "PRO PLAN";
+            badge.className = "bg-blue-100 text-blue-600 text-[10px] px-3 py-1 rounded-full font-black uppercase";
+            pBtn.classList.add('hidden');
+            lText.innerText = "LIMIT: CHEKSIZ ∞";
+        } else {
+            badge.innerText = "FREE PLAN";
+            pBtn.classList.remove('hidden');
+            lText.innerText = `Limit: ${limit}/8`;
+        }
+    }
+
+    // PREMIUM MODALNI OCHISH
+    document.getElementById('premium-btn').onclick = () => document.getElementById('payment-modal').classList.remove('hidden');
+    window.closeModal = () => document.getElementById('payment-modal').classList.add('hidden');
+
+    // AVTOMATIK OBUNANI AKTIVLASHTIRISH (ASOSIY MANTIQ)
+    document.getElementById('confirm-pay-btn').onclick = async () => {
+        const user = auth.currentUser
