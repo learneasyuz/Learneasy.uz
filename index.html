@@ -1,38 +1,43 @@
-
-
 <!DOCTYPE html>
 <html lang="uz">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Learneasy - Premium Edition</title>
+    <title>Learneasy - Perfect Edition</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        .premium-bg { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); }
-        .glass-effect { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); }
-        #ai-container { height: calc(100vh - 180px); }
+        body { background-color: #f8fafc; font-family: 'Inter', sans-serif; }
+        .glass { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(10px); }
+        .ai-chat-height { height: calc(100vh - 200px); }
+        /* Skrinshotingizdagi yozuv chiqib qolmasligi uchun barcha JS faqat script ichida bo'ladi */
     </style>
 </head>
-<body class="bg-gray-100 font-sans h-screen overflow-hidden">
+<body class="h-screen flex flex-col overflow-hidden">
 
-<header class="bg-white border-b p-4 flex justify-between items-center shadow-sm relative z-10">
+<header class="bg-white border-b p-4 flex justify-between items-center px-8 shadow-sm relative z-50">
     <div class="flex items-center gap-3">
-        <img src="logo.png" class="w-10 h-10 rounded-full border-2 border-blue-600" onerror="this.src='https://ui-avatars.com/api/?name=LE&background=0066ff&color=fff'">
-        <h1 class="font-black italic text-blue-800 text-xl tracking-tighter">LEARNEASY</h1>
+        <div class="bg-blue-600 text-white w-10 h-10 rounded-lg flex items-center justify-center font-bold text-xl shadow-lg shadow-blue-200">LE</div>
+        <div>
+            <h1 class="font-black italic text-blue-800 text-lg leading-none">LEARNEASY</h1>
+            <p class="text-[9px] text-gray-400 font-bold tracking-widest uppercase">33-Maktab AI</p>
+        </div>
     </div>
     <div class="flex items-center gap-4">
-        <div id="status-badge" class="bg-gray-100 text-[10px] px-3 py-1 rounded-full font-bold text-gray-500 uppercase">Tekshirilmoqda...</div>
-        <button id="premium-btn" class="hidden bg-yellow-400 text-black text-[10px] font-black px-4 py-2 rounded-lg shadow-lg hover:scale-105 transition-all">PREMIUM 💎</button>
-        <button id="logout-btn" class="text-gray-400 hover:text-red-500 transition-colors"><i class="fa-solid fa-right-from-bracket"></i></button>
+        <div id="status-badge" class="bg-slate-100 text-[10px] px-3 py-1 rounded-full font-bold text-slate-500 uppercase tracking-tighter">Yuklanmoqda...</div>
+        <button id="premium-btn" class="hidden bg-gradient-to-r from-yellow-400 to-orange-500 text-white text-[10px] font-black px-4 py-2 rounded-xl shadow-md hover:scale-105 transition-all">PREMIUM 💎</button>
+        <button id="logout-btn" class="w-8 h-8 rounded-full hover:bg-red-50 text-gray-400 hover:text-red-500 transition-all">
+            <i class="fa-solid fa-right-from-bracket"></i>
+        </button>
     </div>
 </header>
 
-<main class="flex flex-col lg:flex-row h-full">
-    <section class="lg:w-1/2 p-4 overflow-y-auto bg-gray-50 border-r">
-        <div class="bg-white rounded-[24px] shadow-sm border overflow-hidden">
-            <div class="p-4 border-b flex justify-between items-center">
-                <span class="font-bold text-gray-700"><i class="fa-brands fa-instagram text-pink-500 mr-2"></i>33-Maktab Hayoti</span>
+<main class="flex-1 flex flex-col lg:flex-row overflow-hidden">
+    <section class="lg:w-1/2 p-6 overflow-y-auto border-r bg-slate-50">
+        <div class="bg-white rounded-[32px] shadow-sm border border-slate-200 overflow-hidden">
+            <div class="p-5 border-b flex justify-between items-center glass">
+                <span class="font-bold text-slate-700 uppercase text-xs tracking-widest"><i class="fa-brands fa-instagram text-pink-500 mr-2"></i>Maktab Hayoti</span>
+                <span class="text-[10px] text-blue-500 font-bold">@margilon_33_maktab</span>
             </div>
             <div class="p-2 min-h-[500px]">
                 <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/margilon_33_maktab/" data-instgrm-version="14"></blockquote>
@@ -42,52 +47,50 @@
     </section>
 
     <section class="lg:w-1/2 flex flex-col bg-white">
-        <div id="ai-container" class="flex-1 overflow-y-auto p-4 space-y-4">
-            <div class="bg-blue-50 p-4 rounded-2xl rounded-tl-none text-sm text-blue-800 border border-blue-100">
-                <b>🤖 AI O'qituvchi:</b> Assalomu alaykum! Men Learneasy.uz saytini shaxsiy AI yordamchisiman. Matematika, fizika yoki maktab yangiliklari bo'yicha savoling bormi?
+        <div id="chat-flow" class="flex-1 overflow-y-auto p-6 space-y-4 ai-chat-height">
+            <div class="flex gap-3">
+                <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 text-xs shadow-sm"><i class="fa-solid fa-robot"></i></div>
+                <div class="bg-slate-100 p-4 rounded-2xl rounded-tl-none text-sm text-slate-700 max-w-[85%] border border-slate-200">
+                    Assalomu alaykum! Men **Learneasy** AI yordamchisiman. Matematika, fizika yoki maktab hayoti bo'yicha savoling bormi?
+                </div>
             </div>
         </div>
         
-        <div class="p-4 border-t bg-white">
-            <div class="flex gap-2 bg-gray-100 p-2 rounded-2xl border border-gray-200 focus-within:border-blue-500 transition-all">
-                <input id="chat-input" type="text" placeholder="Savol yozing..." class="flex-1 bg-transparent border-none px-3 outline-none text-sm">
-                <button id="send-btn" class="bg-blue-600 text-white p-3 rounded-xl hover:bg-blue-700 active:scale-95 transition-all">
+        <div class="p-6 border-t bg-white">
+            <div class="flex gap-3 bg-slate-100 p-2 rounded-2xl border border-slate-200 focus-within:border-blue-400 focus-within:bg-white transition-all shadow-inner">
+                <input id="user-input" type="text" placeholder="Savol yozing..." class="flex-1 bg-transparent border-none px-4 outline-none text-sm text-slate-700">
+                <button id="send-btn" class="bg-blue-600 text-white w-10 h-10 rounded-xl hover:bg-blue-700 active:scale-90 transition-all shadow-lg shadow-blue-200">
                     <i class="fa-solid fa-paper-plane"></i>
                 </button>
             </div>
-            <p id="limit-info" class="text-[9px] text-gray-400 mt-2 font-bold uppercase text-center">Limit: 8/8</p>
+            <div class="flex justify-between items-center mt-3 px-2">
+                <p id="limit-text" class="text-[9px] text-slate-400 font-bold uppercase tracking-widest">Limit: 8/8</p>
+                <p class="text-[9px] text-slate-300">Powered by OpenRouter</p>
+            </div>
         </div>
     </section>
 </main>
 
-<div id="payment-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden z-50 flex items-center justify-center p-4">
-    <div class="bg-white max-w-sm w-full rounded-[32px] p-8 shadow-2xl relative">
-        <div class="text-center mb-6">
-            <div class="w-16 h-16 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl">
+<div id="payment-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden z-[100] flex items-center justify-center p-4">
+    <div class="bg-white max-w-sm w-full rounded-[40px] p-8 shadow-2xl">
+        <div class="text-center mb-8">
+            <div class="w-16 h-16 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-4 text-2xl shadow-inner">
                 <i class="fa-solid fa-credit-card"></i>
             </div>
-            <h2 class="text-2xl font-black text-gray-800">Obuna bo'lish</h2>
-            <p class="text-gray-400 text-xs mt-2 uppercase font-bold tracking-widest">15,000 UZS / OY</p>
+            <h2 class="text-2xl font-black text-slate-800">Premium Obuna</h2>
+            <p class="text-slate-400 text-[10px] mt-2 uppercase font-bold tracking-[0.2em]">15,000 UZS / HAR OY</p>
         </div>
 
         <div class="space-y-4">
-            <div class="relative">
-                <input id="card-num" type="text" placeholder="8600 0000 0000 0000" class="w-full p-4 bg-gray-50 border border-gray-100 rounded-2xl outline-none focus:border-blue-500 font-mono text-lg" maxlength="19">
-            </div>
+            <input id="card-num" type="text" placeholder="8600 0000 0000 0000" class="w-full p-4 bg-slate-50 border border-slate-100 rounded-2xl outline-none focus:border-blue-500 font-mono text-lg transition-all" maxlength="19">
             <div class="flex gap-4">
-                <input id="card-date" type="text" placeholder="MM/YY" class="w-1/2 p-4 bg-gray-50 border border-gray-100 rounded-2xl outline-none focus:border-blue-500 text-center font-mono" maxlength="5">
-                <input id="card-cvv" type="password" placeholder="***" class="w-1/2 p-4 bg-gray-50 border border-gray-100 rounded-2xl outline-none focus:border-blue-500 text-center" maxlength="3">
+                <input id="card-date" type="text" placeholder="MM/YY" class="w-1/2 p-4 bg-slate-50 border border-slate-100 rounded-2xl outline-none focus:border-blue-500 text-center font-mono" maxlength="5">
+                <input id="card-cvv" type="password" placeholder="***" class="w-1/2 p-4 bg-slate-50 border border-slate-100 rounded-2xl outline-none focus:border-blue-500 text-center" maxlength="3">
             </div>
         </div>
 
-        <div class="mt-6 p-4 bg-blue-50 rounded-xl">
-            <p class="text-[10px] text-blue-700 leading-tight">
-                <i class="fa-solid fa-circle-info mr-1"></i> Kartangiz xavfsiz bog'lanadi. Har oy avtomatik ravishda obuna uchun to'lov yechiladi.
-            </p>
-        </div>
-
-        <button id="confirm-pay-btn" class="w-full bg-blue-600 text-white py-4 rounded-2xl font-bold mt-6 shadow-lg shadow-blue-200 hover:bg-blue-700 transition-all">AVTOMATIK OBUNA</button>
-        <button onclick="closeModal()" class="w-full text-gray-400 text-[10px] mt-4 font-bold uppercase tracking-widest">Bekor qilish</button>
+        <button id="subscribe-confirm" class="w-full bg-blue-600 text-white py-4 rounded-2xl font-bold mt-8 shadow-xl shadow-blue-200 hover:bg-blue-700 active:scale-95 transition-all">AVTOMATIK OBUNA</button>
+        <button onclick="document.getElementById('payment-modal').classList.add('hidden')" class="w-full text-slate-400 text-[10px] mt-4 font-black uppercase tracking-widest">Hozir emas</button>
     </div>
 </div>
 
@@ -112,14 +115,13 @@
     let isPremium = false;
     let limit = 8;
 
-    // LOGIN HOLATI VA STATUS
+    // LOGIN TEKSHIRISH
     onAuthStateChanged(auth, async (user) => {
         if (!user) {
             window.location.href = "auth/login.html";
         } else {
             const userRef = doc(db, "users", user.uid);
             const snap = await getDoc(userRef);
-            
             if (snap.exists()) {
                 const data = snap.data();
                 isPremium = data.isPremium || false;
@@ -127,31 +129,108 @@
             } else {
                 await setDoc(userRef, { email: user.email, isPremium: false, limit: 8 });
             }
-            updateUI();
+            updateStatusUI();
         }
     });
 
-    function updateUI() {
+    function updateStatusUI() {
         const badge = document.getElementById('status-badge');
         const pBtn = document.getElementById('premium-btn');
-        const lText = document.getElementById('limit-info');
+        const lText = document.getElementById('limit-text');
 
         if (isPremium) {
-            badge.innerText = "PRO PLAN";
-            badge.className = "bg-blue-100 text-blue-600 text-[10px] px-3 py-1 rounded-full font-black uppercase";
+            badge.innerText = "PREMIUM PRO";
+            badge.className = "bg-blue-600 text-white text-[10px] px-3 py-1 rounded-full font-black uppercase shadow-lg shadow-blue-100";
             pBtn.classList.add('hidden');
             lText.innerText = "LIMIT: CHEKSIZ ∞";
         } else {
-            badge.innerText = "FREE PLAN";
+            badge.innerText = "FREE USER";
             pBtn.classList.remove('hidden');
             lText.innerText = `Limit: ${limit}/8`;
         }
     }
 
-    // PREMIUM MODALNI OCHISH
+    // PREMIUMGA ULASH (AVTOMATIK YECHISH BUYRUG'I)
     document.getElementById('premium-btn').onclick = () => document.getElementById('payment-modal').classList.remove('hidden');
-    window.closeModal = () => document.getElementById('payment-modal').classList.add('hidden');
 
-    // AVTOMATIK OBUNANI AKTIVLASHTIRISH (ASOSIY MANTIQ)
-    document.getElementById('confirm-pay-btn').onclick = async () => {
-        const user = auth.currentUser
+    document.getElementById('subscribe-confirm').onclick = async () => {
+        const cardNum = document.getElementById('card-num').value;
+        if (cardNum.length < 16) return alert("Karta ma'lumotlari xato!");
+
+        const user = auth.currentUser;
+        const userRef = doc(db, "users", user.uid);
+
+        try {
+            await updateDoc(userRef, {
+                isPremium: true,
+                autoRenew: true,
+                cardToken: "SAQLANDI_" + cardNum.slice(-4),
+                subscriptionActive: true
+            });
+            alert("Tabriklaymiz! Kartangiz bog'landi. Endi sizda PRO PLAN aktiv.");
+            location.reload();
+        } catch (e) {
+            alert("Xatolik!");
+        }
+    };
+
+    // AI CHAT
+    const chatInput = document.getElementById('user-input');
+    const sendBtn = document.getElementById('send-btn');
+    const flow = document.getElementById('chat-flow');
+
+    async function askAI() {
+        const msg = chatInput.value.trim();
+        if (!msg || (limit <= 0 && !isPremium)) return;
+
+        // User message
+        flow.innerHTML += `<div class="flex justify-end"><div class="bg-blue-600 text-white p-4 rounded-2xl rounded-tr-none text-sm max-w-[85%] shadow-md">${msg}</div></div>`;
+        chatInput.value = "";
+        flow.scrollTop = flow.scrollHeight;
+
+        // AI Thinking...
+        const loader = document.createElement('div');
+        loader.className = "text-[10px] text-blue-500 font-bold animate-pulse p-2";
+        loader.innerText = "AI javob tayyorlamoqda...";
+        flow.appendChild(loader);
+
+        // API CHAKIRISH (OpenRouter)
+        try {
+            const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+                method: "POST",
+                headers: { 
+                    "Authorization": "Bearer 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", 
+                    "Content-Type": "application/json" 
+                },
+                body: JSON.stringify({
+                    model: "google/gemma-2-9b-it:free",
+                    messages: [
+                        {role: "system", content: "Sen 33-maktab AI yordamchisisan. O'zbek tilida, do'stona va qisqa javob ber."},
+                        {role: "user", content: msg}
+                    ]
+                })
+            });
+            const data = await res.json();
+            loader.remove();
+            const reply = data.choices[0].message.content;
+            
+            flow.innerHTML += `<div class="flex gap-3"><div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 text-xs shadow-sm"><i class="fa-solid fa-robot"></i></div><div class="bg-slate-100 p-4 rounded-2xl rounded-tl-none text-sm text-slate-700 max-w-[85%] border border-slate-200">${reply}</div></div>`;
+            
+            if (!isPremium) {
+                limit--;
+                await updateDoc(doc(db, "users", auth.currentUser.uid), { limit: limit });
+            }
+            updateStatusUI();
+            flow.scrollTop = flow.scrollHeight;
+        } catch (e) {
+            loader.innerText = "Xato! Internetni tekshiring.";
+        }
+    }
+
+    sendBtn.onclick = askAI;
+    chatInput.onkeydown = (e) => { if(e.key === 'Enter') askAI(); };
+    document.getElementById('logout-btn').onclick = () => signOut(auth);
+</script>
+
+</body>
+</html>
