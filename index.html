@@ -220,15 +220,46 @@
     }
 
     // Tugma bosilganda ishlaydigan qismi
-    document.getElementById('ai-send').onclick = async () => {
-        const query = document.getElementById('ai-input').value;
-        const answer = await callOpenRouterAI(query);
-        // Javobni ekranga chiqarish kodi...
-    };
+// 222-qatordan boshlab pastiga shuni tilla kodni qo'y:
+
+document.addEventListener('DOMContentLoaded', () => {
+    const aiSendBtn = document.getElementById('ai-send');
+    const aiInputField = document.getElementById('ai-input');
+
+    if (aiSendBtn && aiInputField) {
+        aiSendBtn.onclick = async () => {
+            const query = aiInputField.value.trim();
+            if (!query) return;
+
+            // Foydalanuvchi xabarini ekranda ko'rsatish (agar funksiyang bo'lsa)
+            if(typeof appendMessage === 'function') {
+                appendMessage('user', query);
+            }
+
+            console.log("OpenClaw/OpenRouter so'rovi ketmoqda...");
+
+            try {
+                const answer = await callOpenRouterAI(query);
+                
+                // AI javobini ekranda ko'rsatish
+                if(typeof appendMessage === 'function') {
+                    appendMessage('ai', answer);
+                } else {
+                    // Agar maxsus funksiyang bo'lmasa, vaqtinchalik javobni ko'rish uchun:
+                    const chatBox = document.getElementById('chat-container'); 
+                    if(chatBox) chatBox.innerHTML += `<div class="ai-msg">${answer}</div>`;
+                }
+            } catch (err) {
+                console.error("Ulanishda xato:", err);
+            }
+
+            aiInputField.value = ""; 
+        };
+    } else {
+        console.error("Xato: HTMLda 'ai-send' yoki 'ai-input' topilmadi!");
+    }
+});
 
 </script>
-
-</body>
-</html>
 </body>
 </html>
